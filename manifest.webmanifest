@@ -1,13 +1,23 @@
 {
+  "id": "./",
   "name": "Soil Lab Calculator",
   "short_name": "Soil Lab",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#f4f7f8",
   "theme_color": "#0f172a",
-  "description": "Moisture Content and Atterberg Limits calculator for soil lab workflow.",
+  "description": "Moisture Content and Atterberg Limits calculator for soil laboratory workflow.",
   "icons": [
-    {"src":"icon-192.png","sizes":"192x192","type":"image/png"},
-    {"src":"icon-512.png","sizes":"512x512","type":"image/png"}
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
   ]
 }
