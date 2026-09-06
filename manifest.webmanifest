@@ -1,6 +1,6 @@
 {
-  "name": "Soil Moisture Calculator",
-  "short_name": "Soil Moisture",
+  "name": "Soil Lab Calculator",
+  "short_name": "Soil Lab",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#f3f6f8",
