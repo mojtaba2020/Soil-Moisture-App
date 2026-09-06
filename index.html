@@ -1,693 +1,517 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Soil Lab Calculator v5</title>
-  <link rel="manifest" href="./manifest.webmanifest">
-  <meta name="theme-color" content="#0f172a" />
-  <style>
-    :root{
-      --bg:#f5f7fb;
-      --card:#ffffff;
-      --line:#d8dfeb;
-      --ink:#0f172a;
-      --muted:#64748b;
-      --brand:#0f766e;
-      --brand-2:#0b5ed7;
-      --soft:#eef3fb;
-      --ok:#e9f9f0;
-      --warn:#fff7e6;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-      background:var(--bg);
-      color:var(--ink);
-    }
-    .wrap{max-width:1100px;margin:0 auto;padding:14px}
-    .hero{
-      background:#0f172a;
-      color:#fff;
-      border-radius:22px;
-      padding:18px 16px;
-      box-shadow:0 10px 25px rgba(15,23,42,.16);
-    }
-    .hero h1{margin:0;font-size:2rem;line-height:1.1}
-    .hero p{margin:.5rem 0 0;color:#d8def0}
-    .tabbar{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-      margin:14px 0 18px;
-    }
-    .tab{
-      border:none;
-      border-radius:18px;
-      background:#dfe5ef;
-      color:#111827;
-      padding:16px;
-      font-size:1.1rem;
-      font-weight:800;
-      cursor:pointer;
-    }
-    .tab.active{background:var(--brand);color:#fff}
-    .panel{display:none}
-    .panel.active{display:block}
-    .grid{
-      display:grid;
-      gap:14px;
-      grid-template-columns:repeat(12, 1fr);
-    }
-    .card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:20px;
-      padding:16px;
-      box-shadow:0 4px 10px rgba(15,23,42,.04);
-    }
-    .col-12{grid-column:span 12}
-    .col-8{grid-column:span 8}
-    .col-6{grid-column:span 6}
-    .col-4{grid-column:span 4}
-    .col-3{grid-column:span 3}
-    .card h2,.card h3{margin:0 0 12px}
-    .muted{color:var(--muted)}
-    .pill{
-      display:inline-block;
-      padding:6px 12px;
-      border-radius:999px;
-      background:var(--soft);
-      color:#334155;
-      font-weight:700;
-      font-size:.92rem;
-      margin-bottom:10px;
-    }
-    .fields{
-      display:grid;
-      gap:12px;
-      grid-template-columns:repeat(12,1fr);
-    }
-    .field{grid-column:span 6}
-    .field.small{grid-column:span 3}
-    .field.full{grid-column:span 12}
-    label{
-      display:block;
-      margin-bottom:6px;
-      font-weight:700;
-      color:#334155;
-    }
-    input, select, textarea{
-      width:100%;
-      padding:13px 14px;
-      border:2px solid #d6deea;
-      border-radius:14px;
-      font-size:1rem;
-      background:#fff;
-    }
-    textarea{min-height:88px;resize:vertical}
-    input[readonly]{
-      background:#f8fafc;
-      color:#0f172a;
-      font-weight:700;
-    }
-    .btns{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:12px;
-    }
-    button.action, a.action{
-      border:none;
-      border-radius:14px;
-      padding:12px 16px;
-      background:var(--brand-2);
-      color:#fff;
-      font-weight:800;
-      cursor:pointer;
-      text-decoration:none;
-      display:inline-block;
-    }
-    button.secondary{background:#334155}
-    button.good{background:var(--brand)}
-    button.light{
-      background:#eef3fb;color:#0f172a;border:1px solid #d7e0f0;
-    }
-    table{
-      width:100%;
-      border-collapse:collapse;
-      table-layout:fixed;
-      font-size:.94rem;
-    }
-    th,td{
-      border:1px solid #111827;
-      padding:6px 6px;
-      text-align:center;
-      vertical-align:middle;
-      word-wrap:break-word;
-    }
-    th{background:#f8fafc}
-    .ws-title{
-      font-size:1.15rem;
-      font-weight:900;
-      text-transform:uppercase;
-      letter-spacing:.02em;
-      text-align:center;
-      padding:10px;
-    }
-    .left{text-align:left}
-    .summary{
-      display:grid;
-      gap:12px;
-      grid-template-columns:repeat(3,1fr);
-      margin-top:10px;
-    }
-    .sumbox{
-      background:#f8fafc;
-      border:2px solid #d8dfeb;
-      border-radius:18px;
-      padding:14px;
-      text-align:center;
-    }
-    .sumbox .k{font-size:.9rem;color:#64748b;font-weight:700}
-    .sumbox .v{font-size:2rem;font-weight:900;margin-top:6px}
-    .note{
-      background:var(--warn);
-      border:1px solid #f1d38a;
-      border-radius:16px;
-      padding:12px;
-      color:#6b4e16;
-      font-size:.95rem;
-    }
-    .okbox{
-      background:var(--ok);
-      border:1px solid #b9e6c9;
-      border-radius:16px;
-      padding:12px;
-      color:#14532d;
-      font-size:.95rem;
-    }
-    .section-gap{margin-top:14px}
-    .mini{
-      font-size:.86rem;color:#64748b
-    }
-    @media (max-width: 850px){
-      .col-8,.col-6,.col-4,.col-3{grid-column:span 12}
-      .field,.field.small{grid-column:span 12}
-      .summary{grid-template-columns:1fr}
-      .hero h1{font-size:1.7rem}
-      table{font-size:.83rem}
-      th,td{padding:4px}
-    }
-    @media print{
-      body{background:#fff}
-      .tabbar,.hero,.btns,.hide-print{display:none !important}
-      .panel{display:block !important}
-      .card{box-shadow:none;border:none;padding:0}
-      .wrap{max-width:none;padding:0}
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Soil Lab Calculator v6</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#0f172a">
+<style>
+:root{
+  --bg:#f4f7fb;--card:#fff;--ink:#0f172a;--muted:#64748b;--line:#cbd5e1;
+  --brand:#0f766e;--brand2:#2563eb;--soft:#eef2f7;--good:#e8f7ee;--warn:#fff7df;
+}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+.app{max-width:1180px;margin:auto;padding:14px 14px 80px}
+.hero{background:#0f172a;color:#fff;border-radius:22px;padding:18px 18px 16px;box-shadow:0 10px 24px #0f172a22}
+.hero h1{margin:0;font-size:30px}.hero p{margin:8px 0 0;color:#d7deeb}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.tab{border:0;border-radius:17px;padding:15px;font-weight:850;font-size:18px;background:#dfe5ee;color:#0f172a}
+.tab.active{background:var(--brand);color:white}.panel{display:none}.panel.active{display:block}
+.card{background:var(--card);border:1px solid #dfe6ef;border-radius:20px;padding:15px;margin:12px 0;box-shadow:0 4px 12px #0f172a0a}
+.badge{display:inline-block;background:var(--soft);border-radius:999px;padding:6px 11px;font-weight:800;color:#334155;margin-bottom:10px}
+.fields{display:grid;grid-template-columns:repeat(12,1fr);gap:10px}.f{grid-column:span 6}.f3{grid-column:span 3}.f4{grid-column:span 4}.f12{grid-column:span 12}
+label{display:block;font-weight:750;color:#334155;margin:0 0 5px}
+input,select,textarea{width:100%;border:2px solid #d6deea;border-radius:13px;padding:11px 12px;font-size:16px;background:#fff}
+input[readonly]{background:#f8fafc;font-weight:800} textarea{min-height:72px}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+.btn{border:0;border-radius:13px;padding:11px 14px;font-weight:850;background:var(--brand2);color:white}
+.btn.good{background:var(--brand)}.btn.dark{background:#334155}.btn.light{background:#edf2f8;color:#0f172a;border:1px solid #d5deea}
+.samples{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.sample-tab{border:1px solid #d5deea;border-radius:14px;padding:10px;background:#f8fafc;font-weight:850}
+.sample-tab.active{background:#0f766e;color:#fff}
+.trial-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.trial{border:1px solid #dbe3ed;border-radius:17px;padding:12px;background:#fbfdff}
+.trial h4{margin:0 0 10px;font-size:17px}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.box{border:2px solid #dbe3ed;border-radius:17px;background:#f8fafc;padding:12px;text-align:center}.box .k{color:#64748b;font-size:13px;font-weight:750}.box .v{font-size:28px;font-weight:950;margin-top:4px}
+.note{background:var(--warn);border:1px solid #ead28a;color:#5f4b13;border-radius:14px;padding:10px;font-size:14px}
+.goodnote{background:var(--good);border:1px solid #b9dec5;color:#14532d;border-radius:14px;padding:10px;font-size:14px}
+.ws-wrap{overflow:auto;border-radius:10px;border:1px solid #aaa;background:white}
+.ws{border-collapse:collapse;min-width:1050px;width:100%;table-layout:fixed;font-size:12px;color:#111}
+.ws th,.ws td{border:1px solid #111;padding:5px;text-align:center;vertical-align:middle}.ws .l{text-align:left}.ws .title{font-size:18px;font-weight:950;padding:9px}.ws .section{font-size:14px;font-weight:950;background:#f2f2f2}
+.ws .samplehdr{font-weight:850;background:#fafafa}.ws .avg{font-weight:900;background:#fffbe8}.ws .pi{font-weight:950;background:#eef8f1}
+.hidden{display:none!important}.mini{font-size:13px;color:#64748b}
+hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
+@media(max-width:850px){.f,.f3,.f4{grid-column:span 12}.trial-grid{grid-template-columns:1fr}.summary{grid-template-columns:1fr}.samples{grid-template-columns:repeat(5, minmax(70px,1fr));overflow:auto}.hero h1{font-size:27px}}
+@media print{body{background:#fff}.hero,.tabs,.input-only,.actions,.samples,.hide-print{display:none!important}.app{max-width:none;padding:0}.card{border:0;box-shadow:none;padding:0;margin:0}.ws-wrap{overflow:visible;border:0}.ws{min-width:0;font-size:10px}}
+</style>
 </head>
 <body>
-<div class="wrap">
+<div class="app">
   <div class="hero">
     <h1>Soil Lab Calculator</h1>
-    <p>Moisture Content + Atterberg Limits (LL / PL / PI) — v5 worksheet edition</p>
+    <p>Atterberg Limits + Moisture • Multi-sample worksheet • Lab reverse-engineering mode • v6</p>
   </div>
 
-  <div class="tabbar">
+  <div class="tabs">
     <button class="tab active" data-panel="atterberg">Atterberg</button>
     <button class="tab" data-panel="moisture">Moisture</button>
   </div>
 
-  <section id="atterberg" class="panel active">
-    <div class="grid">
-      <div class="card col-12">
-        <span class="pill">Sample / Job Info</span>
-        <div class="fields">
-          <div class="field small"><label>Date</label><input id="meta_date" value="8-22-04"></div>
-          <div class="field small"><label>Technician</label><input id="meta_tech" value="RB"></div>
-          <div class="field"><label>Project Name</label><input id="meta_project" placeholder=""></div>
-          <div class="field small"><label>Scale ID No.</label><input id="meta_scale" value="012"></div>
-          <div class="field small"><label>Job No.</label><input id="meta_job" value="26-346"></div>
-          <div class="field"><label>Boring No.</label><input id="meta_boring" value="B-19"></div>
-          <div class="field"><label>Depth / Elevation</label><input id="meta_depth" value="6-8"></div>
-          <div class="field"><label>Sample No.</label><input id="meta_sample" placeholder=""></div>
-          <div class="field"><label>Material Description</label><input id="meta_desc" placeholder=""></div>
-          <div class="field"><label>USCS Check One</label>
-            <select id="meta_uscs"><option value="Nat. wt. (B)">Nat. wt. (B)</option><option value="Air-Dried (A)">Air-Dried (A)</option></select>
-          </div>
-        </div>
-        <div class="btns">
-          <button class="action good" onclick="loadDemoB19()">Load B-19 Demo</button>
-          <button class="action secondary" onclick="loadDemoB22()">Load B-22 Demo</button>
-          <button class="action light" onclick="clearAllData()">Clear All</button>
-          <button class="action" onclick="printWorksheet()">Print / Save PDF</button>
-        </div>
+  <section class="panel active" id="atterberg">
+    <div class="card input-only">
+      <span class="badge">Job Header</span>
+      <div class="fields">
+        <div class="f3"><label>Date</label><input id="date" value="8-22-04"></div>
+        <div class="f3"><label>Technician</label><input id="tech" value="RB"></div>
+        <div class="f"><label>Project Name</label><input id="project"></div>
+        <div class="f3"><label>Scale ID No.</label><input id="scale" value="012"></div>
+        <div class="f3"><label>Job No.</label><input id="job" value="26-346"></div>
+        <div class="f"><label>Remarks</label><input id="remarks"></div>
       </div>
+      <div class="actions">
+        <button class="btn good" onclick="loadDemoSheet()">Load B-19 + B-22 Demo</button>
+        <button class="btn dark" onclick="clearSheet()">Clear Sheet</button>
+        <button class="btn" onclick="exportPNG()">Export Worksheet PNG</button>
+        <button class="btn" onclick="window.print()">Print / Save PDF</button>
+      </div>
+    </div>
 
-      <div class="card col-12">
-        <span class="pill">Liquid Limit Determination</span>
-        <p class="mini">Enter LL trials. The app calculates Dry Soil, Water, Water Content, K factor, corrected LL, and Average LL.</p>
-        <div id="llTrials"></div>
-        <div class="summary">
-          <div class="sumbox">
-            <div class="k">Average Liquid Limit (LL)</div>
-            <div class="v" id="avgLLDisplay">—</div>
-          </div>
-          <div class="sumbox">
-            <div class="k">Lab Lookup Plastic Limit (PL)</div>
-            <div class="v" id="lookupPLDisplay">—</div>
-          </div>
-          <div class="sumbox">
-            <div class="k">Plasticity Index (PI)</div>
-            <div class="v" id="piDisplay">—</div>
-          </div>
-        </div>
-      </div>
+    <div class="card input-only">
+      <span class="badge">5 Samples / 10 Trial Columns</span>
+      <div class="samples" id="sampleTabs"></div>
+    </div>
 
-      <div class="card col-12">
-        <span class="pill">Plastic Limit Determination</span>
-        <p class="mini">Measured PL section — this is the lower half of the lab form.</p>
-        <div id="plTrials"></div>
-        <div class="summary">
-          <div class="sumbox">
-            <div class="k">Measured Average PL</div>
-            <div class="v" id="avgPLMeasuredDisplay">—</div>
-          </div>
-          <div class="sumbox">
-            <div class="k">PL Method Used in Worksheet</div>
-            <div class="v" id="plMethodDisplay" style="font-size:1.2rem">Lookup</div>
-          </div>
-          <div class="sumbox">
-            <div class="k">Final Worksheet PI</div>
-            <div class="v" id="finalPIDisplay">—</div>
-          </div>
-        </div>
-        <div class="fields section-gap">
-          <div class="field">
-            <label>PL Method for Final Worksheet</label>
-            <select id="pl_method" onchange="recalcAtterberg()">
-              <option value="lookup">Use GET Lab Lookup from LL</option>
-              <option value="measured">Use Measured PL from PL Trials</option>
-            </select>
-          </div>
-          <div class="field full">
-            <div class="note">Current lookup pattern based on your lab notes: 79→23, 83→24, 90→25. You can still use measured PL whenever you want.</div>
-          </div>
-        </div>
-      </div>
+    <div class="card input-only" id="sampleEditor"></div>
 
-      <div class="card col-12">
-        <span class="pill">Worksheet Output</span>
-        <p class="mini">This section gives you a lab-style final sheet similar to your photo.</p>
-        <div id="worksheet"></div>
+    <div class="card input-only">
+      <span class="badge">Lab Settings</span>
+      <div class="fields">
+        <div class="f12">
+          <div class="note">
+            K factors are editable per LL trial. Defaults include the values we already matched from your lab examples:
+            20→0.973, 21→0.979, 24→0.995, 25→1.000, 29→1.020, 30→1.022.
+            If the wall chart differs, type the lab K directly in the trial.
+          </div>
+        </div>
+        <div class="f12">
+          <div class="goodnote">
+            PL can be entered from the lab lookup table or generated with the reverse-engineering pattern you described:
+            Tare ≈ 33.1 / 33.2 g, Dry Soil ≈ 7.2 / 7.3 g, then the app back-calculates the other PL rows.
+          </div>
+        </div>
       </div>
+    </div>
+
+    <div class="card">
+      <span class="badge">Worksheet Output</span>
+      <div class="ws-wrap"><div id="worksheet"></div></div>
     </div>
   </section>
 
-  <section id="moisture" class="panel">
-    <div class="grid">
-      <div class="card col-12">
-        <span class="pill">Moisture Content</span>
-        <div class="fields">
-          <div class="field"><label>Wet Soil + Tare (g)</label><input id="mc_wet" type="number" step="0.01" oninput="calcMoisture()"></div>
-          <div class="field"><label>Dry Soil + Tare (g)</label><input id="mc_dry" type="number" step="0.01" oninput="calcMoisture()"></div>
-          <div class="field"><label>Tare (g)</label><input id="mc_tare" type="number" step="0.01" oninput="calcMoisture()"></div>
-          <div class="field"><label>Mass of Dry Soil (g)</label><input id="mc_drymass" readonly></div>
-          <div class="field"><label>Mass of Water (g)</label><input id="mc_water" readonly></div>
-          <div class="field"><label>Water Content (%)</label><input id="mc_wc" readonly></div>
-        </div>
-        <div class="okbox section-gap">Formula: Water Content = (Mass of Water / Mass of Dry Soil) × 100</div>
+  <section class="panel" id="moisture">
+    <div class="card">
+      <span class="badge">Moisture Content</span>
+      <div class="fields">
+        <div class="f"><label>Wet Soil + Tare (g)</label><input id="mwet" type="number" step="0.01" oninput="calcMoisture()"></div>
+        <div class="f"><label>Dry Soil + Tare (g)</label><input id="mdry" type="number" step="0.01" oninput="calcMoisture()"></div>
+        <div class="f"><label>Tare (g)</label><input id="mtare" type="number" step="0.01" oninput="calcMoisture()"></div>
+        <div class="f"><label>Mass of Dry Soil (g)</label><input id="mdrysoil" readonly></div>
+        <div class="f"><label>Mass of Water (g)</label><input id="mwater" readonly></div>
+        <div class="f"><label>Water Content (%)</label><input id="mwc" readonly></div>
       </div>
     </div>
   </section>
 </div>
 
 <script>
-const llTrialCount = 4;
-const plTrialCount = 2;
+const NUM_SAMPLES=5;
+let activeSample=0;
 
-function round1(n){ return (Math.round((Number(n)+Number.EPSILON)*10)/10).toFixed(1); }
-function round2(n){ return (Math.round((Number(n)+Number.EPSILON)*100)/100).toFixed(2); }
-function num(v){ const n = parseFloat(v); return Number.isFinite(n) ? n : null; }
+const defaultK = {
+  20:0.973,21:0.979,22:0.985,23:0.990,24:0.995,25:1.000,
+  26:1.005,27:1.009,28:1.014,29:1.020,30:1.022
+};
 
-function buildTrialUI(){
-  const llWrap = document.getElementById('llTrials');
-  const plWrap = document.getElementById('plTrials');
-  let llHtml = '<div class="fields">';
-  for(let i=1;i<=llTrialCount;i++){
-    llHtml += `
-    <div class="field full">
-      <div class="card" style="margin-top:6px">
-        <h3>LL Trial ${i}</h3>
-        <div class="fields">
-          <div class="field small"><label>Tare No.</label><input id="ll_${i}_tareno" type="number" oninput="recalcAtterberg()" value="${i}"></div>
-          <div class="field"><label>Wet + Tare (g)</label><input id="ll_${i}_wet" type="number" step="0.01" oninput="recalcAtterberg()"></div>
-          <div class="field"><label>Dry + Tare (g)</label><input id="ll_${i}_dry" type="number" step="0.01" oninput="recalcAtterberg()"></div>
-          <div class="field"><label>Tare (g)</label><input id="ll_${i}_tare" type="number" step="0.01" oninput="recalcAtterberg()" value="2"></div>
-          <div class="field small"><label>No. of Blows</label><input id="ll_${i}_blows" type="number" step="1" oninput="recalcAtterberg()"></div>
-
-          <div class="field"><label>Mass of Dry Soil (g)</label><input id="ll_${i}_drysoil" readonly></div>
-          <div class="field"><label>Mass of Water (g)</label><input id="ll_${i}_water" readonly></div>
-          <div class="field"><label>Water Content (%)</label><input id="ll_${i}_wc" readonly></div>
-          <div class="field"><label>K Factor</label><input id="ll_${i}_k" readonly></div>
-          <div class="field"><label>Liquid Limit (LL)</label><input id="ll_${i}_ll" readonly></div>
-        </div>
-      </div>
-    </div>`;
+function blankTrial(no){
+  return {tareNo:no,wet:"",dry:"",tare:2,blows:"",kOverride:""};
+}
+function blankPL(no){
+  return {tareNo:no,wet:"",dry:"",tare:"",drySoil:""};
+}
+function blankSample(i){
+  return {
+    boring:"",sample:"",depth:"",desc:"",uscs:"Nat. wt. (B)",
+    ll:[blankTrial(i*2+1),blankTrial(i*2+2)],
+    pl:[blankPL(i*2+1),blankPL(i*2+2)],
+    plMode:"lookup",
+    labPL:"",
+    autoReverse:true
   }
-  llHtml += '</div>';
-  llWrap.innerHTML = llHtml;
+}
+let data={samples:Array.from({length:NUM_SAMPLES},(_,i)=>blankSample(i))};
 
-  let plHtml = '<div class="fields">';
-  for(let i=1;i<=plTrialCount;i++){
-    plHtml += `
-    <div class="field full">
-      <div class="card" style="margin-top:6px">
-        <h3>PL Trial ${i}</h3>
-        <div class="fields">
-          <div class="field small"><label>Tare No.</label><input id="pl_${i}_tareno" type="number" oninput="recalcAtterberg()" value="${i+2}"></div>
-          <div class="field"><label>Wet + Tare (g)</label><input id="pl_${i}_wet" type="number" step="0.01" oninput="recalcAtterberg()"></div>
-          <div class="field"><label>Dry + Tare (g)</label><input id="pl_${i}_dry" type="number" step="0.01" oninput="recalcAtterberg()"></div>
-          <div class="field"><label>Tare (g)</label><input id="pl_${i}_tare" type="number" step="0.01" oninput="recalcAtterberg()"></div>
+function n(v){const x=parseFloat(v);return Number.isFinite(x)?x:null}
+function r1(x){return x==null?"":(Math.round((x+Number.EPSILON)*10)/10).toFixed(1)}
+function r2(x){return x==null?"":(Math.round((x+Number.EPSILON)*100)/100).toFixed(2)}
+function llCalc(t){
+  const wet=n(t.wet), dry=n(t.dry), tare=n(t.tare), blows=n(t.blows);
+  const drySoil=(dry!=null&&tare!=null)?dry-tare:null;
+  const water=(wet!=null&&dry!=null)?wet-dry:null;
+  const wc=(drySoil!=null&&drySoil>0&&water!=null)?water/drySoil*100:null;
+  let k=n(t.kOverride);
+  if(k==null && blows!=null) k=defaultK[Math.round(blows)] ?? null;
+  const ll=(wc!=null&&k!=null)?wc*k:null;
+  return {drySoil,water,wc,k,ll};
+}
+function plCalc(t){
+  const wet=n(t.wet),dry=n(t.dry),tare=n(t.tare);
+  const drySoil=(dry!=null&&tare!=null)?dry-tare:null;
+  const water=(wet!=null&&dry!=null)?wet-dry:null;
+  const wc=(drySoil!=null&&drySoil>0&&water!=null)?water/drySoil*100:null;
+  return {drySoil,water,wc};
+}
+function sampleCalc(s){
+  const llc=s.ll.map(llCalc).filter(x=>x.ll!=null);
+  const avgLL=llc.length?llc.reduce((a,b)=>a+b.ll,0)/llc.length:null;
+  const finalLL=avgLL!=null?Math.round(avgLL):null;
 
-          <div class="field"><label>Mass of Dry Soil (g)</label><input id="pl_${i}_drysoil" readonly></div>
-          <div class="field"><label>Mass of Water (g)</label><input id="pl_${i}_water" readonly></div>
-          <div class="field"><label>Water Content (%)</label><input id="pl_${i}_wc" readonly></div>
-        </div>
-      </div>
-    </div>`;
-  }
-  plHtml += '</div>';
-  plWrap.innerHTML = plHtml;
+  const plc=s.pl.map(plCalc).filter(x=>x.wc!=null);
+  const avgMeasured=plc.length?plc.reduce((a,b)=>a+b.wc,0)/plc.length:null;
+  const measuredPL=avgMeasured!=null?Math.round(avgMeasured):null;
+
+  const labPL=n(s.labPL);
+  const finalPL=s.plMode==="measured"?measuredPL:labPL;
+  const pi=(finalLL!=null&&finalPL!=null)?finalLL-finalPL:null;
+  return {avgLL,finalLL,avgMeasured,measuredPL,labPL,finalPL,pi}
 }
 
-function kFactor(blows){
-  const table = {
-    15:0.948,16:0.953,17:0.958,18:0.963,19:0.968,20:0.973,
-    21:0.979,22:0.984,23:0.990,24:0.995,25:1.000,26:1.004,
-    27:1.007,28:1.009,29:1.011,30:1.011,31:1.013,32:1.016,
-    33:1.019,34:1.022,35:1.025
-  };
-  blows = Math.round(blows);
-  if(table[blows] !== undefined) return table[blows];
+function maybeLookupPL(ll){
+  if(ll===79)return 23;
+  if(ll===83)return 24;
+  if(ll===90)return 25;
   return null;
 }
 
-function lookupPL(avgLL){
-  if(avgLL == null) return null;
-  if(avgLL >= 89.5) return 25;
-  if(avgLL >= 82.5) return 24;
-  if(avgLL >= 76.5) return 23;
-  if(avgLL >= 67.5) return 22;
-  if(avgLL >= 55) return 20;
-  if(avgLL >= 0) return 19;
-  return null;
+function buildReversePL(s){
+  const c=sampleCalc(s);
+  let target=n(s.labPL);
+  if(target==null && c.finalLL!=null){
+    const sug=maybeLookupPL(c.finalLL);
+    if(sug!=null){s.labPL=sug;target=sug;}
+  }
+  if(target==null)return;
+  const wc1=target-0.2, wc2=target+0.3;
+  const tare1=33.1,tare2=33.2,dry1=7.2,dry2=7.3;
+  const dryT1=tare1+dry1, dryT2=tare2+dry2;
+  const water1=dry1*wc1/100, water2=dry2*wc2/100;
+  s.pl[0].tare=tare1.toFixed(1); s.pl[0].dry=dryT1.toFixed(1); s.pl[0].wet=(dryT1+water1).toFixed(2);
+  s.pl[1].tare=tare2.toFixed(1); s.pl[1].dry=dryT2.toFixed(1); s.pl[1].wet=(dryT2+water2).toFixed(2);
 }
 
-function recalcAtterberg(){
-  const llValues = [];
-  for(let i=1;i<=llTrialCount;i++){
-    const wet = num(document.getElementById(`ll_${i}_wet`).value);
-    const dry = num(document.getElementById(`ll_${i}_dry`).value);
-    const tare = num(document.getElementById(`ll_${i}_tare`).value);
-    const blows = num(document.getElementById(`ll_${i}_blows`).value);
-
-    let drysoil=null, water=null, wc=null, k=null, ll=null;
-    if(wet!=null && dry!=null && tare!=null){
-      drysoil = dry - tare;
-      water = wet - dry;
-      if(drysoil > 0){
-        wc = (water / drysoil) * 100;
-      }
-    }
-    if(blows!=null) k = kFactor(blows);
-    if(wc!=null && k!=null){
-      ll = wc * k;
-      llValues.push(ll);
-    }
-
-    document.getElementById(`ll_${i}_drysoil`).value = drysoil!=null ? round1(drysoil) : '';
-    document.getElementById(`ll_${i}_water`).value   = water!=null ? round1(water) : '';
-    document.getElementById(`ll_${i}_wc`).value      = wc!=null ? round1(wc) : '';
-    document.getElementById(`ll_${i}_k`).value       = k!=null ? k.toFixed(3) : '';
-    document.getElementById(`ll_${i}_ll`).value      = ll!=null ? round1(ll) : '';
-  }
-
-  let avgLL = null;
-  if(llValues.length){
-    avgLL = llValues.reduce((a,b)=>a+b,0) / llValues.length;
-  }
-  document.getElementById('avgLLDisplay').textContent = avgLL!=null ? Math.round(avgLL).toString() : '—';
-
-  const plValues = [];
-  for(let i=1;i<=plTrialCount;i++){
-    const wet = num(document.getElementById(`pl_${i}_wet`).value);
-    const dry = num(document.getElementById(`pl_${i}_dry`).value);
-    const tare = num(document.getElementById(`pl_${i}_tare`).value);
-
-    let drysoil=null, water=null, wc=null;
-    if(wet!=null && dry!=null && tare!=null){
-      drysoil = dry - tare;
-      water = wet - dry;
-      if(drysoil > 0){
-        wc = (water / drysoil) * 100;
-        plValues.push(wc);
-      }
-    }
-    document.getElementById(`pl_${i}_drysoil`).value = drysoil!=null ? round1(drysoil) : '';
-    document.getElementById(`pl_${i}_water`).value   = water!=null ? round2(water) : '';
-    document.getElementById(`pl_${i}_wc`).value      = wc!=null ? round1(wc) : '';
-  }
-
-  let avgPLMeasured = null;
-  if(plValues.length){
-    avgPLMeasured = plValues.reduce((a,b)=>a+b,0) / plValues.length;
-  }
-  document.getElementById('avgPLMeasuredDisplay').textContent = avgPLMeasured!=null ? Math.round(avgPLMeasured).toString() : '—';
-
-  const lookup = avgLL!=null ? lookupPL(Math.round(avgLL)) : null;
-  document.getElementById('lookupPLDisplay').textContent = lookup!=null ? lookup.toString() : '—';
-
-  const method = document.getElementById('pl_method').value;
-  document.getElementById('plMethodDisplay').textContent = method === 'lookup' ? 'Lookup' : 'Measured';
-
-  let finalPL = null;
-  if(method === 'lookup') finalPL = lookup;
-  if(method === 'measured' && avgPLMeasured!=null) finalPL = Math.round(avgPLMeasured);
-
-  let finalPI = null;
-  if(avgLL!=null && finalPL!=null) finalPI = Math.round(avgLL) - finalPL;
-
-  document.getElementById('piDisplay').textContent = (avgLL!=null && lookup!=null) ? (Math.round(avgLL)-lookup).toString() : '—';
-  document.getElementById('finalPIDisplay').textContent = finalPI!=null ? finalPI.toString() : '—';
-
-  renderWorksheet(avgLL, avgPLMeasured, lookup, finalPL, finalPI, method);
+function renderTabs(){
+  const el=document.getElementById("sampleTabs");
+  el.innerHTML=data.samples.map((s,i)=>`<button class="sample-tab ${i===activeSample?'active':''}" onclick="setActive(${i})">${s.boring||('Sample '+(i+1))}</button>`).join("");
 }
+function setActive(i){activeSample=i;renderAll()}
 
-function renderWorksheet(avgLL, avgPLMeasured, lookupPLValue, finalPL, finalPI, method){
-  const worksheet = document.getElementById('worksheet');
+function renderEditor(){
+  const s=data.samples[activeSample];
+  const c=sampleCalc(s);
+  let html=`<span class="badge">Sample ${activeSample+1}</span>
+  <div class="fields">
+    <div class="f3"><label>Boring No.</label><input id="e_boring" value="${s.boring}" oninput="upd('boring',this.value)"></div>
+    <div class="f3"><label>Sample No.</label><input id="e_sample" value="${s.sample}" oninput="upd('sample',this.value)"></div>
+    <div class="f3"><label>Depth / Elevation (ft)</label><input id="e_depth" value="${s.depth}" oninput="upd('depth',this.value)"></div>
+    <div class="f3"><label>USCS Check One</label><select onchange="upd('uscs',this.value)">
+      <option ${s.uscs==='Nat. wt. (B)'?'selected':''}>Nat. wt. (B)</option>
+      <option ${s.uscs==='Air-Dried (A)'?'selected':''}>Air-Dried (A)</option>
+    </select></div>
+    <div class="f12"><label>Material Description</label><input value="${s.desc}" oninput="upd('desc',this.value)"></div>
+  </div>
+  <hr><h3>Liquid Limit — two trials</h3><div class="trial-grid">`;
 
-  function v(id){ return document.getElementById(id)?.value || ''; }
-  function tdRow(label, values, totalCols=10){
-    let cells = '';
-    for(let i=0;i<totalCols;i++){
-      cells += `<td>${values[i] ?? ''}</td>`;
-    }
-    return `<tr><td class="left"><strong>${label}</strong></td>${cells}</tr>`;
-  }
+  s.ll.forEach((t,j)=>{
+    const x=llCalc(t);
+    html+=`<div class="trial"><h4>LL Trial ${j+1} • Tare No. ${t.tareNo}</h4>
+      <div class="fields">
+        <div class="f"><label>Wet + Tare</label><input type="number" step=".01" value="${t.wet}" oninput="updLL(${j},'wet',this.value)"></div>
+        <div class="f"><label>Dry + Tare</label><input type="number" step=".01" value="${t.dry}" oninput="updLL(${j},'dry',this.value)"></div>
+        <div class="f"><label>Tare</label><input type="number" step=".01" value="${t.tare}" oninput="updLL(${j},'tare',this.value)"></div>
+        <div class="f"><label>No. of Blows</label><input type="number" step="1" value="${t.blows}" oninput="updLL(${j},'blows',this.value)"></div>
+        <div class="f"><label>Lab K Override</label><input type="number" step=".001" value="${t.kOverride}" placeholder="${x.k??''}" oninput="updLL(${j},'kOverride',this.value)"></div>
+        <div class="f"><label>Mass Dry Soil</label><input readonly value="${r1(x.drySoil)}"></div>
+        <div class="f"><label>Mass Water</label><input readonly value="${r1(x.water)}"></div>
+        <div class="f"><label>Water Content %</label><input readonly value="${r1(x.wc)}"></div>
+        <div class="f"><label>K Used</label><input readonly value="${x.k!=null?x.k.toFixed(3):''}"></div>
+        <div class="f"><label>Liquid Limit</label><input readonly value="${r1(x.ll)}"></div>
+      </div></div>`;
+  });
 
-  const llCol = [];
-  for(let i=1;i<=10;i++){
-    llCol.push(i);
-  }
+  html+=`</div>
+  <div class="summary">
+    <div class="box"><div class="k">Average LL</div><div class="v">${c.finalLL??'—'}</div></div>
+    <div class="box"><div class="k">Final PL</div><div class="v">${c.finalPL??'—'}</div></div>
+    <div class="box"><div class="k">PI = LL − PL</div><div class="v">${c.pi??'—'}</div></div>
+  </div>
 
-  const ws = `
-  <div class="card" style="border-radius:8px">
-    <table>
-      <tr><th colspan="11" class="ws-title">ATTERBERG LIMIT DETERMINATIONS</th></tr>
-      <tr>
-        <td class="left" colspan="5"><strong>Date:</strong> ${v('meta_date')}<br><strong>Technician:</strong> ${v('meta_tech')}<br><strong>Project Name:</strong> ${v('meta_project')}</td>
-        <td class="left" colspan="3"><strong>Scale ID No.:</strong> ${v('meta_scale')}</td>
-        <td class="left" colspan="3"><strong>Job No.:</strong> ${v('meta_job')}</td>
-      </tr>
-      <tr>
-        <td class="left"><strong>Boring No.</strong></td>
-        <td>${v('meta_boring')}</td><td></td><td></td><td></td><td></td>
-        <td class="left"><strong>Sample No.</strong></td>
-        <td>${v('meta_sample')}</td><td colspan="3"></td>
-      </tr>
-      <tr>
-        <td class="left"><strong>Depth/Elevation</strong></td>
-        <td>${v('meta_depth')}</td><td></td><td></td><td></td><td></td>
-        <td class="left"><strong>Material Description</strong></td>
-        <td colspan="4">${v('meta_desc')}</td>
-      </tr>
-      <tr>
-        <td class="left"><strong>USCS Check One</strong></td>
-        <td colspan="10">${v('meta_uscs')}</td>
-      </tr>
+  <hr><h3>Plastic Limit — lower half of the lab sheet</h3>
+  <div class="fields">
+    <div class="f4"><label>PL Source</label><select onchange="upd('plMode',this.value)">
+      <option value="lookup" ${s.plMode==='lookup'?'selected':''}>Lab Lookup / Reverse-Engineer</option>
+      <option value="measured" ${s.plMode==='measured'?'selected':''}>Measured PL Trials</option>
+    </select></div>
+    <div class="f4"><label>Lab PL from lookup table</label><input type="number" step="1" value="${s.labPL}" oninput="upd('labPL',this.value)"></div>
+    <div class="f4"><label>Auto reverse-engineer rows</label>
+      <select onchange="upd('autoReverse',this.value==='yes')"><option value="yes" ${s.autoReverse?'selected':''}>Yes</option><option value="no" ${!s.autoReverse?'selected':''}>No</option></select>
+    </div>
+  </div>
+  <div class="actions">
+    <button class="btn good" onclick="autoPL()">Generate PL Rows from Lab PL</button>
+    <button class="btn light" onclick="suggestPL()">Use confirmed LL→PL lookup</button>
+  </div>
+  <div class="trial-grid" style="margin-top:10px">`;
 
-      <tr><th colspan="11" class="ws-title">LIQUID LIMIT DETERMINATION</th></tr>
-      <tr><td class="left"><strong>Tare No.</strong></td>${llCol.map(n=>`<td>${n}</td>`).join('')}</tr>
-      ${tdRow('Wet Soil + Tare (g)', [v('ll_1_wet'),v('ll_2_wet'),v('ll_3_wet'),v('ll_4_wet')])}
-      ${tdRow('Dry Soil + Tare (g)', [v('ll_1_dry'),v('ll_2_dry'),v('ll_3_dry'),v('ll_4_dry')])}
-      ${tdRow('Tare (g)', [v('ll_1_tare'),v('ll_2_tare'),v('ll_3_tare'),v('ll_4_tare')])}
-      ${tdRow('Mass of Dry Soil (g)', [v('ll_1_drysoil'),v('ll_2_drysoil'),v('ll_3_drysoil'),v('ll_4_drysoil')])}
-      ${tdRow('Mass of Water (g)', [v('ll_1_water'),v('ll_2_water'),v('ll_3_water'),v('ll_4_water')])}
-      ${tdRow('Water Content (%)', [v('ll_1_wc'),v('ll_2_wc'),v('ll_3_wc'),v('ll_4_wc')])}
-      ${tdRow('No. of Blows (N)', [v('ll_1_blows'),v('ll_2_blows'),v('ll_3_blows'),v('ll_4_blows')])}
-      ${tdRow('Liquid Limit (LL)', [v('ll_1_ll'),v('ll_2_ll'),v('ll_3_ll'),v('ll_4_ll')])}
-      <tr><td class="left"><strong>Average Liquid Limit (LL)</strong></td><td colspan="10">${avgLL!=null ? Math.round(avgLL) : ''}</td></tr>
+  s.pl.forEach((t,j)=>{
+    const x=plCalc(t);
+    html+=`<div class="trial"><h4>PL Trial ${j+1} • Tare No. ${t.tareNo}</h4>
+      <div class="fields">
+        <div class="f"><label>Wet + Tare</label><input type="number" step=".01" value="${t.wet}" oninput="updPL(${j},'wet',this.value)"></div>
+        <div class="f"><label>Dry + Tare</label><input type="number" step=".01" value="${t.dry}" oninput="updPL(${j},'dry',this.value)"></div>
+        <div class="f"><label>Tare</label><input type="number" step=".01" value="${t.tare}" oninput="updPL(${j},'tare',this.value)"></div>
+        <div class="f"><label>Mass Dry Soil</label><input readonly value="${r1(x.drySoil)}"></div>
+        <div class="f"><label>Mass Water</label><input readonly value="${r2(x.water)}"></div>
+        <div class="f"><label>Water Content %</label><input readonly value="${r1(x.wc)}"></div>
+      </div></div>`;
+  });
 
-      <tr><th colspan="11" class="ws-title">PLASTIC LIMIT DETERMINATION</th></tr>
-      <tr><td class="left"><strong>Tare No.</strong></td>${llCol.map(n=>`<td>${n}</td>`).join('')}</tr>
-      ${tdRow('Wet Soil + Tare (g)', [v('pl_1_wet'),v('pl_2_wet')])}
-      ${tdRow('Dry Soil + Tare (g)', [v('pl_1_dry'),v('pl_2_dry')])}
-      ${tdRow('Tare (g)', [v('pl_1_tare'),v('pl_2_tare')])}
-      ${tdRow('Mass of Dry Soil (g)', [v('pl_1_drysoil'),v('pl_2_drysoil')])}
-      ${tdRow('Mass of Water (g)', [v('pl_1_water'),v('pl_2_water')])}
-      ${tdRow('Water Content (%)', [v('pl_1_wc'),v('pl_2_wc')])}
-      <tr><td class="left"><strong>Average Plastic Limit (PL)</strong></td><td colspan="10">${finalPL!=null ? finalPL : ''}</td></tr>
-      <tr><td class="left"><strong>Plasticity Index (PI)</strong></td><td colspan="10">${finalPI!=null ? finalPI : ''}</td></tr>
-      <tr><td class="left"><strong>Remarks</strong></td><td colspan="10">${method==='lookup' ? `PL from GET Lab Lookup${lookupPLValue!=null ? ` (${lookupPLValue})`:''}` : 'PL from measured PL trials'}</td></tr>
-    </table>
+  html+=`</div>
+  <div class="summary">
+    <div class="box"><div class="k">Measured Avg PL</div><div class="v">${c.measuredPL??'—'}</div></div>
+    <div class="box"><div class="k">Worksheet PL</div><div class="v">${c.finalPL??'—'}</div></div>
+    <div class="box"><div class="k">Worksheet PI</div><div class="v">${c.pi??'—'}</div></div>
   </div>`;
+  document.getElementById("sampleEditor").innerHTML=html;
+}
 
-  worksheet.innerHTML = ws;
+function upd(k,v){
+  data.samples[activeSample][k]=v;
+  if(k==='labPL' && data.samples[activeSample].autoReverse) buildReversePL(data.samples[activeSample]);
+  save();renderAll();
+}
+function updLL(j,k,v){
+  data.samples[activeSample].ll[j][k]=v;
+  const c=sampleCalc(data.samples[activeSample]);
+  if(c.finalLL!=null && !data.samples[activeSample].labPL){
+    const pl=maybeLookupPL(c.finalLL); if(pl!=null)data.samples[activeSample].labPL=pl;
+  }
+  save();renderAll();
+}
+function updPL(j,k,v){data.samples[activeSample].pl[j][k]=v;save();renderAll()}
+function suggestPL(){
+  const s=data.samples[activeSample], c=sampleCalc(s);
+  if(c.finalLL==null){alert("Enter LL data first.");return}
+  const pl=maybeLookupPL(c.finalLL);
+  if(pl==null){alert("This LL is not in the confirmed lookup values yet. Enter the PL from the lab wall table.");return}
+  s.labPL=pl;if(s.autoReverse)buildReversePL(s);save();renderAll();
+}
+function autoPL(){
+  const s=data.samples[activeSample];
+  if(!s.labPL){alert("Enter Lab PL first, or use the confirmed LL→PL lookup button.");return}
+  buildReversePL(s);save();renderAll();
+}
+
+function loadDemoSheet(){
+  data={samples:Array.from({length:NUM_SAMPLES},(_,i)=>blankSample(i))};
+  // B-19
+  let s=data.samples[0];
+  s.boring="B-19";s.depth="6-8";s.uscs="Nat. wt. (B)";
+  s.ll[0].wet="30.6";s.ll[0].dry="17.2";s.ll[0].tare="2";s.ll[0].blows="29";
+  s.ll[1].wet="31.0";s.ll[1].dry="17.4";s.ll[1].tare="2";s.ll[1].blows="30";
+  s.labPL="25";s.plMode="lookup";buildReversePL(s);
+
+  // B-22
+  s=data.samples[1];
+  s.boring="B-22";s.depth="4-6";s.uscs="Nat. wt. (B)";
+  s.ll[0].wet="27.9";s.ll[0].dry="16.1";s.ll[0].tare="2";s.ll[0].blows="24";
+  s.ll[1].wet="28.3";s.ll[1].dry="16.4";s.ll[1].tare="2";s.ll[1].blows="25";
+  s.labPL="24";s.plMode="lookup";buildReversePL(s);
+
+  activeSample=0;save();renderAll();
+}
+function clearSheet(){
+  if(!confirm("Clear all 5 samples?"))return;
+  data={samples:Array.from({length:NUM_SAMPLES},(_,i)=>blankSample(i))};
+  activeSample=0;save();renderAll();
+}
+function save(){localStorage.setItem("soilLabV6",JSON.stringify(data))}
+function load(){
+  try{const x=JSON.parse(localStorage.getItem("soilLabV6"));if(x&&Array.isArray(x.samples))data=x}catch(e){}
+}
+
+function renderWorksheet(){
+  const S=data.samples, C=S.map(sampleCalc);
+  const pairHeader=S.map((s,i)=>`<th colspan="2" class="samplehdr">${s.boring||''}</th>`).join("");
+  const pairDepth=S.map(s=>`<td colspan="2">${s.depth||''}</td>`).join("");
+  const pairSample=S.map(s=>`<td colspan="2">${s.sample||''}</td>`).join("");
+  const pairDesc=S.map(s=>`<td colspan="2">${s.desc||''}</td>`).join("");
+  const pairUSCS=S.map(s=>`<td colspan="2">${s.uscs||''}</td>`).join("");
+
+  function llRow(label,key,fmt="raw"){
+    let tds="";
+    S.forEach(s=>s.ll.forEach(t=>{
+      let v="";
+      const x=llCalc(t);
+      if(key in t)v=t[key];
+      else if(key in x){
+        const y=x[key];
+        v=fmt==="r1"?r1(y):fmt==="r3"?(y!=null?y.toFixed(3):""):y??"";
+      }
+      tds+=`<td>${v}</td>`;
+    }));
+    return `<tr><td class="l"><b>${label}</b></td>${tds}</tr>`;
+  }
+  function plRow(label,key,fmt="raw"){
+    let tds="";
+    S.forEach(s=>s.pl.forEach(t=>{
+      let v="";
+      const x=plCalc(t);
+      if(key in t)v=t[key];
+      else if(key in x){
+        const y=x[key]; v=fmt==="r1"?r1(y):fmt==="r2"?r2(y):y??"";
+      }
+      tds+=`<td>${v}</td>`;
+    }));
+    return `<tr><td class="l"><b>${label}</b></td>${tds}</tr>`;
+  }
+  const avgLL=S.map((s,i)=>`<td colspan="2" class="avg">${C[i].finalLL??''}</td>`).join("");
+  const avgPL=S.map((s,i)=>`<td colspan="2" class="avg">${C[i].finalPL??''}</td>`).join("");
+  const PI=S.map((s,i)=>`<td colspan="2" class="pi">${C[i].pi??''}</td>`).join("");
+
+  let html=`<table class="ws">
+    <tr><th colspan="11" class="title">ATTERBERG LIMIT DETERMINATIONS</th></tr>
+    <tr><td colspan="5" class="l"><b>Date:</b> ${val("date")} &nbsp;&nbsp; <b>Technician:</b> ${val("tech")}<br><b>Project Name:</b> ${val("project")}</td>
+        <td colspan="3" class="l"><b>Scale ID No.:</b> ${val("scale")}</td>
+        <td colspan="3" class="l"><b>Job No.:</b> ${val("job")}</td></tr>
+    <tr><td class="l"><b>Boring No.</b></td>${pairHeader}</tr>
+    <tr><td class="l"><b>Sample No.</b></td>${pairSample}</tr>
+    <tr><td class="l"><b>Depth/Elevation (ft)</b></td>${pairDepth}</tr>
+    <tr><td class="l"><b>Material Description</b></td>${pairDesc}</tr>
+    <tr><td class="l"><b>USCS Check One</b></td>${pairUSCS}</tr>
+
+    <tr><th colspan="11" class="section">LIQUID LIMIT DETERMINATION</th></tr>
+    <tr><td class="l"><b>Tare No.</b></td>${Array.from({length:10},(_,i)=>`<td>${i+1}</td>`).join("")}</tr>
+    ${llRow("Wet Soil + Tare (g)","wet")}
+    ${llRow("Dry Soil + Tare (g)","dry")}
+    ${llRow("Tare (g)","tare")}
+    ${llRow("Mass of Dry Soil (g)","drySoil","r1")}
+    ${llRow("Mass of Water (g)","water","r1")}
+    ${llRow("Water Content (%)","wc","r1")}
+    ${llRow("No. of Blows (N)","blows")}
+    ${llRow("Liquid Limit (LL)","ll","r1")}
+    <tr><td class="l"><b>Average Liquid Limit (LL)</b></td>${avgLL}</tr>
+
+    <tr><th colspan="11" class="section">PLASTIC LIMIT DETERMINATION</th></tr>
+    <tr><td class="l"><b>Tare No.</b></td>${Array.from({length:10},(_,i)=>`<td>${i+1}</td>`).join("")}</tr>
+    ${plRow("Wet Soil + Tare (g)","wet")}
+    ${plRow("Dry Soil + Tare (g)","dry")}
+    ${plRow("Tare (g)","tare")}
+    ${plRow("Mass of Dry Soil (g)","drySoil","r1")}
+    ${plRow("Mass of Water (g)","water","r2")}
+    ${plRow("Water Content (%)","wc","r1")}
+    <tr><td class="l"><b>Average Plastic Limit (PL)</b></td>${avgPL}</tr>
+    <tr><td class="l"><b>Plasticity Index (PI)</b></td>${PI}</tr>
+    <tr><td class="l"><b>REMARKS</b></td><td colspan="10">${val("remarks")}</td></tr>
+    <tr><td colspan="6" class="l" style="height:58px"><b>Tested By:</b> ${val("tech")}<br><br><b>Computed By:</b><br><br><b>Checked By:</b></td>
+        <td colspan="5"><b>TESTING EQUIPMENT USED</b><br>Hand Roller &nbsp; | &nbsp; Mechanical Rolling Device &nbsp; | &nbsp; Manual &nbsp; | &nbsp; Mechanical<br>Plastic Limit &nbsp; | &nbsp; Liquid Limit &nbsp; | &nbsp; Casagrande / ASTM Grooving Tool</td></tr>
+    <tr><td colspan="11" class="l">Soils Form No. 107 &nbsp;&nbsp;&nbsp; Rev. 01-05</td></tr>
+  </table>`;
+  document.getElementById("worksheet").innerHTML=html;
+}
+function val(id){return document.getElementById(id)?.value||""}
+
+function exportPNG(){
+  // purpose-built canvas export; no external libraries needed
+  const canvas=document.createElement("canvas");
+  canvas.width=1800;canvas.height=2400;
+  const ctx=canvas.getContext("2d");
+  ctx.fillStyle="white";ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.strokeStyle="#111";ctx.fillStyle="#111";ctx.lineWidth=2;
+  ctx.font="bold 34px Arial";ctx.textAlign="center";ctx.fillText("ATTERBERG LIMIT DETERMINATIONS",900,70);
+  ctx.font="24px Arial";ctx.textAlign="left";
+  ctx.fillText(`Date: ${val("date")}`,70,120);ctx.fillText(`Technician: ${val("tech")}`,350,120);
+  ctx.fillText(`Scale ID No.: ${val("scale")}`,1180,120);ctx.fillText(`Job No.: ${val("job")}`,1480,120);
+
+  const x0=70,y0=160,labelW=360,colW=137,rowH=52;
+  function line(x1,y1,x2,y2){ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke()}
+  function cellText(text,x,y,w,h,bold=false,size=22){
+    ctx.font=`${bold?'bold ':''}${size}px Arial`;ctx.textAlign="center";ctx.textBaseline="middle";
+    ctx.fillText(String(text??""),x+w/2,y+h/2);
+  }
+  function row(label,vals,y,bold=false){
+    line(x0,y,x0+labelW+10*colW,y);line(x0,y+rowH,x0+labelW+10*colW,y+rowH);
+    line(x0,y,x0,y+rowH);line(x0+labelW,y,x0+labelW,y+rowH);
+    ctx.font=`${bold?'bold ':''}21px Arial`;ctx.textAlign="left";ctx.textBaseline="middle";ctx.fillText(label,x0+10,y+rowH/2);
+    for(let i=0;i<10;i++){let x=x0+labelW+i*colW;line(x+colW,y,x+colW,y+rowH);cellText(vals[i]??"",x,y,colW,rowH,bold,21)}
+  }
+  let y=y0;
+  // sample info
+  const samplePairs=data.samples.flatMap(s=>[s.boring,s.boring]);
+  row("Boring No.",samplePairs,y,true);y+=rowH;
+  row("Depth / Elevation (ft)",data.samples.flatMap(s=>[s.depth,s.depth]),y);y+=rowH;
+  row("Sample No.",data.samples.flatMap(s=>[s.sample,s.sample]),y);y+=rowH;
+  row("Material Description",data.samples.flatMap(s=>[s.desc,s.desc]),y);y+=rowH;
+  row("USCS Check One",data.samples.flatMap(s=>[s.uscs,s.uscs]),y);y+=rowH+12;
+
+  ctx.font="bold 26px Arial";ctx.textAlign="center";ctx.fillText("LIQUID LIMIT DETERMINATION",900,y+22);y+=46;
+  row("Tare No.",Array.from({length:10},(_,i)=>i+1),y,true);y+=rowH;
+  const llVals=(key,fmt)=>data.samples.flatMap(s=>s.ll.map(t=>{const x=llCalc(t);let v=(key in t)?t[key]:x[key];if(fmt==="r1")v=r1(v);return v??""}));
+  row("Wet Soil + Tare (g)",llVals("wet"),y);y+=rowH;
+  row("Dry Soil + Tare (g)",llVals("dry"),y);y+=rowH;
+  row("Tare (g)",llVals("tare"),y);y+=rowH;
+  row("Mass of Dry Soil (g)",llVals("drySoil","r1"),y);y+=rowH;
+  row("Mass of Water (g)",llVals("water","r1"),y);y+=rowH;
+  row("Water Content (%)",llVals("wc","r1"),y);y+=rowH;
+  row("No. of Blows (N)",llVals("blows"),y);y+=rowH;
+  row("Liquid Limit (LL)",llVals("ll","r1"),y);y+=rowH;
+  row("Average Liquid Limit (LL)",data.samples.flatMap(s=>{let c=sampleCalc(s);return [c.finalLL??"",c.finalLL??""]}),y,true);y+=rowH+12;
+
+  ctx.font="bold 26px Arial";ctx.textAlign="center";ctx.fillText("PLASTIC LIMIT DETERMINATION",900,y+22);y+=46;
+  row("Tare No.",Array.from({length:10},(_,i)=>i+1),y,true);y+=rowH;
+  const plVals=(key,fmt)=>data.samples.flatMap(s=>s.pl.map(t=>{const x=plCalc(t);let v=(key in t)?t[key]:x[key];if(fmt==="r1")v=r1(v);if(fmt==="r2")v=r2(v);return v??""}));
+  row("Wet Soil + Tare (g)",plVals("wet"),y);y+=rowH;
+  row("Dry Soil + Tare (g)",plVals("dry"),y);y+=rowH;
+  row("Tare (g)",plVals("tare"),y);y+=rowH;
+  row("Mass of Dry Soil (g)",plVals("drySoil","r1"),y);y+=rowH;
+  row("Mass of Water (g)",plVals("water","r2"),y);y+=rowH;
+  row("Water Content (%)",plVals("wc","r1"),y);y+=rowH;
+  row("Average Plastic Limit (PL)",data.samples.flatMap(s=>{let c=sampleCalc(s);return [c.finalPL??"",c.finalPL??""]}),y,true);y+=rowH;
+  row("Plasticity Index (PI)",data.samples.flatMap(s=>{let c=sampleCalc(s);return [c.pi??"",c.pi??""]}),y,true);y+=rowH;
+  row("REMARKS",[val("remarks"),"","","","","","","","",""],y);y+=rowH;
+
+  ctx.font="20px Arial";ctx.textAlign="left";ctx.fillText("Soils Form No. 107   •   Soil Lab Calculator v6",70,2315);
+  const a=document.createElement("a");a.href=canvas.toDataURL("image/png");a.download=`Atterberg_${val("job")||"worksheet"}.png`;a.click();
 }
 
 function calcMoisture(){
-  const wet = num(document.getElementById('mc_wet').value);
-  const dry = num(document.getElementById('mc_dry').value);
-  const tare = num(document.getElementById('mc_tare').value);
-
-  let drymass = null, water = null, wc = null;
-  if(wet!=null && dry!=null && tare!=null){
-    drymass = dry - tare;
-    water = wet - dry;
-    if(drymass > 0){
-      wc = (water / drymass) * 100;
-    }
-  }
-  document.getElementById('mc_drymass').value = drymass!=null ? round1(drymass) : '';
-  document.getElementById('mc_water').value = water!=null ? round1(water) : '';
-  document.getElementById('mc_wc').value = wc!=null ? round1(wc) : '';
+  const wet=n(val("mwet")),dry=n(val("mdry")),tare=n(val("mtare"));
+  const ds=(dry!=null&&tare!=null)?dry-tare:null, w=(wet!=null&&dry!=null)?wet-dry:null;
+  const wc=(ds!=null&&ds>0&&w!=null)?w/ds*100:null;
+  document.getElementById("mdrysoil").value=r1(ds);
+  document.getElementById("mwater").value=r1(w);
+  document.getElementById("mwc").value=r1(wc);
 }
 
-function loadDemoB19(){
-  document.getElementById('meta_date').value = '8-22-04';
-  document.getElementById('meta_tech').value = 'RB';
-  document.getElementById('meta_scale').value = '012';
-  document.getElementById('meta_job').value = '26-346';
-  document.getElementById('meta_boring').value = 'B-19';
-  document.getElementById('meta_depth').value = '6-8';
-  document.getElementById('meta_uscs').value = 'Nat. wt. (B)';
-
-  document.getElementById('ll_1_wet').value='30.6';
-  document.getElementById('ll_1_dry').value='17.2';
-  document.getElementById('ll_1_tare').value='2';
-  document.getElementById('ll_1_blows').value='29';
-
-  document.getElementById('ll_2_wet').value='31.0';
-  document.getElementById('ll_2_dry').value='17.4';
-  document.getElementById('ll_2_tare').value='2';
-  document.getElementById('ll_2_blows').value='30';
-
-  document.getElementById('ll_3_wet').value='';
-  document.getElementById('ll_3_dry').value='';
-  document.getElementById('ll_3_tare').value='2';
-  document.getElementById('ll_3_blows').value='';
-
-  document.getElementById('ll_4_wet').value='';
-  document.getElementById('ll_4_dry').value='';
-  document.getElementById('ll_4_tare').value='2';
-  document.getElementById('ll_4_blows').value='';
-
-  document.getElementById('pl_1_wet').value='41.1';
-  document.getElementById('pl_1_dry').value='40.3';
-  document.getElementById('pl_1_tare').value='32.1';
-
-  document.getElementById('pl_2_wet').value='42.4';
-  document.getElementById('pl_2_dry').value='40.5';
-  document.getElementById('pl_2_tare').value='32.2';
-
-  document.getElementById('pl_method').value='lookup';
-  recalcAtterberg();
-}
-
-function loadDemoB22(){
-  document.getElementById('meta_date').value = '8-22-04';
-  document.getElementById('meta_tech').value = 'RB';
-  document.getElementById('meta_scale').value = '012';
-  document.getElementById('meta_job').value = '26-346';
-  document.getElementById('meta_boring').value = 'B-22';
-  document.getElementById('meta_depth').value = '4-6';
-  document.getElementById('meta_uscs').value = 'Nat. wt. (B)';
-
-  document.getElementById('ll_1_wet').value='27.9';
-  document.getElementById('ll_1_dry').value='16.1';
-  document.getElementById('ll_1_tare').value='2';
-  document.getElementById('ll_1_blows').value='24';
-
-  document.getElementById('ll_2_wet').value='28.3';
-  document.getElementById('ll_2_dry').value='16.4';
-  document.getElementById('ll_2_tare').value='2';
-  document.getElementById('ll_2_blows').value='25';
-
-  document.getElementById('ll_3_wet').value='';
-  document.getElementById('ll_3_dry').value='';
-  document.getElementById('ll_3_tare').value='2';
-  document.getElementById('ll_3_blows').value='';
-
-  document.getElementById('ll_4_wet').value='';
-  document.getElementById('ll_4_dry').value='';
-  document.getElementById('ll_4_tare').value='2';
-  document.getElementById('ll_4_blows').value='';
-
-  document.getElementById('pl_1_wet').value='';
-  document.getElementById('pl_1_dry').value='';
-  document.getElementById('pl_1_tare').value='';
-
-  document.getElementById('pl_2_wet').value='';
-  document.getElementById('pl_2_dry').value='';
-  document.getElementById('pl_2_tare').value='';
-
-  document.getElementById('pl_method').value='lookup';
-  recalcAtterberg();
-}
-
-function clearAllData(){
-  document.querySelectorAll('input').forEach(el=>{
-    if(el.id.startsWith('meta_')) return;
-    if(el.id.endsWith('_tare') && (el.id.startsWith('ll_'))) { el.value='2'; return; }
-    el.value='';
-  });
-  document.getElementById('pl_method').value='lookup';
-  recalcAtterberg();
-}
-
-function printWorksheet(){ window.print(); }
-
-document.querySelectorAll('.tab').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
-    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById(btn.dataset.panel).classList.add('active');
-  });
+function renderAll(){renderTabs();renderEditor();renderWorksheet()}
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");document.getElementById(b.dataset.panel).classList.add("active");
 });
-
-if('serviceWorker' in navigator){
-  window.addEventListener('load', ()=>{
-    navigator.serviceWorker.register('./sw.js').catch(()=>{});
-  });
-}
-
-buildTrialUI();
-recalcAtterberg();
+["date","tech","project","scale","job","remarks"].forEach(id=>document.getElementById(id).addEventListener("input",()=>{save();renderWorksheet()}));
+load();renderAll();
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}))}
 </script>
-</body>
-</html>
+</body></html>
