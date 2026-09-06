@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Soil Lab Calculator v7</title>
+<title>Soil Lab Calculator v8</title>
 <link rel="manifest" href="./manifest.webmanifest">
 <meta name="theme-color" content="#0f172a">
 <style>
@@ -45,14 +45,35 @@ input[readonly]{background:#f8fafc;font-weight:800} textarea{min-height:72px}
 .hidden{display:none!important}.mini{font-size:13px;color:#64748b}
 hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
 @media(max-width:850px){.f,.f3,.f4{grid-column:span 12}.trial-grid{grid-template-columns:1fr}.summary{grid-template-columns:1fr}.samples{grid-template-columns:repeat(5, minmax(70px,1fr));overflow:auto}.hero h1{font-size:27px}}
-@media print{body{background:#fff}.hero,.tabs,.input-only,.actions,.samples,.hide-print{display:none!important}.app{max-width:none;padding:0}.card{border:0;box-shadow:none;padding:0;margin:0}.ws-wrap{overflow:visible;border:0}.ws{min-width:0;font-size:10px}}
+@page{size:Letter landscape;margin:0.18in}
+@media print{
+  html,body{background:#fff!important;margin:0!important;padding:0!important}
+  .hero,.tabs,.input-only,.actions,.samples,.hide-print{display:none!important}
+  .app{max-width:none!important;width:100%!important;margin:0!important;padding:0!important}
+  .card{border:0!important;box-shadow:none!important;padding:0!important;margin:0!important}
+  .card>.badge,.card>p{display:none!important}
+  .ws-wrap{overflow:visible!important;border:0!important;border-radius:0!important;zoom:.78}
+  .ws{
+    min-width:0!important;width:100%!important;font-size:7.2px!important;
+    line-height:1.02!important;page-break-inside:avoid!important;break-inside:avoid-page!important
+  }
+  .ws th,.ws td{padding:1.5px 2px!important}
+  .ws .title{font-size:11px!important;padding:4px!important}
+  .ws .section{font-size:8.5px!important;padding:3px!important}
+  .ws .remark-cell{height:50px!important;white-space:pre-wrap!important;vertical-align:top!important}
+  .ws .footer-cell{height:40px!important}
+}
+
+.pl-primary{background:#eefbf6!important;border-color:#9fd7bb!important}
+.rangehint{font-size:12px;color:#0f766e;font-weight:750;margin-top:4px}
+
 </style>
 </head>
 <body>
 <div class="app">
   <div class="hero">
     <h1>Soil Lab Calculator</h1>
-    <p>Atterberg Limits + Moisture • Multi-sample worksheet • Lab reverse-engineering mode • v7</p>
+    <p>Atterberg Limits + Moisture • Multi-sample worksheet • Lab reverse-engineering mode • v8</p>
   </div>
 
   <div class="tabs">
@@ -69,7 +90,7 @@ hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
         <div class="f"><label>Project Name</label><input id="project"></div>
         <div class="f3"><label>Scale ID No.</label><input id="scale" value="012"></div>
         <div class="f3"><label>Job No.</label><input id="job" value="26-346"></div>
-        <div class="f"><label>Remarks</label><input id="remarks"></div>
+        <div class="f"><label>Remarks</label><textarea id="remarks" rows="4" placeholder="Remarks / notes for the final worksheet"></textarea></div>
       </div>
       <div class="actions">
         <button class="btn good" onclick="loadDemoSheet()">Load B-19 + B-22 Demo</button>
@@ -139,7 +160,16 @@ function blankTrial(no){
   return {tareNo:no,wet:"",dry:"",tare:2,blows:"",kOverride:""};
 }
 function blankPL(no){
-  return {tareNo:no,wet:"",dry:"",tare:"",drySoil:""};
+  const first=(no%2===1);
+  return {
+    tareNo:no,
+    tare:first?"33.1":"33.2",
+    drySoil:first?"7.2":"7.3",
+    dry:"",
+    water:"",
+    wc:"",
+    wet:""
+  };
 }
 function blankSample(i){
   return {
@@ -173,11 +203,24 @@ function llCalc(t){
   return {drySoil,water,wc,k,ll};
 }
 function plCalc(t){
-  const wet=n(t.wet),dry=n(t.dry),tare=n(t.tare);
-  const drySoil=(dry!=null&&tare!=null)?dry-tare:null;
-  const water=(wet!=null&&dry!=null)?wet-dry:null;
-  const wc=(drySoil!=null&&drySoil>0&&water!=null)?water/drySoil*100:null;
-  return {drySoil,water,wc};
+  const tare=n(t.tare);
+  let drySoil=n(t.drySoil);
+  let dry=n(t.dry);
+  let water=n(t.water);
+  let wc=n(t.wc);
+  let wet=n(t.wet);
+
+  // Primary PL logic: Tare + Mass Dry Soil
+  if(dry==null && tare!=null && drySoil!=null) dry=tare+drySoil;
+  if(drySoil==null && dry!=null && tare!=null) drySoil=dry-tare;
+
+  // Remaining rows can be entered manually or derived.
+  if(water==null && wet!=null && dry!=null) water=wet-dry;
+  if(water==null && wc!=null && drySoil!=null) water=drySoil*wc/100;
+  if(wc==null && water!=null && drySoil!=null && drySoil>0) wc=water/drySoil*100;
+  if(wet==null && dry!=null && water!=null) wet=dry+water;
+
+  return {tare,drySoil,dry,water,wc,wet};
 }
 function sampleCalc(s){
   const llc=s.ll.map(llCalc).filter(x=>x.ll!=null);
@@ -201,6 +244,29 @@ function maybeLookupPL(ll){
   return null;
 }
 
+function rebuildOnePL(s,j){
+  const target=n(s.labPL);
+  if(target==null)return;
+  const t=s.pl[j];
+  let tare=n(t.tare);
+  let drySoil=n(t.drySoil);
+
+  // Default lab working ranges only when blank:
+  if(tare==null) tare=(j===0?33.1:33.2);
+  if(drySoil==null) drySoil=(j===0?7.2:7.3);
+
+  const wc=(j===0?target-0.2:target+0.3);
+  const dry=tare+drySoil;
+  const water=drySoil*wc/100;
+  const wet=dry+water;
+
+  t.tare=tare.toFixed(1);
+  t.drySoil=drySoil.toFixed(1);
+  t.dry=dry.toFixed(2);
+  t.water=water.toFixed(2);
+  t.wc=wc.toFixed(1);
+  t.wet=wet.toFixed(2);
+}
 function buildReversePL(s){
   const c=sampleCalc(s);
   let target=n(s.labPL);
@@ -209,12 +275,8 @@ function buildReversePL(s){
     if(sug!=null){s.labPL=sug;target=sug;}
   }
   if(target==null)return;
-  const wc1=target-0.2, wc2=target+0.3;
-  const tare1=33.1,tare2=33.2,dry1=7.2,dry2=7.3;
-  const dryT1=tare1+dry1, dryT2=tare2+dry2;
-  const water1=dry1*wc1/100, water2=dry2*wc2/100;
-  s.pl[0].tare=tare1.toFixed(1); s.pl[0].dry=dryT1.toFixed(1); s.pl[0].wet=(dryT1+water1).toFixed(2);
-  s.pl[1].tare=tare2.toFixed(1); s.pl[1].dry=dryT2.toFixed(1); s.pl[1].wet=(dryT2+water2).toFixed(2);
+  rebuildOnePL(s,0);
+  rebuildOnePL(s,1);
 }
 
 function renderTabs(){
@@ -264,6 +326,11 @@ function renderEditor(){
   </div>
 
   <hr><h3>Plastic Limit — lower half of the lab sheet</h3>
+  <div class="goodnote" style="margin-bottom:10px">
+    Start each PL trial with the two primary values: <b>Tare = 33.0–33.5 g</b> and
+    <b>Mass Dry Soil = 7.0–7.5 g</b>. The green button fills the remaining rows from the lab PL.
+    Every PL field remains editable for different samples.
+  </div>
   <div class="fields">
     <div class="f4"><label>PL Source</label><select onchange="data.samples[activeSample].plMode=this.value;save();renderAll()">
       <option value="lookup" ${s.plMode==='lookup'?'selected':''}>Lab Lookup / Reverse-Engineer</option>
@@ -275,21 +342,32 @@ function renderEditor(){
     </div>
   </div>
   <div class="actions">
-    <button class="btn good" onclick="autoPL()">Generate PL Rows from Lab PL</button>
+    <button class="btn good" onclick="autoPL()">Calculate PL Rows from Tare + Dry Soil + Lab PL</button>
     <button class="btn light" onclick="suggestPL()">Use confirmed LL→PL lookup</button>
   </div>
   <div class="trial-grid" style="margin-top:10px">`;
 
   s.pl.forEach((t,j)=>{
     const x=plCalc(t);
+    const tareWarn=(x.tare!=null && (x.tare<33 || x.tare>33.5));
+    const dryWarn=(x.drySoil!=null && (x.drySoil<7 || x.drySoil>7.5));
     html+=`<div class="trial"><h4>PL Trial ${j+1} • Tare No. ${t.tareNo}</h4>
       <div class="fields">
-        <div class="f"><label>Wet + Tare</label><input type="text" inputmode="decimal" value="${t.wet}" oninput="updPL(${j},'wet',this.value)"></div>
-        <div class="f"><label>Dry + Tare</label><input type="text" inputmode="decimal" value="${t.dry}" oninput="updPL(${j},'dry',this.value)"></div>
-        <div class="f"><label>Tare</label><input type="text" inputmode="decimal" value="${t.tare}" oninput="updPL(${j},'tare',this.value)"></div>
-        <div class="f"><label>Mass Dry Soil</label><input id="llout_${j}_drysoil" readonly value="${r1(x.drySoil)}"></div>
-        <div class="f"><label>Mass Water</label><input readonly value="${r2(x.water)}"></div>
-        <div class="f"><label>Water Content %</label><input id="llout_${j}_wc" readonly value="${r1(x.wc)}"></div>
+        <div class="f">
+          <label>Tare (primary)</label>
+          <input id="pl_${j}_tare" class="pl-primary" type="text" inputmode="decimal" value="${t.tare}" oninput="updPL(${j},'tare',this.value)">
+          <div class="rangehint">${tareWarn?'⚠ ':''}Lab working range: 33.0–33.5 g</div>
+        </div>
+        <div class="f">
+          <label>Mass Dry Soil (primary)</label>
+          <input id="pl_${j}_drySoil" class="pl-primary" type="text" inputmode="decimal" value="${t.drySoil}" oninput="updPL(${j},'drySoil',this.value)">
+          <div class="rangehint">${dryWarn?'⚠ ':''}Lab working range: 7.0–7.5 g</div>
+        </div>
+
+        <div class="f"><label>Dry + Tare</label><input id="pl_${j}_dry" type="text" inputmode="decimal" value="${t.dry!==''?t.dry:r2(x.dry)}" oninput="updPL(${j},'dry',this.value)"></div>
+        <div class="f"><label>Mass Water</label><input id="pl_${j}_water" type="text" inputmode="decimal" value="${t.water!==''?t.water:r2(x.water)}" oninput="updPL(${j},'water',this.value)"></div>
+        <div class="f"><label>Water Content %</label><input id="pl_${j}_wc" type="text" inputmode="decimal" value="${t.wc!==''?t.wc:r1(x.wc)}" oninput="updPL(${j},'wc',this.value)"></div>
+        <div class="f"><label>Wet + Tare</label><input id="pl_${j}_wet" type="text" inputmode="decimal" value="${t.wet!==''?t.wet:r2(x.wet)}" oninput="updPL(${j},'wet',this.value)"></div>
       </div></div>`;
   });
 
@@ -320,12 +398,6 @@ function refreshComputedOnly(){
     setText(`llout_${j}_k`, x.k!=null?x.k.toFixed(3):'');
     setText(`llout_${j}_ll`, r1(x.ll));
   });
-  s.pl.forEach((t,j)=>{
-    const x=plCalc(t);
-    setText(`plout_${j}_drysoil`, r1(x.drySoil));
-    setText(`plout_${j}_water`, r2(x.water));
-    setText(`plout_${j}_wc`, r1(x.wc));
-  });
   const c=sampleCalc(s);
   setHTMLText('sum_ll', c.finalLL??'—');
   setHTMLText('sum_pl', c.finalPL??'—');
@@ -351,8 +423,33 @@ function updLL(j,k,v){
   save();
   refreshComputedOnly();
 }
+function syncPLTrialInputs(j,exceptKey=""){
+  const t=data.samples[activeSample].pl[j];
+  const x=plCalc(t);
+  const values={
+    tare:t.tare,
+    drySoil:t.drySoil,
+    dry:t.dry!==""?t.dry:r2(x.dry),
+    water:t.water!==""?t.water:r2(x.water),
+    wc:t.wc!==""?t.wc:r1(x.wc),
+    wet:t.wet!==""?t.wet:r2(x.wet)
+  };
+  Object.entries(values).forEach(([k,v])=>{
+    if(k===exceptKey)return;
+    setText(`pl_${j}_${k}`,v);
+  });
+}
 function updPL(j,k,v){
-  data.samples[activeSample].pl[j][k]=v;
+  const s=data.samples[activeSample];
+  s.pl[j][k]=v;
+
+  // In lab reverse-engineering mode, changing either primary value
+  // immediately recalculates the rest without rebuilding the DOM.
+  if(s.autoReverse && n(s.labPL)!=null && (k==="tare" || k==="drySoil")){
+    rebuildOnePL(s,j);
+    syncPLTrialInputs(j,k);
+  }
+
   save();
   refreshComputedOnly();
 }
@@ -392,9 +489,30 @@ function clearSheet(){
   data={samples:Array.from({length:NUM_SAMPLES},(_,i)=>blankSample(i))};
   activeSample=0;save();renderAll();
 }
-function save(){localStorage.setItem("soilLabV6",JSON.stringify(data))}
+function normalizeSavedData(){
+  data.samples.forEach((s,si)=>{
+    if(!Array.isArray(s.pl)) s.pl=[blankPL(si*2+1),blankPL(si*2+2)];
+    s.pl.forEach((t,j)=>{
+      if(t.tare===undefined || t.tare==="") t.tare=(j===0?"33.1":"33.2");
+      if(t.drySoil===undefined || t.drySoil==="") {
+        const oldDry=n(t.dry), oldTare=n(t.tare);
+        t.drySoil=(oldDry!=null&&oldTare!=null)?r1(oldDry-oldTare):(j===0?"7.2":"7.3");
+      }
+      if(t.water===undefined) t.water="";
+      if(t.wc===undefined) t.wc="";
+      if(t.wet===undefined) t.wet="";
+      if(t.dry===undefined) t.dry="";
+    });
+  });
+}
+function save(){localStorage.setItem("soilLabV8",JSON.stringify(data))}
 function load(){
-  try{const x=JSON.parse(localStorage.getItem("soilLabV6"));if(x&&Array.isArray(x.samples))data=x}catch(e){}
+  try{
+    const raw=localStorage.getItem("soilLabV8") || localStorage.getItem("soilLabV6");
+    const x=raw?JSON.parse(raw):null;
+    if(x&&Array.isArray(x.samples))data=x;
+    normalizeSavedData();
+  }catch(e){}
 }
 
 function renderWorksheet(){
@@ -424,10 +542,9 @@ function renderWorksheet(){
     S.forEach(s=>s.pl.forEach(t=>{
       let v="";
       const x=plCalc(t);
-      if(key in t)v=t[key];
-      else if(key in x){
+      if(key in x){
         const y=x[key]; v=fmt==="r1"?r1(y):fmt==="r2"?r2(y):y??"";
-      }
+      } else if(key in t) v=t[key];
       tds+=`<td>${v}</td>`;
     }));
     return `<tr><td class="l"><b>${label}</b></td>${tds}</tr>`;
@@ -469,8 +586,8 @@ function renderWorksheet(){
     ${plRow("Water Content (%)","wc","r1")}
     <tr><td class="l"><b>Average Plastic Limit (PL)</b></td>${avgPL}</tr>
     <tr><td class="l"><b>Plasticity Index (PI)</b></td>${PI}</tr>
-    <tr><td class="l"><b>REMARKS</b></td><td colspan="10">${val("remarks")}</td></tr>
-    <tr><td colspan="6" class="l" style="height:58px"><b>Tested By:</b> ${val("tech")}<br><br><b>Computed By:</b><br><br><b>Checked By:</b></td>
+    <tr><td class="l"><b>REMARKS</b></td><td colspan="10" class="remark-cell" style="height:82px;white-space:pre-wrap;vertical-align:top;text-align:left">${val("remarks")}</td></tr>
+    <tr><td colspan="6" class="l footer-cell" style="height:58px"><b>Tested By:</b> ${val("tech")}<br><br><b>Computed By:</b><br><br><b>Checked By:</b></td>
         <td colspan="5"><b>TESTING EQUIPMENT USED</b><br>Hand Roller &nbsp; | &nbsp; Mechanical Rolling Device &nbsp; | &nbsp; Manual &nbsp; | &nbsp; Mechanical<br>Plastic Limit &nbsp; | &nbsp; Liquid Limit &nbsp; | &nbsp; Casagrande / ASTM Grooving Tool</td></tr>
     <tr><td colspan="11" class="l">Soils Form No. 107 &nbsp;&nbsp;&nbsp; Rev. 01-05</td></tr>
   </table>`;
@@ -535,9 +652,9 @@ function exportPNG(){
   row("Water Content (%)",plVals("wc","r1"),y);y+=rowH;
   row("Average Plastic Limit (PL)",data.samples.flatMap(s=>{let c=sampleCalc(s);return [c.finalPL??"",c.finalPL??""]}),y,true);y+=rowH;
   row("Plasticity Index (PI)",data.samples.flatMap(s=>{let c=sampleCalc(s);return [c.pi??"",c.pi??""]}),y,true);y+=rowH;
-  row("REMARKS",[val("remarks"),"","","","","","","","",""],y);y+=rowH;
+  row("REMARKS",[val("remarks"),"","","","","","","","",""],y);y+=rowH*2;
 
-  ctx.font="20px Arial";ctx.textAlign="left";ctx.fillText("Soils Form No. 107   •   Soil Lab Calculator v7",70,2315);
+  ctx.font="20px Arial";ctx.textAlign="left";ctx.fillText("Soils Form No. 107   •   Soil Lab Calculator v8",70,2315);
   const a=document.createElement("a");a.href=canvas.toDataURL("image/png");a.download=`Atterberg_${val("job")||"worksheet"}.png`;a.click();
 }
 
