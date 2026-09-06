@@ -7,7 +7,7 @@
   "display": "standalone",
   "background_color": "#f4f7fb",
   "theme_color": "#0f172a",
-  "description": "Geotechnical soil lab calculator for Moisture Content and Atterberg Limits with multi-sample worksheet output.",
+  "description": "Geotechnical soil lab calculator for Moisture Content and Atterberg Limits with stable iPhone decimal input and multi-sample worksheet output.",
   "icons": [
     {
       "src": "icon-192.png",

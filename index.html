@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Soil Lab Calculator v6</title>
+<title>Soil Lab Calculator v7</title>
 <link rel="manifest" href="./manifest.webmanifest">
 <meta name="theme-color" content="#0f172a">
 <style>
@@ -52,7 +52,7 @@ hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
 <div class="app">
   <div class="hero">
     <h1>Soil Lab Calculator</h1>
-    <p>Atterberg Limits + Moisture • Multi-sample worksheet • Lab reverse-engineering mode • v6</p>
+    <p>Atterberg Limits + Moisture • Multi-sample worksheet • Lab reverse-engineering mode • v7</p>
   </div>
 
   <div class="tabs">
@@ -115,9 +115,9 @@ hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
     <div class="card">
       <span class="badge">Moisture Content</span>
       <div class="fields">
-        <div class="f"><label>Wet Soil + Tare (g)</label><input id="mwet" type="number" step="0.01" oninput="calcMoisture()"></div>
-        <div class="f"><label>Dry Soil + Tare (g)</label><input id="mdry" type="number" step="0.01" oninput="calcMoisture()"></div>
-        <div class="f"><label>Tare (g)</label><input id="mtare" type="number" step="0.01" oninput="calcMoisture()"></div>
+        <div class="f"><label>Wet Soil + Tare (g)</label><input id="mwet" type="text" inputmode="decimal" oninput="calcMoisture()"></div>
+        <div class="f"><label>Dry Soil + Tare (g)</label><input id="mdry" type="text" inputmode="decimal" oninput="calcMoisture()"></div>
+        <div class="f"><label>Tare (g)</label><input id="mtare" type="text" inputmode="decimal" oninput="calcMoisture()"></div>
         <div class="f"><label>Mass of Dry Soil (g)</label><input id="mdrysoil" readonly></div>
         <div class="f"><label>Mass of Water (g)</label><input id="mwater" readonly></div>
         <div class="f"><label>Water Content (%)</label><input id="mwc" readonly></div>
@@ -153,7 +153,13 @@ function blankSample(i){
 }
 let data={samples:Array.from({length:NUM_SAMPLES},(_,i)=>blankSample(i))};
 
-function n(v){const x=parseFloat(v);return Number.isFinite(x)?x:null}
+function n(v){
+  if(v===null || v===undefined) return null;
+  const s=String(v).trim().replace(/,/g,'.').replace(/٫/g,'.');
+  if(s==='' || s==='.' || s==='-' || s==='-.') return null;
+  const x=parseFloat(s);
+  return Number.isFinite(x)?x:null
+}
 function r1(x){return x==null?"":(Math.round((x+Number.EPSILON)*10)/10).toFixed(1)}
 function r2(x){return x==null?"":(Math.round((x+Number.EPSILON)*100)/100).toFixed(2)}
 function llCalc(t){
@@ -225,7 +231,7 @@ function renderEditor(){
     <div class="f3"><label>Boring No.</label><input id="e_boring" value="${s.boring}" oninput="upd('boring',this.value)"></div>
     <div class="f3"><label>Sample No.</label><input id="e_sample" value="${s.sample}" oninput="upd('sample',this.value)"></div>
     <div class="f3"><label>Depth / Elevation (ft)</label><input id="e_depth" value="${s.depth}" oninput="upd('depth',this.value)"></div>
-    <div class="f3"><label>USCS Check One</label><select onchange="upd('uscs',this.value)">
+    <div class="f3"><label>USCS Check One</label><select onchange="data.samples[activeSample].uscs=this.value;save();renderAll()">
       <option ${s.uscs==='Nat. wt. (B)'?'selected':''}>Nat. wt. (B)</option>
       <option ${s.uscs==='Air-Dried (A)'?'selected':''}>Air-Dried (A)</option>
     </select></div>
@@ -237,35 +243,35 @@ function renderEditor(){
     const x=llCalc(t);
     html+=`<div class="trial"><h4>LL Trial ${j+1} • Tare No. ${t.tareNo}</h4>
       <div class="fields">
-        <div class="f"><label>Wet + Tare</label><input type="number" step=".01" value="${t.wet}" oninput="updLL(${j},'wet',this.value)"></div>
-        <div class="f"><label>Dry + Tare</label><input type="number" step=".01" value="${t.dry}" oninput="updLL(${j},'dry',this.value)"></div>
-        <div class="f"><label>Tare</label><input type="number" step=".01" value="${t.tare}" oninput="updLL(${j},'tare',this.value)"></div>
-        <div class="f"><label>No. of Blows</label><input type="number" step="1" value="${t.blows}" oninput="updLL(${j},'blows',this.value)"></div>
-        <div class="f"><label>Lab K Override</label><input type="number" step=".001" value="${t.kOverride}" placeholder="${x.k??''}" oninput="updLL(${j},'kOverride',this.value)"></div>
-        <div class="f"><label>Mass Dry Soil</label><input readonly value="${r1(x.drySoil)}"></div>
-        <div class="f"><label>Mass Water</label><input readonly value="${r1(x.water)}"></div>
-        <div class="f"><label>Water Content %</label><input readonly value="${r1(x.wc)}"></div>
-        <div class="f"><label>K Used</label><input readonly value="${x.k!=null?x.k.toFixed(3):''}"></div>
-        <div class="f"><label>Liquid Limit</label><input readonly value="${r1(x.ll)}"></div>
+        <div class="f"><label>Wet + Tare</label><input type="text" inputmode="decimal" value="${t.wet}" oninput="updLL(${j},'wet',this.value)"></div>
+        <div class="f"><label>Dry + Tare</label><input type="text" inputmode="decimal" value="${t.dry}" oninput="updLL(${j},'dry',this.value)"></div>
+        <div class="f"><label>Tare</label><input type="text" inputmode="decimal" value="${t.tare}" oninput="updLL(${j},'tare',this.value)"></div>
+        <div class="f"><label>No. of Blows</label><input type="text" inputmode="numeric" value="${t.blows}" oninput="updLL(${j},'blows',this.value)"></div>
+        <div class="f"><label>Lab K Override</label><input type="text" inputmode="decimal" value="${t.kOverride}" placeholder="${x.k??''}" oninput="updLL(${j},'kOverride',this.value)"></div>
+        <div class="f"><label>Mass Dry Soil</label><input id="llout_${j}_drysoil" readonly value="${r1(x.drySoil)}"></div>
+        <div class="f"><label>Mass Water</label><input id="llout_${j}_water" readonly value="${r1(x.water)}"></div>
+        <div class="f"><label>Water Content %</label><input id="llout_${j}_wc" readonly value="${r1(x.wc)}"></div>
+        <div class="f"><label>K Used</label><input id="llout_${j}_k" readonly value="${x.k!=null?x.k.toFixed(3):''}"></div>
+        <div class="f"><label>Liquid Limit</label><input id="llout_${j}_ll" readonly value="${r1(x.ll)}"></div>
       </div></div>`;
   });
 
   html+=`</div>
   <div class="summary">
-    <div class="box"><div class="k">Average LL</div><div class="v">${c.finalLL??'—'}</div></div>
-    <div class="box"><div class="k">Final PL</div><div class="v">${c.finalPL??'—'}</div></div>
-    <div class="box"><div class="k">PI = LL − PL</div><div class="v">${c.pi??'—'}</div></div>
+    <div class="box"><div class="k">Average LL</div><div class="v" id="sum_ll">${c.finalLL??'—'}</div></div>
+    <div class="box"><div class="k">Final PL</div><div class="v" id="sum_pl">${c.finalPL??'—'}</div></div>
+    <div class="box"><div class="k">PI = LL − PL</div><div class="v" id="sum_pi">${c.pi??'—'}</div></div>
   </div>
 
   <hr><h3>Plastic Limit — lower half of the lab sheet</h3>
   <div class="fields">
-    <div class="f4"><label>PL Source</label><select onchange="upd('plMode',this.value)">
+    <div class="f4"><label>PL Source</label><select onchange="data.samples[activeSample].plMode=this.value;save();renderAll()">
       <option value="lookup" ${s.plMode==='lookup'?'selected':''}>Lab Lookup / Reverse-Engineer</option>
       <option value="measured" ${s.plMode==='measured'?'selected':''}>Measured PL Trials</option>
     </select></div>
-    <div class="f4"><label>Lab PL from lookup table</label><input type="number" step="1" value="${s.labPL}" oninput="upd('labPL',this.value)"></div>
+    <div class="f4"><label>Lab PL from lookup table</label><input type="text" inputmode="numeric" value="${s.labPL}" oninput="upd('labPL',this.value)"></div>
     <div class="f4"><label>Auto reverse-engineer rows</label>
-      <select onchange="upd('autoReverse',this.value==='yes')"><option value="yes" ${s.autoReverse?'selected':''}>Yes</option><option value="no" ${!s.autoReverse?'selected':''}>No</option></select>
+      <select onchange="data.samples[activeSample].autoReverse=(this.value==='yes');save();renderAll()"><option value="yes" ${s.autoReverse?'selected':''}>Yes</option><option value="no" ${!s.autoReverse?'selected':''}>No</option></select>
     </div>
   </div>
   <div class="actions">
@@ -278,38 +284,78 @@ function renderEditor(){
     const x=plCalc(t);
     html+=`<div class="trial"><h4>PL Trial ${j+1} • Tare No. ${t.tareNo}</h4>
       <div class="fields">
-        <div class="f"><label>Wet + Tare</label><input type="number" step=".01" value="${t.wet}" oninput="updPL(${j},'wet',this.value)"></div>
-        <div class="f"><label>Dry + Tare</label><input type="number" step=".01" value="${t.dry}" oninput="updPL(${j},'dry',this.value)"></div>
-        <div class="f"><label>Tare</label><input type="number" step=".01" value="${t.tare}" oninput="updPL(${j},'tare',this.value)"></div>
-        <div class="f"><label>Mass Dry Soil</label><input readonly value="${r1(x.drySoil)}"></div>
+        <div class="f"><label>Wet + Tare</label><input type="text" inputmode="decimal" value="${t.wet}" oninput="updPL(${j},'wet',this.value)"></div>
+        <div class="f"><label>Dry + Tare</label><input type="text" inputmode="decimal" value="${t.dry}" oninput="updPL(${j},'dry',this.value)"></div>
+        <div class="f"><label>Tare</label><input type="text" inputmode="decimal" value="${t.tare}" oninput="updPL(${j},'tare',this.value)"></div>
+        <div class="f"><label>Mass Dry Soil</label><input id="llout_${j}_drysoil" readonly value="${r1(x.drySoil)}"></div>
         <div class="f"><label>Mass Water</label><input readonly value="${r2(x.water)}"></div>
-        <div class="f"><label>Water Content %</label><input readonly value="${r1(x.wc)}"></div>
+        <div class="f"><label>Water Content %</label><input id="llout_${j}_wc" readonly value="${r1(x.wc)}"></div>
       </div></div>`;
   });
 
   html+=`</div>
   <div class="summary">
-    <div class="box"><div class="k">Measured Avg PL</div><div class="v">${c.measuredPL??'—'}</div></div>
-    <div class="box"><div class="k">Worksheet PL</div><div class="v">${c.finalPL??'—'}</div></div>
-    <div class="box"><div class="k">Worksheet PI</div><div class="v">${c.pi??'—'}</div></div>
+    <div class="box"><div class="k">Measured Avg PL</div><div class="v" id="sum_measured_pl">${c.measuredPL??'—'}</div></div>
+    <div class="box"><div class="k">Worksheet PL</div><div class="v" id="sum_ws_pl">${c.finalPL??'—'}</div></div>
+    <div class="box"><div class="k">Worksheet PI</div><div class="v" id="sum_ws_pi">${c.pi??'—'}</div></div>
   </div>`;
   document.getElementById("sampleEditor").innerHTML=html;
 }
 
+function setText(id,value){
+  const el=document.getElementById(id);
+  if(el) el.value=(value??'');
+}
+function setHTMLText(id,value){
+  const el=document.getElementById(id);
+  if(el) el.textContent=(value??'');
+}
+function refreshComputedOnly(){
+  const s=data.samples[activeSample];
+  s.ll.forEach((t,j)=>{
+    const x=llCalc(t);
+    setText(`llout_${j}_drysoil`, r1(x.drySoil));
+    setText(`llout_${j}_water`, r1(x.water));
+    setText(`llout_${j}_wc`, r1(x.wc));
+    setText(`llout_${j}_k`, x.k!=null?x.k.toFixed(3):'');
+    setText(`llout_${j}_ll`, r1(x.ll));
+  });
+  s.pl.forEach((t,j)=>{
+    const x=plCalc(t);
+    setText(`plout_${j}_drysoil`, r1(x.drySoil));
+    setText(`plout_${j}_water`, r2(x.water));
+    setText(`plout_${j}_wc`, r1(x.wc));
+  });
+  const c=sampleCalc(s);
+  setHTMLText('sum_ll', c.finalLL??'—');
+  setHTMLText('sum_pl', c.finalPL??'—');
+  setHTMLText('sum_pi', c.pi??'—');
+  setHTMLText('sum_measured_pl', c.measuredPL??'—');
+  setHTMLText('sum_ws_pl', c.finalPL??'—');
+  setHTMLText('sum_ws_pi', c.pi??'—');
+  renderWorksheet();
+}
 function upd(k,v){
   data.samples[activeSample][k]=v;
-  if(k==='labPL' && data.samples[activeSample].autoReverse) buildReversePL(data.samples[activeSample]);
-  save();renderAll();
+  save();
+  if(k==='boring') renderTabs();
+  refreshComputedOnly();
 }
 function updLL(j,k,v){
   data.samples[activeSample].ll[j][k]=v;
   const c=sampleCalc(data.samples[activeSample]);
   if(c.finalLL!=null && !data.samples[activeSample].labPL){
-    const pl=maybeLookupPL(c.finalLL); if(pl!=null)data.samples[activeSample].labPL=pl;
+    const pl=maybeLookupPL(c.finalLL);
+    if(pl!=null) data.samples[activeSample].labPL=pl;
   }
-  save();renderAll();
+  save();
+  refreshComputedOnly();
 }
-function updPL(j,k,v){data.samples[activeSample].pl[j][k]=v;save();renderAll()}
+function updPL(j,k,v){
+  data.samples[activeSample].pl[j][k]=v;
+  save();
+  refreshComputedOnly();
+}
 function suggestPL(){
   const s=data.samples[activeSample], c=sampleCalc(s);
   if(c.finalLL==null){alert("Enter LL data first.");return}
@@ -491,7 +537,7 @@ function exportPNG(){
   row("Plasticity Index (PI)",data.samples.flatMap(s=>{let c=sampleCalc(s);return [c.pi??"",c.pi??""]}),y,true);y+=rowH;
   row("REMARKS",[val("remarks"),"","","","","","","","",""],y);y+=rowH;
 
-  ctx.font="20px Arial";ctx.textAlign="left";ctx.fillText("Soils Form No. 107   •   Soil Lab Calculator v6",70,2315);
+  ctx.font="20px Arial";ctx.textAlign="left";ctx.fillText("Soils Form No. 107   •   Soil Lab Calculator v7",70,2315);
   const a=document.createElement("a");a.href=canvas.toDataURL("image/png");a.download=`Atterberg_${val("job")||"worksheet"}.png`;a.click();
 }
 
