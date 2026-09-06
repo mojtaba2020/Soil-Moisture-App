@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
@@ -12,74 +12,222 @@
 <title>Soil Lab Calculator</title>
 <style>
 :root{
-  --bg:#f3f6f8; --card:#fff; --text:#111827; --muted:#64748b;
-  --line:#cbd5e1; --accent:#0f766e; --accent2:#7c3aed; --danger:#b91c1c; --ok:#166534;
+  --bg:#f4f7f8; --card:#fff; --text:#0f172a; --muted:#64748b; --line:#d7e0e6;
+  --navy:#0f172a; --teal:#2f7f76; --teal2:#e8f4f1; --purple:#6d28d9; --green:#166534;
+  --greenbg:#ecfdf5; --amber:#9a3412; --amberbg:#fff7ed; --red:#991b1b; --redbg:#fef2f2;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text)}
+html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
 body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
-.wrap{max-width:760px;margin:0 auto;padding:14px 12px 40px}
-.header{background:#0f172a;color:#fff;border-radius:20px;padding:18px;margin-bottom:12px}
-.header h1{margin:0 0 4px;font-size:24px;direction:ltr;text-align:left}
-.header p{margin:0;color:#dbe4ee;font-size:14px;line-height:1.7}
-.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
-.tab{background:#e2e8f0;color:#0f172a;border:0;border-radius:14px;padding:13px;font-weight:800;font-size:15px}
-.tab.active{background:#0f766e;color:#fff}
+.wrap{max-width:820px;margin:0 auto;padding:14px 12px 44px}
+.header{background:var(--navy);color:#fff;border-radius:22px;padding:20px;margin-bottom:12px;box-shadow:0 8px 24px rgba(15,23,42,.12)}
+.header h1{margin:0 0 6px;font-size:26px}.header p{margin:0;color:#d7e2ed;font-size:14px;line-height:1.5}
+.tabs{display:grid;grid-template-columns:1.25fr .75fr;gap:9px;margin:12px 0}
+.tab{border:0;border-radius:15px;padding:14px 10px;background:#e2e8f0;color:#0f172a;font-size:16px;font-weight:850}
+.tab.active{background:var(--teal);color:#fff}
 .panel{display:none}.panel.active{display:block}
-.card{background:var(--card);border-radius:18px;padding:16px;margin:12px 0;box-shadow:0 2px 10px rgba(0,0,0,.06)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.full{grid-column:1/-1}
-label{display:block;font-size:13px;font-weight:700;color:#334155;margin-bottom:6px}
-input{width:100%;padding:14px 12px;border:1.5px solid var(--line);border-radius:12px;font-size:18px;background:#fff;outline:none}
-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(15,118,110,.12)}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-button{border:0;border-radius:12px;padding:13px 14px;font-size:16px;font-weight:800}
-.actions button{flex:1;min-width:130px}
-.primary{background:var(--accent);color:#fff}
-.secondary{background:#e2e8f0;color:#0f172a}
-.purple{background:var(--accent2);color:#fff}
-.danger{background:#fee2e2;color:#991b1b}
-.result{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.box{background:#f8fafc;border:1px solid #dbe3e8;border-radius:14px;padding:13px}
-.box strong{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
-.box span{font-size:21px;font-weight:900;direction:ltr;display:inline-block}
-.main{grid-column:1/-1;background:#ecfdf5;border-color:#a7f3d0}
-.main span{font-size:34px;color:var(--ok)}
-.purplebox{background:#f5f3ff;border-color:#ddd6fe}
-.purplebox span{color:#6d28d9}
-.formula{direction:ltr;text-align:center;background:#f8fafc;border:1px dashed #94a3b8;border-radius:14px;padding:14px;font-size:17px;font-weight:800;margin-top:12px}
-.note{font-size:13px;color:var(--muted);line-height:1.8}
-.err{display:none;background:#fef2f2;border:1px solid #fecaca;color:#991b1b;padding:10px 12px;border-radius:12px;margin-top:12px;font-size:14px}
-.warn{display:none;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;padding:10px 12px;border-radius:12px;margin-top:12px;font-size:14px}
-.section-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
-.section-title h2{font-size:18px;margin:0}
-.badge{display:inline-block;background:#e2e8f0;border-radius:999px;padding:4px 8px;font-size:12px;color:#334155}
-.trial{border:1px solid #e2e8f0;border-radius:15px;padding:12px;margin:10px 0;background:#fafafa}
-.trial h3{margin:0 0 10px;font-size:15px}
-.k-table{width:100%;border-collapse:collapse;font-size:12px;direction:ltr}
-.k-table th,.k-table td{padding:7px 4px;border-bottom:1px solid #e5e7eb;text-align:center}
-.install{background:#eef2ff;border:1px solid #c7d2fe}
-@media(max-width:560px){.grid,.result{grid-template-columns:1fr}.main,.full{grid-column:auto}}
+.card{background:var(--card);border-radius:20px;padding:16px;margin:12px 0;box-shadow:0 2px 12px rgba(15,23,42,.06)}
+.section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}
+.section-head h2{margin:0;font-size:20px}.section-head p{margin:3px 0 0;font-size:12px;color:var(--muted);line-height:1.5}
+.badge{white-space:nowrap;background:#e2e8f0;color:#334155;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.full{grid-column:1/-1}
+label{display:block;font-size:12px;font-weight:800;color:#334155;margin:0 0 5px}
+input,select{width:100%;border:1.5px solid var(--line);border-radius:12px;background:#fff;padding:13px 12px;font-size:17px;outline:none;color:var(--text)}
+input:focus,select:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(47,127,118,.12)}
+.trial{border:1px solid #e2e8f0;border-radius:16px;padding:13px;background:#fbfcfd;margin-top:11px}
+.trial-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.trial-title h3{margin:0;font-size:15px}.trial-title span{font-size:11px;color:var(--muted)}
+.result-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:11px}
+.box{background:#f8fafc;border:1px solid #dbe3e8;border-radius:14px;padding:11px;min-height:72px}
+.box strong{display:block;color:var(--muted);font-size:11px;margin-bottom:5px}.box span{font-size:20px;font-weight:900}
+.box.primary{grid-column:1/-1;background:var(--greenbg);border-color:#a7f3d0}.box.primary span{font-size:31px;color:var(--green)}
+.box.purple{background:#f5f3ff;border-color:#ddd6fe}.box.purple span{color:var(--purple)}
+.final-strip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
+.final{border-radius:16px;padding:12px;text-align:center;border:1px solid #dbe3e8;background:#f8fafc}
+.final small{display:block;color:var(--muted);font-size:10px;font-weight:800;margin-bottom:4px}.final b{font-size:27px}
+.final.ll{background:#eff6ff}.final.pl{background:#fff7ed}.final.pi{background:#ecfdf5}.final.pi b{color:var(--green)}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}.actions button{flex:1;min-width:120px;border:0;border-radius:12px;padding:12px;font-size:14px;font-weight:850}
+.primary-btn{background:var(--teal);color:#fff}.secondary-btn{background:#e2e8f0;color:#0f172a}.danger-btn{background:#fee2e2;color:#991b1b}
+.note,.warning,.error,.success{border-radius:13px;padding:10px 11px;font-size:12px;line-height:1.6;margin-top:10px}
+.note{background:#f8fafc;border:1px solid #dbe3e8;color:#475569}.warning{background:var(--amberbg);border:1px solid #fed7aa;color:var(--amber)}
+.error{display:none;background:var(--redbg);border:1px solid #fecaca;color:var(--red)}.success{display:none;background:var(--greenbg);border:1px solid #bbf7d0;color:var(--green)}
+.formula{direction:ltr;text-align:center;font-size:14px;font-weight:850;background:#f8fafc;border:1px dashed #94a3b8;border-radius:13px;padding:11px;margin-top:10px}
+.lookup-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:end}.auto-value{background:#f8fafc;border:1px solid #dbe3e8;border-radius:12px;padding:13px;font-size:18px;font-weight:900;min-height:49px}
+.lookup-status{font-size:11px;color:var(--muted);margin-top:5px}.verified-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:12px}.verified-table th,.verified-table td{border-bottom:1px solid #e5e7eb;padding:8px 5px;text-align:center}
+.k-wrap{overflow-x:auto}.k-table{min-width:620px;width:100%;border-collapse:collapse;font-size:11px}.k-table th,.k-table td{padding:7px 4px;border-bottom:1px solid #e5e7eb;text-align:center}
+details{border:1px solid #e2e8f0;border-radius:15px;padding:11px;background:#fbfcfd;margin-top:12px}summary{font-weight:850;cursor:pointer}
+.history-item{border:1px solid #e2e8f0;border-radius:13px;padding:10px;margin-top:8px;background:#fbfcfd;display:flex;justify-content:space-between;gap:10px;align-items:center}.history-item small{color:var(--muted);display:block;margin-top:3px}.history-item button{border:0;border-radius:10px;background:#fee2e2;color:#991b1b;padding:8px 10px;font-weight:800}
+.mini{font-size:11px;color:var(--muted)}
+@media(max-width:600px){.grid,.lookup-row,.result-grid{grid-template-columns:1fr}.full,.box.primary{grid-column:auto}.final-strip{grid-template-columns:repeat(3,1fr)}.final b{font-size:23px}.tabs{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="header">
     <h1>Soil Lab Calculator</h1>
-    <p>Moisture Content + Atterberg Limits (LL / PL / PI)</p>
+    <p>GET-style workflow helper • Moisture + Atterberg Limits</p>
   </div>
 
   <div class="tabs">
-    <button class="tab active" data-panel="moisture">Moisture</button>
-    <button class="tab" data-panel="atterberg">Atterberg</button>
+    <button class="tab active" data-panel="atterberg">Atterberg</button>
+    <button class="tab" data-panel="moisture">Moisture</button>
   </div>
 
-  <section id="moisture" class="panel active">
+  <section id="atterberg" class="panel active">
     <div class="card">
-      <div class="section-title">
-        <h2>Moisture Content</h2>
-        <span class="badge">Wet / Dry / Tare</span>
+      <div class="section-head">
+        <div><h2>Sample</h2><p>Identify the boring/depth before calculations.</p></div>
+        <span class="badge">Lab Sheet</span>
       </div>
+      <div class="grid">
+        <div><label>Boring No.</label><input id="a_boring" placeholder="B-19"></div>
+        <div><label>Depth (ft)</label><input id="a_depth" placeholder="6-8"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-head">
+        <div><h2>Liquid Limit (LL)</h2><p>Two Casagrande trials • 20–30 blows</p></div>
+        <span class="badge">One-Point</span>
+      </div>
+
+      <div class="trial">
+        <div class="trial-title"><h3>LL Trial 1</h3><span>Measured values</span></div>
+        <div class="grid">
+          <div><label>Wet Soil + Tare (g)</label><input id="ll1_wet" inputmode="decimal" placeholder="30.6"></div>
+          <div><label>Dry Soil + Tare (g)</label><input id="ll1_dry" inputmode="decimal" placeholder="17.2"></div>
+          <div><label>Tare (g)</label><input id="ll1_tare" inputmode="decimal" placeholder="2.0"></div>
+          <div><label>No. of Blows (20–30)</label><input id="ll1_n" inputmode="numeric" placeholder="29"></div>
+        </div>
+        <div class="result-grid">
+          <div class="box"><strong>Mass of Dry Soil</strong><span id="ll1_ds">—</span></div>
+          <div class="box"><strong>Mass of Water</strong><span id="ll1_water">—</span></div>
+          <div class="box"><strong>Water Content</strong><span id="ll1_w">—</span></div>
+          <div class="box"><strong>K Factor</strong><span id="ll1_k">—</span></div>
+          <div class="box primary purple"><strong>Corrected Liquid Limit</strong><span id="ll1_ll">—</span></div>
+        </div>
+      </div>
+
+      <div class="trial">
+        <div class="trial-title"><h3>LL Trial 2</h3><span>Measured values</span></div>
+        <div class="grid">
+          <div><label>Wet Soil + Tare (g)</label><input id="ll2_wet" inputmode="decimal" placeholder="31.0"></div>
+          <div><label>Dry Soil + Tare (g)</label><input id="ll2_dry" inputmode="decimal" placeholder="17.4"></div>
+          <div><label>Tare (g)</label><input id="ll2_tare" inputmode="decimal" placeholder="2.0"></div>
+          <div><label>No. of Blows (20–30)</label><input id="ll2_n" inputmode="numeric" placeholder="30"></div>
+        </div>
+        <div class="result-grid">
+          <div class="box"><strong>Mass of Dry Soil</strong><span id="ll2_ds">—</span></div>
+          <div class="box"><strong>Mass of Water</strong><span id="ll2_water">—</span></div>
+          <div class="box"><strong>Water Content</strong><span id="ll2_w">—</span></div>
+          <div class="box"><strong>K Factor</strong><span id="ll2_k">—</span></div>
+          <div class="box primary purple"><strong>Corrected Liquid Limit</strong><span id="ll2_ll">—</span></div>
+        </div>
+      </div>
+
+      <div id="ll_error" class="error"></div>
+      <div id="ll_warning" class="warning" style="display:none"></div>
+      <div class="result-grid">
+        <div class="box"><strong>Average Corrected LL</strong><span id="ll_avg_dec">—</span></div>
+        <div class="box primary"><strong>Lab Report LL (rounded)</strong><span id="ll_report">—</span></div>
+      </div>
+      <div class="formula">Water Content = (Wet − Dry) ÷ (Dry − Tare) × 100 &nbsp; • &nbsp; LL = Water Content × K</div>
+    </div>
+
+    <div class="card">
+      <div class="section-head">
+        <div><h2>PL / PI Reference</h2><p>Uses only lab lookup values that you have personally confirmed.</p></div>
+        <span class="badge">Lab Lookup</span>
+      </div>
+
+      <div class="lookup-row">
+        <div>
+          <label>Final LL</label>
+          <div class="auto-value" id="ref_ll">—</div>
+          <div class="lookup-status">Taken from rounded LL above.</div>
+        </div>
+        <div>
+          <label>PL from Lab Lookup</label>
+          <input id="pl_manual" inputmode="numeric" placeholder="Auto if verified; otherwise enter wall-table PL">
+          <div class="lookup-status" id="lookup_status">Verified auto values currently: LL 79→PL 23, LL 83→PL 24, LL 90→PL 25.</div>
+        </div>
+      </div>
+
+      <div class="final-strip">
+        <div class="final ll"><small>LL</small><b id="final_ll">—</b></div>
+        <div class="final pl"><small>PL</small><b id="final_pl">—</b></div>
+        <div class="final pi"><small>PI = LL − PL</small><b id="final_pi">—</b></div>
+      </div>
+
+      <table class="verified-table">
+        <tr><th>Verified LL</th><th>PL</th><th>PI</th></tr>
+        <tr><td>79</td><td>23</td><td>56</td></tr>
+        <tr><td>83</td><td>24</td><td>59</td></tr>
+        <tr><td>90</td><td>25</td><td>65</td></tr>
+      </table>
+      <div class="note">If LL is not one of the verified values above, the app will not invent a PL. Read PL from the official lab lookup table and enter it manually; PI is then calculated automatically.</div>
+    </div>
+
+    <details>
+      <summary>Optional: Measured Plastic Limit check</summary>
+      <div class="note">Use this only when actual PL wet/dry/tare measurements were performed. These are measurements, not values generated from a target PL.</div>
+      <div class="trial">
+        <div class="trial-title"><h3>PL Trial 1</h3><span>Optional measured check</span></div>
+        <div class="grid">
+          <div><label>Wet + Tare (g)</label><input id="pl1_wet" inputmode="decimal"></div>
+          <div><label>Dry + Tare (g)</label><input id="pl1_dry" inputmode="decimal"></div>
+          <div class="full"><label>Tare (g)</label><input id="pl1_tare" inputmode="decimal"></div>
+        </div>
+        <div class="result-grid">
+          <div class="box"><strong>Dry Soil</strong><span id="pl1_ds">—</span></div>
+          <div class="box"><strong>Water</strong><span id="pl1_water">—</span></div>
+          <div class="box primary"><strong>Measured PL Trial 1</strong><span id="pl1_w">—</span></div>
+        </div>
+      </div>
+      <div class="trial">
+        <div class="trial-title"><h3>PL Trial 2</h3><span>Optional measured check</span></div>
+        <div class="grid">
+          <div><label>Wet + Tare (g)</label><input id="pl2_wet" inputmode="decimal"></div>
+          <div><label>Dry + Tare (g)</label><input id="pl2_dry" inputmode="decimal"></div>
+          <div class="full"><label>Tare (g)</label><input id="pl2_tare" inputmode="decimal"></div>
+        </div>
+        <div class="result-grid">
+          <div class="box"><strong>Dry Soil</strong><span id="pl2_ds">—</span></div>
+          <div class="box"><strong>Water</strong><span id="pl2_water">—</span></div>
+          <div class="box primary"><strong>Measured PL Trial 2</strong><span id="pl2_w">—</span></div>
+        </div>
+      </div>
+      <div id="pl_error" class="error"></div>
+      <div class="result-grid"><div class="box primary"><strong>Average Measured PL</strong><span id="pl_avg_measured">—</span></div></div>
+    </details>
+
+    <div class="card">
+      <div class="section-head"><div><h2>Quick Actions</h2><p>Test with your B-19 example or save a finished result.</p></div></div>
+      <div class="actions">
+        <button class="primary-btn" id="example_btn">Load B-19 Example</button>
+        <button class="secondary-btn" id="save_btn">Save Result</button>
+        <button class="danger-btn" id="reset_btn">Clear</button>
+      </div>
+      <div id="save_success" class="success">Saved on this device.</div>
+    </div>
+
+    <div class="card">
+      <div class="section-head"><div><h2>Recent Results</h2><p>Stored only on this device.</p></div><span class="badge">Local</span></div>
+      <div id="history"><div class="mini">No saved results yet.</div></div>
+      <div class="actions"><button class="secondary-btn" id="csv_btn">Export CSV</button></div>
+    </div>
+
+    <div class="card">
+      <div class="section-head"><div><h2>K Factor Table</h2><p>20–30 blows</p></div><span class="badge">LL Correction</span></div>
+      <div class="k-wrap"><table class="k-table">
+        <tr><th>N</th><th>20</th><th>21</th><th>22</th><th>23</th><th>24</th><th>25</th><th>26</th><th>27</th><th>28</th><th>29</th><th>30</th></tr>
+        <tr><th>K</th><td>.973</td><td>.979</td><td>.985</td><td>.990</td><td>.995</td><td>1.000</td><td>1.005</td><td>1.009</td><td>1.014</td><td>1.018</td><td>1.022</td></tr>
+      </table></div>
+    </div>
+  </section>
+
+  <section id="moisture" class="panel">
+    <div class="card">
+      <div class="section-head"><div><h2>Moisture Content</h2><p>Wet / Dry / Tare</p></div><span class="badge">Moisture</span></div>
       <div class="grid">
         <div><label>Boring No.</label><input id="m_boring" placeholder="B-19"></div>
         <div><label>Depth (ft)</label><input id="m_depth" placeholder="6-8"></div>
@@ -87,233 +235,132 @@ button{border:0;border-radius:12px;padding:13px 14px;font-size:16px;font-weight:
         <div><label>Tare + Dry Soil (g)</label><input id="m_dry" inputmode="decimal" placeholder="22.5"></div>
         <div class="full"><label>Tare / Empty Cup (g)</label><input id="m_tare" inputmode="decimal" placeholder="2.0"></div>
       </div>
-      <div id="m_err" class="err"></div>
-      <div class="result">
-        <div class="box"><strong>Dry Soil</strong><span id="m_drysoil">—</span></div>
+      <div id="m_error" class="error"></div>
+      <div class="result-grid">
+        <div class="box"><strong>Dry Soil</strong><span id="m_ds">—</span></div>
         <div class="box"><strong>Water / Weight Loss</strong><span id="m_water">—</span></div>
-        <div class="box main"><strong>Moisture Content, w (%)</strong><span id="m_mc">—</span></div>
+        <div class="box primary"><strong>Moisture Content w (%)</strong><span id="m_w">—</span></div>
       </div>
       <div class="formula">w (%) = (Wet − Dry) ÷ (Dry − Tare) × 100</div>
     </div>
   </section>
 
-  <section id="atterberg" class="panel">
-    <div class="card">
-      <div class="section-title">
-        <h2>Liquid Limit (LL)</h2>
-        <span class="badge">One-Point Correction</span>
-      </div>
-
-      <div class="trial">
-        <h3>LL Trial 1</h3>
-        <div class="grid">
-          <div><label>Wet + Tare (g)</label><input id="ll1_wet" inputmode="decimal" placeholder="30.6"></div>
-          <div><label>Dry + Tare (g)</label><input id="ll1_dry" inputmode="decimal" placeholder="17.2"></div>
-          <div><label>Tare (g)</label><input id="ll1_tare" inputmode="decimal" placeholder="2.0"></div>
-          <div><label>No. of Blows (20–30)</label><input id="ll1_n" inputmode="numeric" placeholder="29"></div>
-        </div>
-        <div class="result">
-          <div class="box"><strong>Water Content</strong><span id="ll1_w">—</span></div>
-          <div class="box"><strong>K Factor</strong><span id="ll1_k">—</span></div>
-          <div class="box main purplebox"><strong>Corrected LL</strong><span id="ll1_ll">—</span></div>
-        </div>
-      </div>
-
-      <div class="trial">
-        <h3>LL Trial 2</h3>
-        <div class="grid">
-          <div><label>Wet + Tare (g)</label><input id="ll2_wet" inputmode="decimal" placeholder="31.0"></div>
-          <div><label>Dry + Tare (g)</label><input id="ll2_dry" inputmode="decimal" placeholder="17.4"></div>
-          <div><label>Tare (g)</label><input id="ll2_tare" inputmode="decimal" placeholder="2.0"></div>
-          <div><label>No. of Blows (20–30)</label><input id="ll2_n" inputmode="numeric" placeholder="30"></div>
-        </div>
-        <div class="result">
-          <div class="box"><strong>Water Content</strong><span id="ll2_w">—</span></div>
-          <div class="box"><strong>K Factor</strong><span id="ll2_k">—</span></div>
-          <div class="box main purplebox"><strong>Corrected LL</strong><span id="ll2_ll">—</span></div>
-        </div>
-      </div>
-
-      <div id="ll_err" class="err"></div>
-      <div id="ll_warn" class="warn"></div>
-
-      <div class="result">
-        <div class="box main"><strong>Average Liquid Limit (LL)</strong><span id="ll_avg">—</span></div>
-      </div>
-
-      <div class="formula">LL = w × K</div>
-    </div>
-
-    <div class="card">
-      <div class="section-title">
-        <h2>Plastic Limit (PL)</h2>
-        <span class="badge">2 Trials</span>
-      </div>
-
-      <div class="trial">
-        <h3>PL Trial 1</h3>
-        <div class="grid">
-          <div><label>Wet + Tare (g)</label><input id="pl1_wet" inputmode="decimal"></div>
-          <div><label>Dry + Tare (g)</label><input id="pl1_dry" inputmode="decimal"></div>
-          <div class="full"><label>Tare (g)</label><input id="pl1_tare" inputmode="decimal" placeholder="2.0"></div>
-        </div>
-        <div class="result">
-          <div class="box main purplebox"><strong>PL Water Content</strong><span id="pl1_w">—</span></div>
-        </div>
-      </div>
-
-      <div class="trial">
-        <h3>PL Trial 2</h3>
-        <div class="grid">
-          <div><label>Wet + Tare (g)</label><input id="pl2_wet" inputmode="decimal"></div>
-          <div><label>Dry + Tare (g)</label><input id="pl2_dry" inputmode="decimal"></div>
-          <div class="full"><label>Tare (g)</label><input id="pl2_tare" inputmode="decimal" placeholder="2.0"></div>
-        </div>
-        <div class="result">
-          <div class="box main purplebox"><strong>PL Water Content</strong><span id="pl2_w">—</span></div>
-        </div>
-      </div>
-
-      <div id="pl_err" class="err"></div>
-      <div class="result">
-        <div class="box main"><strong>Average Plastic Limit (PL)</strong><span id="pl_avg">—</span></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="section-title">
-        <h2>Plasticity Index</h2>
-        <span class="badge">PI = LL − PL</span>
-      </div>
-      <div class="result">
-        <div class="box main"><strong>Plasticity Index (PI)</strong><span id="pi">—</span></div>
-      </div>
-      <div class="actions">
-        <button class="purple" onclick="calcAtterberg()">محاسبه Atterberg</button>
-        <button class="secondary" onclick="resetAtterberg()">پاک کردن</button>
-      </div>
-    </div>
-
-    <div class="card">
-      <strong>K Factor Table (20–30 blows)</strong>
-      <div class="note">جدول داخلی اپ:</div>
-      <table class="k-table">
-        <tr><th>N</th><th>20</th><th>21</th><th>22</th><th>23</th><th>24</th><th>25</th><th>26</th><th>27</th><th>28</th><th>29</th><th>30</th></tr>
-        <tr><th>K</th><td>.973</td><td>.979</td><td>.985</td><td>.990</td><td>.995</td><td>1.000</td><td>1.005</td><td>1.009</td><td>1.014</td><td>1.018</td><td>1.022</td></tr>
-      </table>
-    </div>
-  </section>
-
-  <div class="card install">
-    <strong>نکته مهم</strong>
-    <div class="note">
-      این ابزار برای سرعت محاسبه ساخته شده. SOP رسمی آزمایشگاه و روش تأییدشده پروژه همیشه اولویت دارد.
-      اگر جدول دیواری آزمایشگاه با این ضرایب فرق داشت، ضرایب اپ باید مطابق جدول رسمی لَب تغییر کند.
-    </div>
+  <div class="card">
+    <div class="warning" style="display:block;margin:0">Official project/lab SOP and the physical lab lookup table always take priority. This app calculates from entered measurements and does not invent unverified PL lookup values.</div>
   </div>
 </div>
 
 <script>
 const KTABLE={20:.973,21:.979,22:.985,23:.990,24:.995,25:1.000,26:1.005,27:1.009,28:1.014,29:1.018,30:1.022};
+const VERIFIED_PL={79:23,83:24,90:25};
 const $=id=>document.getElementById(id);
 const num=id=>{const v=parseFloat($(id).value);return Number.isFinite(v)?v:null};
-
-document.querySelectorAll(".tab").forEach(b=>{
-  b.addEventListener("click",()=>{
-    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-    document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
-    b.classList.add("active"); $(b.dataset.panel).classList.add("active");
-  })
-});
+const txt=(id,v)=>$(id).textContent=v;
+function show(id,msg){const el=$(id);el.textContent=msg;el.style.display=msg?"block":"none"}
 
 function moistureCalc(wet,dry,tare){
-  if(wet===null||dry===null||tare===null) return {ok:false,msg:"هر سه وزن را وارد کن."};
-  if(wet<dry) return {ok:false,msg:"Wet نباید از Dry کمتر باشد."};
-  if(dry<=tare) return {ok:false,msg:"Dry باید از Tare بیشتر باشد."};
+  if(wet===null||dry===null||tare===null) return {ok:false,msg:"Enter Wet, Dry, and Tare."};
+  if(wet<dry) return {ok:false,msg:"Wet + Tare cannot be less than Dry + Tare."};
+  if(dry<=tare) return {ok:false,msg:"Dry + Tare must be greater than Tare."};
   const drySoil=dry-tare, water=wet-dry, w=water/drySoil*100;
   return {ok:true,drySoil,water,w};
 }
-function show(id,msg){$(id).textContent=msg;$(id).style.display=msg?"block":"none"}
 
 function calcMoisture(){
   const r=moistureCalc(num("m_wet"),num("m_dry"),num("m_tare"));
-  if(!r.ok){show("m_err",r.msg);["m_drysoil","m_water","m_mc"].forEach(id=>$(id).textContent="—");return}
-  show("m_err","");
-  $("m_drysoil").textContent=r.drySoil.toFixed(1)+" g";
-  $("m_water").textContent=r.water.toFixed(1)+" g";
-  $("m_mc").textContent=r.w.toFixed(1)+" %";
+  if(!r.ok){show("m_error",r.msg);txt("m_ds","—");txt("m_water","—");txt("m_w","—");return}
+  show("m_error","");txt("m_ds",r.drySoil.toFixed(2)+" g");txt("m_water",r.water.toFixed(2)+" g");txt("m_w",r.w.toFixed(1)+" %");
 }
-["m_wet","m_dry","m_tare"].forEach(id=>$(id).addEventListener("input",calcMoisture));
 
+function clearLL(prefix){["ds","water","w","k","ll"].forEach(s=>txt(prefix+"_"+s,"—"))}
 function llTrial(prefix){
-  const r=moistureCalc(num(prefix+"_wet"),num(prefix+"_dry"),num(prefix+"_tare"));
-  const n=num(prefix+"_n");
+  const wet=num(prefix+"_wet"),dry=num(prefix+"_dry"),tare=num(prefix+"_tare"),n=num(prefix+"_n");
+  const r=moistureCalc(wet,dry,tare);
   if(!r.ok) return {ok:false,msg:r.msg};
-  if(n===null || !Number.isInteger(n) || !(n in KTABLE)) return {ok:false,msg:"Blow count باید عدد صحیح بین 20 تا 30 باشد."};
-  const k=KTABLE[n], ll=r.w*k;
-  $(prefix+"_w").textContent=r.w.toFixed(1)+" %";
-  $(prefix+"_k").textContent=k.toFixed(3);
-  $(prefix+"_ll").textContent=ll.toFixed(1)+" %";
-  return {ok:true,w:r.w,k,ll,n};
+  if(n===null||!Number.isInteger(n)||!(n in KTABLE)) return {ok:false,msg:"Blow count must be an integer from 20 to 30."};
+  const k=KTABLE[n],ll=r.w*k;
+  txt(prefix+"_ds",r.drySoil.toFixed(2)+" g");txt(prefix+"_water",r.water.toFixed(2)+" g");txt(prefix+"_w",r.w.toFixed(1)+" %");txt(prefix+"_k",k.toFixed(3));txt(prefix+"_ll",ll.toFixed(1));
+  return {ok:true,...r,k,ll,n};
 }
-function clearLL(prefix){[prefix+"_w",prefix+"_k",prefix+"_ll"].forEach(id=>$(id).textContent="—")}
-function plTrial(prefix){
-  const r=moistureCalc(num(prefix+"_wet"),num(prefix+"_dry"),num(prefix+"_tare"));
-  if(!r.ok) return {ok:false,msg:r.msg};
-  $(prefix+"_w").textContent=r.w.toFixed(1)+" %";
-  return {ok:true,w:r.w};
+
+function calcMeasuredPLTrial(prefix){
+  const fields=[prefix+"_wet",prefix+"_dry",prefix+"_tare"];
+  const any=fields.some(id=>$(id).value.trim()!=="");
+  if(!any){["ds","water","w"].forEach(s=>txt(prefix+"_"+s,"—"));return {empty:true}};
+  const r=moistureCalc(num(fields[0]),num(fields[1]),num(fields[2]));
+  if(!r.ok){["ds","water","w"].forEach(s=>txt(prefix+"_"+s,"—"));return {ok:false,msg:r.msg}};
+  txt(prefix+"_ds",r.drySoil.toFixed(2)+" g");txt(prefix+"_water",r.water.toFixed(2)+" g");txt(prefix+"_w",r.w.toFixed(1)+" %");return {ok:true,w:r.w};
 }
-function clearPL(prefix){$(prefix+"_w").textContent="—"}
 
 function calcAtterberg(){
-  show("ll_err",""); show("ll_warn",""); show("pl_err","");
-  let ll1=llTrial("ll1"), ll2=llTrial("ll2");
-  let llvals=[];
-  if(ll1.ok) llvals.push(ll1.ll); else clearLL("ll1");
-  if(ll2.ok) llvals.push(ll2.ll); else clearLL("ll2");
-
-  if(!llvals.length){
-    show("ll_err","حداقل یک LL trial کامل لازم است.");
-    $("ll_avg").textContent="—";
-  } else {
-    const avg=llvals.reduce((a,b)=>a+b,0)/llvals.length;
-    $("ll_avg").textContent=avg.toFixed(1)+" %";
-    if(llvals.length===2 && Math.abs(llvals[0]-llvals[1])>1.0){
-      show("ll_warn","اختلاف دو LL trial بیشتر از 1 percentage point است؛ طبق SOP آزمایشگاه بررسی/تکرار کن.");
-    }
+  show("ll_error","");const a=llTrial("ll1"),b=llTrial("ll2");
+  const vals=[]; if(a.ok) vals.push(a.ll); else clearLL("ll1"); if(b.ok) vals.push(b.ll); else clearLL("ll2");
+  let report=null;
+  if(!vals.length){txt("ll_avg_dec","—");txt("ll_report","—");show("ll_error","Complete at least one LL trial.");}
+  else{
+    const avg=vals.reduce((x,y)=>x+y,0)/vals.length; report=Math.round(avg);
+    txt("ll_avg_dec",avg.toFixed(1));txt("ll_report",String(report));
   }
+  const warning=$('ll_warning');
+  if(vals.length===2 && Math.abs(vals[0]-vals[1])>1){warning.textContent="The two corrected LL values differ by more than 1 point. Check the lab SOP / repeat criteria.";warning.style.display="block"}else warning.style.display="none";
 
-  let pl1=plTrial("pl1"), pl2=plTrial("pl2");
-  let plvals=[];
-  if(pl1.ok) plvals.push(pl1.w); else clearPL("pl1");
-  if(pl2.ok) plvals.push(pl2.w); else clearPL("pl2");
-  if(!plvals.length){
-    show("pl_err","حداقل یک PL trial کامل لازم است.");
-    $("pl_avg").textContent="—";
-  } else {
-    const avg=plvals.reduce((a,b)=>a+b,0)/plvals.length;
-    $("pl_avg").textContent=avg.toFixed(1)+" %";
-  }
+  txt("ref_ll",report===null?"—":String(report));txt("final_ll",report===null?"—":String(report));
+  updateLookup(report);
 
-  if(llvals.length && plvals.length){
-    const llavg=llvals.reduce((a,b)=>a+b,0)/llvals.length;
-    const plavg=plvals.reduce((a,b)=>a+b,0)/plvals.length;
-    $("pi").textContent=(llavg-plavg).toFixed(1);
-  } else $("pi").textContent="—";
+  show("pl_error","");const p1=calcMeasuredPLTrial("pl1"),p2=calcMeasuredPLTrial("pl2");
+  const pv=[]; if(p1.ok)pv.push(p1.w); if(p2.ok)pv.push(p2.w);
+  if(pv.length){txt("pl_avg_measured",(pv.reduce((x,y)=>x+y,0)/pv.length).toFixed(1));}else txt("pl_avg_measured","—");
+  if((p1.ok===false)||(p2.ok===false))show("pl_error","Measured PL check has an incomplete/invalid trial.");
+}
+
+function updateLookup(report){
+  const manualRaw=$("pl_manual").value.trim();const manual=manualRaw===""?null:parseFloat(manualRaw);
+  let pl=null,status="";
+  if(report!==null && Object.prototype.hasOwnProperty.call(VERIFIED_PL,report)){
+    pl=VERIFIED_PL[report];
+    if(manualRaw==="") $("pl_manual").placeholder="Auto: "+pl;
+    status="Verified lab value: LL "+report+" → PL "+pl+".";
+  } else if(report!==null){
+    status="LL "+report+" is not yet verified in the app. Read PL from the lab wall/reference table and enter it.";
+    $("pl_manual").placeholder="Enter PL from lab table";
+  } else status="Calculate LL first.";
+  if(Number.isFinite(manual)) {pl=manual;status+=" Manual PL is being used.";}
+  txt("lookup_status",status);txt("final_pl",pl===null?"—":String(Math.round(pl*10)/10));
+  if(report!==null && pl!==null) txt("final_pi",String(Math.round((report-pl)*10)/10)); else txt("final_pi","—");
+}
+
+function loadB19(){
+  $("a_boring").value="B-19";$("a_depth").value="6-8";
+  $("ll1_wet").value="30.6";$("ll1_dry").value="17.2";$("ll1_tare").value="2.0";$("ll1_n").value="29";
+  $("ll2_wet").value="31.0";$("ll2_dry").value="17.4";$("ll2_tare").value="2.0";$("ll2_n").value="30";
+  $("pl_manual").value="";calcAtterberg();
 }
 
 function resetAtterberg(){
-  ["ll1_wet","ll1_dry","ll1_tare","ll1_n","ll2_wet","ll2_dry","ll2_tare","ll2_n",
-   "pl1_wet","pl1_dry","pl1_tare","pl2_wet","pl2_dry","pl2_tare"].forEach(id=>$(id).value="");
-  ["ll1_w","ll1_k","ll1_ll","ll2_w","ll2_k","ll2_ll","ll_avg","pl1_w","pl2_w","pl_avg","pi"].forEach(id=>$(id).textContent="—");
-  show("ll_err","");show("ll_warn","");show("pl_err","");
+  ["a_boring","a_depth","ll1_wet","ll1_dry","ll1_tare","ll1_n","ll2_wet","ll2_dry","ll2_tare","ll2_n","pl_manual","pl1_wet","pl1_dry","pl1_tare","pl2_wet","pl2_dry","pl2_tare"].forEach(id=>$(id).value="");
+  ["ll1_ds","ll1_water","ll1_w","ll1_k","ll1_ll","ll2_ds","ll2_water","ll2_w","ll2_k","ll2_ll","ll_avg_dec","ll_report","ref_ll","final_ll","final_pl","final_pi","pl1_ds","pl1_water","pl1_w","pl2_ds","pl2_water","pl2_w","pl_avg_measured"].forEach(id=>txt(id,"—"));
+  show("ll_error","");show("pl_error","");$('ll_warning').style.display='none';txt("lookup_status","Verified auto values currently: LL 79→PL 23, LL 83→PL 24, LL 90→PL 25.");
 }
-["ll1_wet","ll1_dry","ll1_tare","ll1_n","ll2_wet","ll2_dry","ll2_tare","ll2_n",
- "pl1_wet","pl1_dry","pl1_tare","pl2_wet","pl2_dry","pl2_tare"].forEach(id=>{
-  $(id).addEventListener("input",calcAtterberg)
-});
 
-if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}))}
+function currentResult(){
+  const ll=parseFloat($("final_ll").textContent),pl=parseFloat($("final_pl").textContent),pi=parseFloat($("final_pi").textContent);
+  if(!Number.isFinite(ll)||!Number.isFinite(pl)||!Number.isFinite(pi)) return null;
+  return {id:Date.now(),date:new Date().toLocaleString(),boring:$("a_boring").value.trim(),depth:$("a_depth").value.trim(),ll,pl,pi};
+}
+function getHistory(){try{return JSON.parse(localStorage.getItem("soilLabHistoryV3")||"[]")}catch{return []}}
+function setHistory(v){localStorage.setItem("soilLabHistoryV3",JSON.stringify(v));renderHistory()}
+function saveResult(){const r=currentResult();if(!r){alert("Finish LL / PL / PI first.");return}const h=getHistory();h.unshift(r);setHistory(h.slice(0,50));show("save_success","Saved on this device.");setTimeout(()=>show("save_success",""),1800)}
+function renderHistory(){const h=getHistory(),el=$("history");if(!h.length){el.innerHTML='<div class="mini">No saved results yet.</div>';return}el.innerHTML=h.map(r=>`<div class="history-item"><div><b>${escapeHtml(r.boring||'Sample')} ${r.depth?'• '+escapeHtml(r.depth)+' ft':''}</b><small>LL ${r.ll} • PL ${r.pl} • PI ${r.pi} &nbsp; ${escapeHtml(r.date)}</small></div><button data-id="${r.id}">Delete</button></div>`).join('');el.querySelectorAll('button').forEach(b=>b.onclick=()=>setHistory(getHistory().filter(x=>String(x.id)!==b.dataset.id))}
+function escapeHtml(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+function exportCSV(){const h=getHistory();if(!h.length){alert("No saved results.");return}const rows=[["Date","Boring","Depth_ft","LL","PL","PI"],...h.map(r=>[r.date,r.boring,r.depth,r.ll,r.pl,r.pi])];const csv=rows.map(row=>row.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\n');const blob=new Blob([csv],{type:'text/csv'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='soil-lab-results.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.panel).classList.add('active')}));
+["ll1_wet","ll1_dry","ll1_tare","ll1_n","ll2_wet","ll2_dry","ll2_tare","ll2_n","pl1_wet","pl1_dry","pl1_tare","pl2_wet","pl2_dry","pl2_tare"].forEach(id=>$(id).addEventListener('input',calcAtterberg));
+$("pl_manual").addEventListener('input',()=>{const r=parseFloat($("final_ll").textContent);updateLookup(Number.isFinite(r)?r:null)});
+["m_wet","m_dry","m_tare"].forEach(id=>$(id).addEventListener('input',calcMoisture));
+$("example_btn").onclick=loadB19;$("reset_btn").onclick=resetAtterberg;$("save_btn").onclick=saveResult;$("csv_btn").onclick=exportCSV;
+renderHistory();calcAtterberg();
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
 </script>
 </body>
 </html>
