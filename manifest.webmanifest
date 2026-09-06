@@ -5,9 +5,9 @@
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f4f7f8",
+  "background_color": "#f5f7fb",
   "theme_color": "#0f172a",
-  "description": "Moisture Content and Atterberg Limits calculator for soil laboratory workflow.",
+  "description": "Moisture Content and Atterberg Limits calculator with worksheet output.",
   "icons": [
     {
       "src": "icon-192.png",
