@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#0f172a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Soil Moisture">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Soil Moisture</title>
+<style>
+:root{
+  --bg:#f3f6f8; --card:#fff; --text:#111827; --muted:#64748b;
+  --line:#cbd5e1; --accent:#0f766e; --danger:#b91c1c; --ok:#166534;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;background:var(--bg);color:var(--text)}
+body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+.wrap{max-width:720px;margin:0 auto;padding:14px 12px 36px}
+.header{background:#0f172a;color:#fff;border-radius:20px;padding:18px;margin-bottom:12px}
+.header h1{margin:0 0 4px;font-size:24px;direction:ltr;text-align:left}
+.header p{margin:0;color:#dbe4ee;font-size:14px;line-height:1.7}
+.card{background:var(--card);border-radius:18px;padding:16px;margin:12px 0;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.full{grid-column:1/-1}
+label{display:block;font-size:13px;font-weight:700;color:#334155;margin-bottom:6px}
+input{width:100%;padding:14px 12px;border:1.5px solid var(--line);border-radius:12px;font-size:18px;background:#fff;outline:none}
+input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(15,118,110,.12)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+button{border:0;border-radius:12px;padding:13px 14px;font-size:16px;font-weight:800}
+.actions button{flex:1;min-width:130px}
+.primary{background:var(--accent);color:#fff}
+.secondary{background:#e2e8f0;color:#0f172a}
+.danger{background:#fee2e2;color:#991b1b}
+.result{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.box{background:#f8fafc;border:1px solid #dbe3e8;border-radius:14px;padding:13px}
+.box strong{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
+.box span{font-size:22px;font-weight:900;direction:ltr;display:inline-block}
+.main{grid-column:1/-1;background:#ecfdf5;border-color:#a7f3d0}
+.main span{font-size:36px;color:var(--ok)}
+.formula{direction:ltr;text-align:center;background:#f8fafc;border:1px dashed #94a3b8;border-radius:14px;padding:14px;font-size:18px;font-weight:800;margin-top:12px}
+.note{font-size:13px;color:var(--muted);line-height:1.8}
+.err{display:none;background:#fef2f2;border:1px solid #fecaca;color:#991b1b;padding:10px 12px;border-radius:12px;margin-top:12px;font-size:14px}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:560px}
+th,td{border-bottom:1px solid #e5e7eb;padding:9px 5px;text-align:center}
+th{font-size:12px;color:#475569}
+.scroll{overflow-x:auto}
+.badge{display:inline-block;background:#e2e8f0;border-radius:999px;padding:4px 8px;font-size:12px;color:#334155}
+.install{background:#eef2ff;border:1px solid #c7d2fe}
+@media(max-width:560px){.grid,.result{grid-template-columns:1fr}.main,.full{grid-column:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <h1>Soil Moisture</h1>
+    <p>محاسبه سریع درصد رطوبت خاک — Wet / Dry / Tare</p>
+  </div>
+
+  <div class="card install">
+    <strong>نصب روی صفحه اصلی آیفون</strong>
+    <div class="note">در Safari این صفحه را باز کن → Share → Add to Home Screen → Add</div>
+  </div>
+
+  <div class="card">
+    <div class="grid">
+      <div>
+        <label>Boring No.</label>
+        <input id="boring" placeholder="B-19">
+      </div>
+      <div>
+        <label>Depth (ft)</label>
+        <input id="depth" placeholder="6-8">
+      </div>
+      <div>
+        <label>Tare + Wet Soil (g)</label>
+        <input id="wet" inputmode="decimal" placeholder="30.0">
+      </div>
+      <div>
+        <label>Tare + Dry Soil (g)</label>
+        <input id="dry" inputmode="decimal" placeholder="22.5">
+      </div>
+      <div class="full">
+        <label>Tare / Empty Cup (g)</label>
+        <input id="tare" inputmode="decimal" placeholder="2.0">
+      </div>
+    </div>
+
+    <div id="err" class="err"></div>
+
+    <div class="result">
+      <div class="box">
+        <strong>Dry Soil</strong>
+        <span id="drySoil">—</span>
+      </div>
+      <div class="box">
+        <strong>Water / Weight Loss</strong>
+        <span id="water">—</span>
+      </div>
+      <div class="box main">
+        <strong>Moisture Content, w (%)</strong>
+        <span id="mc">—</span>
+      </div>
+    </div>
+
+    <div class="formula">w (%) = (Wet − Dry) ÷ (Dry − Tare) × 100</div>
+
+    <div class="actions">
+      <button class="primary" onclick="calc()">محاسبه</button>
+      <button class="secondary" onclick="saveRow()">ذخیره</button>
+      <button class="danger" onclick="resetForm()">پاک کردن</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+      <div>
+        <strong>نتایج ذخیره‌شده</strong>
+        <div class="note">روی همین دستگاه ذخیره می‌شود.</div>
+      </div>
+      <span class="badge" id="count">0 نمونه</span>
+    </div>
+
+    <div class="scroll" style="margin-top:10px">
+      <table>
+        <thead>
+          <tr><th>Boring</th><th>Depth</th><th>Wet</th><th>Dry</th><th>Tare</th><th>w%</th></tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+
+    <div class="actions">
+      <button class="secondary" onclick="exportCSV()">Export CSV</button>
+      <button class="danger" onclick="clearHistory()">پاک کردن تاریخچه</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <strong>یادآوری</strong>
+    <p class="note">
+      Wet − Dry = وزن آب<br>
+      Dry − Tare = وزن خاک خشک<br>
+      Water ÷ Dry Soil × 100 = Moisture %
+    </p>
+    <p class="note">SOP و روش رسمی آزمایشگاه همیشه اولویت دارد.</p>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+function n(id){const v=parseFloat($(id).value);return Number.isFinite(v)?v:null}
+function showErr(msg){$("err").textContent=msg;$("err").style.display=msg?"block":"none"}
+function calc(){
+  const wet=n("wet"),dry=n("dry"),tare=n("tare"); showErr("");
+  if(wet===null||dry===null||tare===null){showErr("هر سه وزن Wet، Dry و Tare را وارد کن.");return null}
+  if(wet<dry){showErr("Wet نباید از Dry کمتر باشد.");return null}
+  if(dry<=tare){showErr("Dry باید از Tare بیشتر باشد.");return null}
+  const drySoil=dry-tare, water=wet-dry, mc=water/drySoil*100;
+  $("drySoil").textContent=drySoil.toFixed(1)+" g";
+  $("water").textContent=water.toFixed(1)+" g";
+  $("mc").textContent=mc.toFixed(1)+" %";
+  return {wet,dry,tare,drySoil,water,mc}
+}
+function resetForm(){
+  ["wet","dry","tare","boring","depth"].forEach(x=>$(x).value="");
+  ["drySoil","water","mc"].forEach(x=>$(x).textContent="—"); showErr("")
+}
+function getRows(){try{return JSON.parse(localStorage.getItem("soil_mc_rows")||"[]")}catch(e){return[]}}
+function setRows(rows){localStorage.setItem("soil_mc_rows",JSON.stringify(rows));renderRows()}
+function saveRow(){
+  const r=calc(); if(!r)return;
+  const rows=getRows();
+  rows.unshift({boring:$("boring").value.trim(),depth:$("depth").value.trim(),wet:r.wet,dry:r.dry,tare:r.tare,mc:r.mc});
+  setRows(rows.slice(0,100))
+}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
+function renderRows(){
+  const rows=getRows(); $("count").textContent=rows.length+" نمونه";
+  $("rows").innerHTML=rows.map(r=>`<tr><td>${esc(r.boring||"—")}</td><td>${esc(r.depth||"—")}</td><td>${r.wet.toFixed(1)}</td><td>${r.dry.toFixed(1)}</td><td>${r.tare.toFixed(1)}</td><td><strong>${r.mc.toFixed(1)}</strong></td></tr>`).join("")
+}
+function clearHistory(){if(confirm("همه نتایج پاک شوند؟"))setRows([])}
+function exportCSV(){
+  const rows=getRows(); if(!rows.length){alert("هنوز نتیجه‌ای ذخیره نشده.");return}
+  const data=[["Boring","Depth","Tare+Wet Soil (g)","Tare+Dry Soil (g)","Tare (g)","Moisture (%)"]];
+  rows.forEach(r=>data.push([r.boring,r.depth,r.wet,r.dry,r.tare,r.mc.toFixed(1)]));
+  const csv=data.map(row=>row.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(",")).join("\n");
+  const blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
+  a.href=url;a.download="soil_moisture_results.csv";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)
+}
+["wet","dry","tare"].forEach(id=>$(id).addEventListener("input",()=>calc()));
+renderRows();
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}))}
+</script>
+</body>
+</html>
