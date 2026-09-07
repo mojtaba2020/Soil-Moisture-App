@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>GET Soil Lab Suite</title>
+<title>GET Soil Lab Suite v18</title>
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="./icon-180.png?v=14">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="GET Soil Lab">
 <meta name="theme-color" content="#0f172a">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -418,6 +418,120 @@ hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
   .exp-card p{font-size:14px;line-height:1.45}
 }
 
+
+/* =========================================================
+   GET SOIL LAB SUITE — v18 PREMIUM OPENING SCREEN
+   ========================================================= */
+body.home-mode{
+  background:#f6fbff;
+}
+body.home-mode .app{
+  width:100%;
+  max-width:920px;
+  padding:0 0 54px;
+}
+body.home-mode .app > .hero,
+body.home-mode .app > .tabs{
+  display:none!important;
+}
+body.home-mode #home{
+  display:block!important;
+}
+.v18-home{
+  width:100%;
+  margin:0 auto;
+  position:relative;
+  background:#f7fbff;
+  overflow:hidden;
+  box-shadow:0 18px 50px rgba(11,54,89,.08);
+}
+.v18-home-art{
+  display:block;
+  width:100%;
+  height:auto;
+  user-select:none;
+  -webkit-user-select:none;
+  -webkit-touch-callout:none;
+  pointer-events:none;
+}
+.v18-hotspot{
+  position:absolute;
+  border:0;
+  padding:0;
+  margin:0;
+  background:transparent;
+  appearance:none;
+  -webkit-appearance:none;
+  cursor:pointer;
+  z-index:4;
+  border-radius:22px;
+  -webkit-tap-highlight-color:transparent;
+}
+.v18-hotspot:focus-visible{
+  outline:3px solid rgba(14,165,233,.78);
+  outline-offset:2px;
+}
+.v18-hotspot.card{
+  border-radius:28px;
+}
+.v18-hotspot.card:active{
+  background:rgba(255,255,255,.045);
+}
+.v18-hotspot.nav-home{left:3.4%;top:7.7%;width:20.7%;height:5.0%}
+.v18-hotspot.nav-main{left:24.5%;top:7.7%;width:25.8%;height:5.0%}
+.v18-hotspot.nav-moisture{left:50.3%;top:7.7%;width:23.4%;height:5.0%}
+.v18-hotspot.nav-atterberg{left:73.7%;top:7.7%;width:23.0%;height:5.0%}
+
+/* Card coordinates are relative to the cropped approved graphic. */
+.v18-hotspot.card-main{left:3.2%;top:28.75%;width:93.6%;height:23.20%}
+.v18-hotspot.card-moisture{left:3.2%;top:52.72%;width:93.6%;height:22.75%}
+.v18-hotspot.card-atterberg{left:3.2%;top:76.15%;width:93.6%;height:20.40%}
+
+/* Full-screen ripple used on every interactive touch/click. */
+.ui-ripple{
+  position:fixed;
+  width:18px;
+  height:18px;
+  border-radius:999px;
+  pointer-events:none;
+  z-index:999999;
+  transform:translate(-50%,-50%) scale(.1);
+  background:radial-gradient(circle,rgba(125,211,252,.52) 0%,rgba(14,165,233,.30) 40%,rgba(14,165,233,0) 72%);
+  animation:uiRippleV18 .62s ease-out forwards;
+}
+@keyframes uiRippleV18{
+  0%{opacity:.95;transform:translate(-50%,-50%) scale(.1)}
+  70%{opacity:.38}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(7.2)}
+}
+
+/* Gentle press feedback for every interactive control. */
+.v18-pressed{
+  filter:brightness(.985);
+}
+button,input,select,textarea,a,.color-choice,.sample-tab,.test-request,.obs-item{
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* Hidden live region for accessibility/status. */
+#v18AudioStatus{
+  position:absolute;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;
+}
+
+@media(max-width:520px){
+  body.home-mode .app{padding-bottom:34px}
+  .v18-hotspot{border-radius:16px}
+  .v18-hotspot.card{border-radius:22px}
+}
+@media print{
+  .v18-home{display:none!important}
+}
+
 </style>
 </head>
 <body>
@@ -438,7 +552,7 @@ hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
           <div class="main">GET Soil Lab Suite</div>
         </div>
       </div>
-      <div class="header-version">v16</div>
+      <div class="header-version">v18</div>
     </div>
     <div class="designer-strip">
       <span class="credit-dot"></span>
@@ -455,50 +569,35 @@ hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
   </div>
 
   <section class="panel active" id="home">
-    <div class="home-shell">
-      <div class="welcome-card">
-        <div class="welcome-header">
-          <div>
-            <span class="welcome-eyebrow">Welcome</span>
-            <h2 class="welcome-title">Welcome to the GET Soil Lab Suite</h2>
-            <p class="welcome-copy">Use this app to receive the engineer’s requested tests, record sample details, calculate moisture content, complete Atterberg limits, and print clean professional worksheets in one place.</p>
-            
-          </div>
-        </div>
-        </div>
+    <div class="v18-home" aria-label="GET Soil Lab Suite home">
+      <img class="v18-home-art" src="./home-v18.jpg" alt="GET Soil Lab Suite dashboard">
 
-      <div class="slide-grid">
-        <button class="exp-card" data-speech="Main Lab Request Sheet" onclick="goPanel('mainreport',this,event)">
-          <img src="./main-report.jpg" alt="Main lab request sheet">
-          <div class="overlay">
-            <span class="pill">Workflow 01</span>
-            <div class="dynamic-title">Main Lab Request Sheet</div>
-            <p>Start from the engineer’s requested tests, boring depths, soil color, observations, penetrometer values, and field notes.</p>
-            <span class="arrow">Open Main Report →</span>
-          </div>
-        </button>
+      <button class="v18-hotspot nav-home" type="button"
+              aria-label="Home" data-panel-target="home"></button>
+      <button class="v18-hotspot nav-main" type="button"
+              aria-label="Main Report" data-panel-target="mainreport"
+              data-speech="Main Lab Request Sheet"></button>
+      <button class="v18-hotspot nav-moisture" type="button"
+              aria-label="Moisture" data-panel-target="moisture"
+              data-speech="Moisture Content Testing"></button>
+      <button class="v18-hotspot nav-atterberg" type="button"
+              aria-label="Atterberg" data-panel-target="atterberg"
+              data-speech="Atterberg Limits Testing"></button>
 
-        <button class="exp-card" data-speech="Moisture Content Testing" onclick="goPanel('moisture',this,event)">
-          <img src="./moisture.jpg" alt="Moisture content test sheet">
-          <div class="overlay">
-            <span class="pill">Workflow 02</span>
-            <div class="dynamic-title">Moisture Content Testing</div>
-            <p>Enter wet, dry, and tare values for multiple rows and instantly generate a printable moisture worksheet.</p>
-            <span class="arrow">Open Moisture Module →</span>
-          </div>
-        </button>
-
-        <button class="exp-card" data-speech="Atterberg Limits Testing" onclick="goPanel('atterberg',this,event)">
-          <img src="./atterberg.png" alt="Atterberg limits worksheet">
-          <div class="overlay">
-            <span class="pill">Workflow 03</span>
-            <div class="dynamic-title">Atterberg Limits Testing</div>
-            <p>Complete liquid limit and plastic limit trials, use your lab lookup logic, and export a finished Atterberg worksheet.</p>
-            <span class="arrow">Open Atterberg Module →</span>
-          </div>
-        </button>
-      </div>
+      <button class="v18-hotspot card card-main" type="button"
+              aria-label="Open Main Lab Request Sheet"
+              data-panel-target="mainreport"
+              data-speech="Main Lab Request Sheet"></button>
+      <button class="v18-hotspot card card-moisture" type="button"
+              aria-label="Open Moisture Content Testing"
+              data-panel-target="moisture"
+              data-speech="Moisture Content Testing"></button>
+      <button class="v18-hotspot card card-atterberg" type="button"
+              aria-label="Open Atterberg Limits Testing"
+              data-panel-target="atterberg"
+              data-speech="Atterberg Limits Testing"></button>
     </div>
+    <div id="v18AudioStatus" aria-live="polite"></div>
   </section>
 
   <section class="panel" id="mainreport">
@@ -1763,88 +1862,134 @@ function mrAutoDemoDesc(bi,ri){
 }
 
 function renderAll(){renderTabs();renderEditor();renderWorksheet();renderMoistureAll()}
+
+/* ===========================
+   v18 NAVIGATION
+   =========================== */
 function setActivePanel(panel){
-  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.panel===panel));
-  document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",x.id===panel));
-  if(panel!=="home"){
+  const isHome=(panel==="home");
+  document.body.classList.toggle("home-mode",isHome);
+
+  document.querySelectorAll(".tab").forEach(x=>{
+    x.classList.toggle("active",x.dataset.panel===panel);
+  });
+  document.querySelectorAll(".panel").forEach(x=>{
+    x.classList.toggle("active",x.id===panel);
+  });
+
+  if(isHome){
+    window.scrollTo({top:0,behavior:"smooth"});
+  }else{
     setTimeout(()=>{
-      const tgt=document.getElementById(panel);
-      if(tgt)tgt.scrollIntoView({behavior:"smooth",block:"start"});
-    },60);
+      const target=document.getElementById(panel);
+      if(target)target.scrollIntoView({behavior:"smooth",block:"start"});
+    },55);
   }
 }
 
-let uiAudioContext=null;
-let welcomeAnnounced=false;
-let speechVoice=null;
+/* ===========================
+   v18 PREMIUM SOFT DOORBELL
+   Synthesized locally — works offline after audio is unlocked.
+   =========================== */
+let v18AudioCtx=null;
 
-function getUiAudioContext(){
+function getV18AudioContext(){
   try{
     const C=window.AudioContext||window.webkitAudioContext;
     if(!C)return null;
-    if(!uiAudioContext)uiAudioContext=new C();
-    if(uiAudioContext.state==="suspended")uiAudioContext.resume().catch(()=>{});
-    return uiAudioContext;
-  }catch(e){return null}
+    if(!v18AudioCtx)v18AudioCtx=new C();
+    if(v18AudioCtx.state==="suspended"){
+      v18AudioCtx.resume().catch(()=>{});
+    }
+    return v18AudioCtx;
+  }catch(e){
+    return null;
+  }
 }
 
-function playUiClick(){
-  const ctx=getUiAudioContext();
+function v18BellTone(ctx,start,freq,duration,gainValue){
+  const osc=ctx.createOscillator();
+  const overtone=ctx.createOscillator();
+  const gain=ctx.createGain();
+  const soft=ctx.createBiquadFilter();
+
+  osc.type="sine";
+  overtone.type="sine";
+  osc.frequency.setValueAtTime(freq,start);
+  overtone.frequency.setValueAtTime(freq*1.5,start);
+
+  soft.type="lowpass";
+  soft.frequency.setValueAtTime(4200,start);
+  soft.Q.setValueAtTime(.4,start);
+
+  gain.gain.setValueAtTime(.0001,start);
+  gain.gain.exponentialRampToValueAtTime(gainValue,start+.018);
+  gain.gain.exponentialRampToValueAtTime(.0001,start+duration);
+
+  osc.connect(gain);
+  overtone.connect(gain);
+  gain.connect(soft);
+  soft.connect(ctx.destination);
+
+  osc.start(start);
+  overtone.start(start+.006);
+  osc.stop(start+duration+.03);
+  overtone.stop(start+duration+.03);
+}
+
+function playSoftDoorbell(){
+  const ctx=getV18AudioContext();
   if(!ctx)return;
   try{
-    const now=ctx.currentTime;
-    const master=ctx.createGain();
-    const o1=ctx.createOscillator();
-    const o2=ctx.createOscillator();
-
-    o1.type="sine";
-    o2.type="sine";
-
-    o1.frequency.setValueAtTime(520,now);
-    o1.frequency.exponentialRampToValueAtTime(690,now+0.10);
-    o2.frequency.setValueAtTime(780,now);
-    o2.frequency.exponentialRampToValueAtTime(880,now+0.08);
-
-    master.gain.setValueAtTime(0.0001,now);
-    master.gain.exponentialRampToValueAtTime(0.055,now+0.012);
-    master.gain.exponentialRampToValueAtTime(0.0001,now+0.22);
-
-    o1.connect(master);
-    o2.connect(master);
-    master.connect(ctx.destination);
-
-    o1.start(now);
-    o2.start(now+0.012);
-    o1.stop(now+0.23);
-    o2.stop(now+0.20);
+    const now=ctx.currentTime+.006;
+    /* A quiet two-note glass/doorbell chime: "ding ... dong". */
+    v18BellTone(ctx,now,783.99,.26,.036);
+    v18BellTone(ctx,now+.145,587.33,.34,.031);
   }catch(e){}
 }
 
-function chooseSpeechVoice(){
+/* ===========================
+   v18 FEMALE VOICE
+   Prefers thin/soft female voices commonly available on iPhone.
+   =========================== */
+let v18Voice=null;
+let welcomeAttempted=false;
+let welcomeConfirmed=false;
+
+function chooseV18FemaleVoice(){
   if(!("speechSynthesis" in window))return null;
   const voices=window.speechSynthesis.getVoices()||[];
-  speechVoice=
-    voices.find(v=>/Samantha/i.test(v.name)) ||
-    voices.find(v=>/Ava/i.test(v.name)) ||
-    voices.find(v=>/Allison/i.test(v.name)) ||
+  const preferred=[
+    "Samantha","Ava","Zoe","Allison","Susan","Karen","Moira","Tessa","Victoria"
+  ];
+  for(const name of preferred){
+    const found=voices.find(v=>new RegExp(name,"i").test(v.name));
+    if(found){v18Voice=found;return found}
+  }
+  v18Voice=
+    voices.find(v=>v.lang==="en-US" && /female|woman/i.test(v.name)) ||
     voices.find(v=>v.lang==="en-US") ||
     voices.find(v=>/^en/i.test(v.lang)) ||
+    voices[0] ||
     null;
-  return speechVoice;
+  return v18Voice;
 }
 
-function speakProfessional(text,onEnd){
+function speakV18(text,{onStart=null,onEnd=null,rate=.92,pitch=1.12,volume=.92}={}){
   if(!("speechSynthesis" in window))return false;
   try{
-    chooseSpeechVoice();
+    chooseV18FemaleVoice();
     window.speechSynthesis.cancel();
+
     const u=new SpeechSynthesisUtterance(text);
-    if(speechVoice)u.voice=speechVoice;
+    if(v18Voice)u.voice=v18Voice;
     u.lang="en-US";
-    u.rate=0.91;
-    u.pitch=1.02;
-    u.volume=0.92;
+    u.rate=rate;
+    u.pitch=pitch;
+    u.volume=volume;
+    if(onStart)u.onstart=onStart;
     if(onEnd)u.onend=onEnd;
+
     window.speechSynthesis.speak(u);
     return true;
   }catch(e){
@@ -1852,70 +1997,115 @@ function speakProfessional(text,onEnd){
   }
 }
 
-function announceWelcome(){
-  if(welcomeAnnounced)return;
-  welcomeAnnounced=true;
-  speakProfessional("Welcome to the G E T Soil Lab Suite.");
+function announceWelcomeV18(force=false){
+  if(welcomeConfirmed && !force)return;
+  if(welcomeAttempted && !force)return;
+
+  welcomeAttempted=true;
+  const status=document.getElementById("v18AudioStatus");
+  if(status)status.textContent="Welcome to the GET Soil Lab Suite";
+
+  speakV18(
+    "Welcome to the G E T Soil Lab Suite.",
+    {
+      rate:.90,
+      pitch:1.14,
+      volume:.94,
+      onStart:()=>{welcomeConfirmed=true},
+      onEnd:()=>{}
+    }
+  );
 }
 
-function triggerWave(el,evt){
-  if(!el)return;
-  const rect=el.getBoundingClientRect();
-  const x=evt?evt.clientX-rect.left:rect.width/2;
-  const y=evt?evt.clientY-rect.top:rect.height/2;
-  el.style.setProperty("--x",x+"px");
-  el.style.setProperty("--y",y+"px");
-  el.classList.remove("wave");
-  void el.offsetWidth;
-  el.classList.add("wave");
-  const title=el.querySelector(".dynamic-title");
-  if(title){
-    title.classList.remove("title-wave");
-    void title.offsetWidth;
-    title.classList.add("title-wave");
+function announceModuleV18(panel,text=""){
+  if(panel==="home")return;
+  let phrase=text;
+  if(!phrase){
+    if(panel==="mainreport")phrase="Main Lab Request Sheet";
+    if(panel==="moisture")phrase="Moisture Content Testing";
+    if(panel==="atterberg")phrase="Atterberg Limits Testing";
+  }
+  if(phrase){
+    speakV18(phrase,{rate:.93,pitch:1.10,volume:.90});
   }
 }
 
-function announceWorkflow(el,panel){
-  let text=el?.dataset?.speech||"";
-  if(!text){
-    if(panel==="mainreport")text="Main Lab Request Sheet";
-    if(panel==="moisture")text="Moisture Content Testing";
-    if(panel==="atterberg")text="Atterberg Limits Testing";
+/* ===========================
+   v18 GLOBAL RIPPLE — every interactive touch/click
+   =========================== */
+function createV18Ripple(evt){
+  const dot=document.createElement("span");
+  dot.className="ui-ripple";
+  dot.style.left=evt.clientX+"px";
+  dot.style.top=evt.clientY+"px";
+  document.body.appendChild(dot);
+  setTimeout(()=>dot.remove(),680);
+}
+
+function closestInteractive(target){
+  if(!(target instanceof Element))return null;
+  return target.closest(
+    "button,a,input,select,textarea,label,.color-choice,.sample-tab,.test-request,.obs-item,.result-cell,.checkitem"
+  );
+}
+
+function v18PressFeedback(target){
+  if(!target)return;
+  target.classList.add("v18-pressed");
+  setTimeout(()=>target.classList.remove("v18-pressed"),150);
+}
+
+/* Global sound + wave on EVERY user interaction with a control. */
+document.addEventListener("pointerdown",(evt)=>{
+  const target=closestInteractive(evt.target);
+  if(!target)return;
+
+  getV18AudioContext();
+  createV18Ripple(evt);
+  v18PressFeedback(target);
+  playSoftDoorbell();
+
+  /* iPhone/Safari fallback: if opening speech was blocked by autoplay,
+     the first user touch immediately unlocks and repeats the welcome. */
+  if(!welcomeConfirmed){
+    welcomeAttempted=false;
+    announceWelcomeV18(true);
   }
-  if(!text)return;
-  if(el){
-    el.classList.add("speaking");
-    setTimeout(()=>el.classList.remove("speaking"),850);
-  }
-  speakProfessional(text);
-}
+},{capture:true});
 
-function goPanel(panel,el=null,evt=null){
-  playUiClick();
-  triggerWave(el,evt);
-  announceWorkflow(el,panel);
-  setActivePanel(panel);
-}
-
-document.querySelectorAll(".tab").forEach(b=>b.onclick=(e)=>goPanel(b.dataset.panel,b,e));
-
-if("speechSynthesis" in window){
-  chooseSpeechVoice();
-  window.speechSynthesis.onvoiceschanged=chooseSpeechVoice;
-}
-
-/* Best effort welcome on app launch. iOS may require the first user interaction. */
-window.addEventListener("load",()=>{
-  setTimeout(()=>announceWelcome(),650);
+/* ===========================
+   v18 HOME HOTSPOTS + NORMAL TABS
+   =========================== */
+document.querySelectorAll(".v18-hotspot").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    const panel=btn.dataset.panelTarget||"home";
+    const spoken=btn.dataset.speech||"";
+    announceModuleV18(panel,spoken);
+    setActivePanel(panel);
+  });
 });
 
-/* iPhone/Safari fallback: unlock audio on the first touch/click.
-   If autoplay speech was blocked, the welcome is delivered on that first interaction. */
-document.addEventListener("pointerdown",()=>{
-  getUiAudioContext();
-  if(!welcomeAnnounced)announceWelcome();
-},{once:true});
+document.querySelectorAll(".tab").forEach(btn=>{
+  btn.onclick=()=>{
+    const panel=btn.dataset.panel||"home";
+    announceModuleV18(panel);
+    setActivePanel(panel);
+  };
+});
+
+/* Initial mode is the exact approved graphical Home screen. */
+document.body.classList.add("home-mode");
+
+/* Best-effort voice immediately on app launch. */
+if("speechSynthesis" in window){
+  chooseV18FemaleVoice();
+  window.speechSynthesis.onvoiceschanged=chooseV18FemaleVoice;
+}
+
+window.addEventListener("load",()=>{
+  setTimeout(()=>announceWelcomeV18(false),420);
+});
+
 ["date","tech","project","scale","job","remarks","form_no","rev_no","footer_ref","bottom_pl","bottom_ll","apparatus_no","tool_name"]
 .forEach(id=>document.getElementById(id).addEventListener("input",()=>{saveHeaderSettings();renderWorksheet()}));
 ["eq_hand_roller","eq_mech_rolling","eq_manual","eq_mechanical","eq_metal","eq_plastic"]
