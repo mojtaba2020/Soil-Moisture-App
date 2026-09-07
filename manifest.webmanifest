@@ -6,8 +6,8 @@
   "scope": "./",
   "display": "standalone",
   "background_color": "#f4f7fb",
-  "theme_color": "#0f172a",
-  "description": "Soil lab Moisture and Atterberg calculator with editable USCS blank option, customizable form footer, photo-matched bottom report structure, and one-page print layout.",
+  "theme_color": "#0b2746",
+  "description": "Main soil lab request/results sheet plus Moisture Content and Atterberg Limits calculators for geotechnical laboratory workflow.",
   "icons": [
     {
       "src": "icon-192.png",

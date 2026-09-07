@@ -3,22 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Soil Lab Calculator v9</title>
+<title>Soil Lab Calculator v10</title>
 <link rel="manifest" href="./manifest.webmanifest">
 <meta name="theme-color" content="#0f172a">
 <style>
 :root{
   --bg:#f4f7fb;--card:#fff;--ink:#0f172a;--muted:#64748b;--line:#cbd5e1;
-  --brand:#0f766e;--brand2:#2563eb;--soft:#eef2f7;--good:#e8f7ee;--warn:#fff7df;
+  --brand:#0b5b86;--brand2:#1677b8;--soft:#eef2f7;--good:#e8f7ee;--warn:#fff7df;
 }
 *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);
 font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
 .app{max-width:1180px;margin:auto;padding:14px 14px 80px}
-.hero{background:#0f172a;color:#fff;border-radius:22px;padding:18px 18px 16px;box-shadow:0 10px 24px #0f172a22}
+.hero{background:linear-gradient(135deg,#0b2746 0%,#0b5b86 100%);color:#fff;border-radius:22px;padding:18px 18px 16px;box-shadow:0 10px 24px #0f172a22}
 .hero h1{margin:0;font-size:30px}.hero p{margin:8px 0 0;color:#d7deeb}
 .tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
 .tab{border:0;border-radius:17px;padding:15px;font-weight:850;font-size:18px;background:#dfe5ee;color:#0f172a}
-.tab.active{background:var(--brand);color:white}.panel{display:none}.panel.active{display:block}
+.tab.active{background:linear-gradient(135deg,#0b5b86,#1677b8);color:white}.panel{display:none}.panel.active{display:block}
 .card{background:var(--card);border:1px solid #dfe6ef;border-radius:20px;padding:15px;margin:12px 0;box-shadow:0 4px 12px #0f172a0a}
 .badge{display:inline-block;background:var(--soft);border-radius:999px;padding:6px 11px;font-weight:800;color:#334155;margin-bottom:10px}
 .fields{display:grid;grid-template-columns:repeat(12,1fr);gap:10px}.f{grid-column:span 6}.f3{grid-column:span 3}.f4{grid-column:span 4}.f12{grid-column:span 12}
@@ -79,21 +79,147 @@ hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
 .checkitem input{width:auto;transform:scale(1.15)}
 .ws .bottom-table td,.ws .bottom-table th{padding:4px}
 @media(max-width:850px){.checkgrid{grid-template-columns:1fr}}
+
+.report-card{border-color:#d9e6f2}
+.report-boring-tabs,.report-depth-tabs{display:flex;gap:8px;overflow:auto;padding:2px 0 8px}
+.report-boring-tabs button,.report-depth-tabs button{
+  white-space:nowrap;border:1px solid #cdd9e6;border-radius:13px;background:#f7fafc;
+  padding:10px 13px;font-weight:850;color:#1e3a5f
+}
+.report-boring-tabs button.active,.report-depth-tabs button.active{
+  background:linear-gradient(135deg,#0b5b86,#1677b8);color:#fff;border-color:#0b5b86
+}
+.report-section-title{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  margin:2px 0 10px;font-size:20px;font-weight:950;color:#102a43
+}
+.report-subtitle{font-size:13px;color:#64748b;font-weight:650}
+.test-request-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}
+.test-request{
+  position:relative;border:1px solid #dbe5ef;border-radius:15px;background:#fbfdff;
+  padding:11px 10px;min-height:82px;display:flex;align-items:flex-start;gap:8px
+}
+.test-request.requested{background:#edf7ff;border-color:#63a9d5;box-shadow:inset 0 0 0 1px #63a9d5}
+.test-request input{width:auto;transform:scale(1.15);margin-top:3px}
+.test-request b{display:block;font-size:13px;line-height:1.15;color:#19324d}
+.test-request small{display:block;color:#718096;margin-top:4px;font-size:11px}
+.lab-result-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}
+.result-cell{border:1px solid #dbe5ef;border-radius:14px;padding:9px;background:#fff}
+.result-cell.requested{background:#f2f9ff;border-color:#9cc7e4}
+.result-cell label{font-size:12px}
+.result-cell input{padding:9px 10px;font-size:15px}
+.import-bar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.color-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}
+.color-choice{border:2px solid transparent;border-radius:14px;padding:7px;background:#f8fafc;text-align:center;cursor:pointer}
+.color-choice.selected{border-color:#1680c0;background:#edf7ff}
+.swatch{height:42px;border-radius:9px;border:1px solid #8795a6;margin-bottom:6px}
+.color-choice b{font-size:12px;display:block}.color-choice small{font-size:10px;color:#64748b}
+.obs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.obs-item{display:flex;align-items:center;gap:8px;border:1px solid #dbe5ef;border-radius:12px;padding:10px;background:#fbfdff;font-weight:800}
+.obs-item input{width:auto}
+.pen-card{background:#f4f9fd;border:1px solid #c9e0ef;border-radius:16px;padding:12px}
+.pen-results{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.pen-result{background:#fff;border:1px solid #cfddea;border-radius:13px;padding:11px;text-align:center}
+.pen-result .big{font-size:23px;font-weight:950;color:#0b5b86}
+.lookup-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.lookup-head{font-weight:900;color:#27445f;text-align:center;font-size:12px}
+.lookup-grid input{padding:8px 9px;font-size:14px}
+.mr-table-wrap{overflow:auto;border:1px solid #b7c4d0;border-radius:10px;background:#fff}
+.mr-table{border-collapse:collapse;min-width:1450px;width:100%;table-layout:fixed;font-size:11px;color:#111}
+.mr-table th,.mr-table td{border:1px solid #45617c;padding:4px;text-align:center;vertical-align:middle}
+.mr-table th{background:#eaf2f8;font-weight:900}
+.mr-table .desc{text-align:left;min-width:250px}
+.mr-table .boring{font-weight:950;background:#f4f8fb;font-size:13px}
+.mr-report-title{font-size:16px;font-weight:950;padding:7px!important;background:#dcebf5!important}
+.mr-header td{text-align:left;padding:6px}
+.mr-request-mark{font-weight:950;color:#0b5b86}
+.soil-note{font-size:11px;color:#64748b;margin-top:7px}
+@media(max-width:850px){
+  .test-request-grid,.lab-result-grid{grid-template-columns:repeat(2,1fr)}
+  .color-grid{grid-template-columns:repeat(3,1fr)}
+  .obs-grid{grid-template-columns:repeat(2,1fr)}
+  .lookup-grid{grid-template-columns:1fr 1fr 1fr}
+}
+@media print{
+  #mainreport .input-only,#mainreport .badge,#mainreport .mini{display:none!important}
+  #mainreport .report-output-card{display:block!important}
+  #mainreport .mr-table-wrap{overflow:visible!important;border:0!important}
+  #mainreport .mr-table{min-width:0!important;width:100%!important;font-size:6.8px!important;line-height:1.02!important}
+  #mainreport .mr-table th,#mainreport .mr-table td{padding:1.8px!important}
+  #mainreport .mr-report-title{font-size:9px!important;padding:3px!important}
+  #mainreport .desc{min-width:0!important}
+}
+
 </style>
 </head>
 <body>
 <div class="app">
   <div class="hero">
     <h1>Soil Lab Calculator</h1>
-    <p>Atterberg Limits + Moisture • Multi-sample worksheet • Lab reverse-engineering mode • v9</p>
+    <p>Main Lab Report + Moisture + Atterberg Limits • Engineer request + lab entry • v10</p>
   </div>
 
-  <div class="tabs">
-    <button class="tab active" data-panel="atterberg">Atterberg</button>
+  <div class="tabs" style="grid-template-columns:repeat(3,1fr)">
+    <button class="tab active" data-panel="mainreport">Main Report</button>
     <button class="tab" data-panel="moisture">Moisture</button>
+    <button class="tab" data-panel="atterberg">Atterberg</button>
   </div>
 
-  <section class="panel active" id="atterberg">
+  <section class="panel active" id="mainreport">
+    <div class="card input-only report-card">
+      <span class="badge">Project Information</span>
+      <div class="fields">
+        <div class="f"><label>Project</label><input id="mr_project" placeholder="Project name"></div>
+        <div class="f3"><label>Job No.</label><input id="mr_job" placeholder="Job number"></div>
+        <div class="f3"><label>Date Assigned</label><input id="mr_date_assigned" placeholder="MM/DD/YYYY"></div>
+        <div class="f"><label>Engineer / Requested By</label><input id="mr_engineer" placeholder="Engineer"></div>
+        <div class="f"><label>Technician</label><input id="mr_technician" placeholder="Technician"></div>
+        <div class="f"><label>Reviewed By</label><input id="mr_reviewed" placeholder="Reviewed by"></div>
+        <div class="f3"><label>Date Tested</label><input id="mr_date_tested" placeholder="MM/DD/YYYY"></div>
+        <div class="f3"><label>Date Delivered</label><input id="mr_date_delivered" placeholder="MM/DD/YYYY"></div>
+        <div class="f3"><label>No. of Borings</label><input id="mr_num_borings" readonly></div>
+        <div class="f3"><label>Priority</label>
+          <select id="mr_priority">
+            <option value="">None / Blank</option>
+            <option>Priority 1</option>
+            <option>Priority 2</option>
+            <option>Priority 3</option>
+          </select>
+        </div>
+        <div class="f12"><label>Project / Chemical Injection Observations / Recommendations</label>
+          <textarea id="mr_project_notes" rows="3" placeholder="Project notes, recommendations, special instructions..."></textarea>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn good" onclick="addBoring()">+ Add Boring</button>
+        <button class="btn dark" onclick="removeActiveBoring()">Remove Active Boring</button>
+        <button class="btn light" onclick="loadMainReportDemo()">Load B-19 / B-22 / B-23 Demo</button>
+        <button class="btn" onclick="window.print()">Print / Save PDF</button>
+      </div>
+    </div>
+
+    <div class="card input-only report-card">
+      <span class="badge">Boring & Sample Depth</span>
+      <div id="mrBoringTabs" class="report-boring-tabs"></div>
+      <div id="mrDepthTabs" class="report-depth-tabs"></div>
+    </div>
+
+    <div class="card input-only report-card" id="mrRowEditor"></div>
+
+    <div class="card input-only report-card">
+      <span class="badge">Manual Penetrometer Wall Lookup Chart</span>
+      <p class="mini">Enter the exact values from your laboratory wall chart. The app will use the closest penetration-depth row and return both values. No conversion values are invented here.</p>
+      <div id="penLookupEditor"></div>
+    </div>
+
+    <div class="card report-output-card">
+      <span class="badge">Main Lab Report Output</span>
+      <p class="mini">A requested-but-not-yet-tested cell prints as ✓. Once a lab result is entered, the result replaces the request mark.</p>
+      <div class="mr-table-wrap"><div id="mainReportPrint"></div></div>
+    </div>
+  </section>
+
+  <section class="panel" id="atterberg">
     <div class="card input-only">
       <span class="badge">Job Header</span>
       <div class="fields">
@@ -723,7 +849,7 @@ function exportPNG(){
   row("Plasticity Index (PI)",data.samples.flatMap(s=>{let c=sampleCalc(s);return [c.pi??"",c.pi??""]}),y,true);y+=rowH;
   row("REMARKS",[val("remarks"),"","","","","","","","",""],y);y+=rowH*2;
 
-  ctx.font="20px Arial";ctx.textAlign="left";ctx.fillText("Soils Form No. 107   •   Soil Lab Calculator v9",70,2315);
+  ctx.font="20px Arial";ctx.textAlign="left";ctx.fillText("Soils Form No. 107   •   Soil Lab Calculator v10",70,2315);
   const a=document.createElement("a");a.href=canvas.toDataURL("image/png");a.download=`Atterberg_${val("job")||"worksheet"}.png`;a.click();
 }
 
@@ -762,6 +888,339 @@ function loadHeaderSettings(){
   }catch(e){}
 }
 
+
+const MR_TESTS=[
+  {key:"moisture",label:"Natural Moisture Content",unit:"%"},
+  {key:"ll",label:"Liquid Limit",unit:"LL"},
+  {key:"pl",label:"Plastic Limit",unit:"PL"},
+  {key:"pi",label:"Plasticity Index",unit:"PI"},
+  {key:"passing200",label:"% Passing No. 200",unit:"%"},
+  {key:"suction",label:"Suction",unit:"pF"},
+  {key:"dryUnit",label:"Dry Unit Weight",unit:"pcf"},
+  {key:"handPen",label:"Hand Penetrometer",unit:"tsf"},
+  {key:"torvane",label:"Torvane",unit:"tsf"},
+  {key:"uc",label:"Unconfined Compression",unit:"tsf"}
+];
+const MR_DEPTHS=["0-2","2-4","4-6","6-8","8-10"];
+const MR_COLORS=[
+  {name:"Black",abbr:"Black",hex:"#171716",munsell:"Quick reference"},
+  {name:"Very Dark Gray",abbr:"V DK Gray",hex:"#343536",munsell:"Quick reference"},
+  {name:"Dark Gray",abbr:"DK Gray",hex:"#55595d",munsell:"Quick reference"},
+  {name:"Gray",abbr:"Gray",hex:"#80858a",munsell:"Quick reference"},
+  {name:"Light Gray",abbr:"Lt Gray",hex:"#b5b9ba",munsell:"Quick reference"},
+  {name:"Dark Brown",abbr:"DK Bn",hex:"#5b3927",munsell:"Quick reference"},
+  {name:"Brown",abbr:"Bn",hex:"#80553a",munsell:"Quick reference"},
+  {name:"Light Brown",abbr:"Lt Bn",hex:"#b08a63",munsell:"Quick reference"},
+  {name:"Reddish Brown",abbr:"Red Bn",hex:"#8d493c",munsell:"Quick reference"},
+  {name:"Yellowish Brown",abbr:"Yel Bn",hex:"#9a7745",munsell:"Quick reference"}
+];
+function mrBlankDepth(depth){
+  const requested={}; const results={};
+  MR_TESTS.forEach(t=>{requested[t.key]=false;results[t.key]=""});
+  return {
+    depth, sampleNo:"", requested, results,
+    color:"", obs:{Fe:false,Ca:false,Root:false,Gravel:false},
+    penDepth:"", description:"", remarks:""
+  };
+}
+function mrMakeBoring(name){
+  return {name:name||"B-1",rows:MR_DEPTHS.map(mrBlankDepth)};
+}
+let mrData={
+  header:{
+    project:"",job:"",dateAssigned:"",engineer:"",technician:"",
+    reviewed:"",dateTested:"",dateDelivered:"",priority:"",projectNotes:""
+  },
+  borings:[mrMakeBoring("B-1")],
+  lookup:Array.from({length:8},()=>({depth:"",hand:"",torvane:""}))
+};
+let mrActiveBoring=0,mrActiveDepth=0;
+
+function mrSave(){localStorage.setItem("soilLabMainReportV10",JSON.stringify(mrData))}
+function mrLoad(){
+  try{
+    const raw=localStorage.getItem("soilLabMainReportV10");
+    if(raw){
+      const x=JSON.parse(raw);
+      if(x&&Array.isArray(x.borings)&&Array.isArray(x.lookup))mrData=x;
+    }
+  }catch(e){}
+}
+function mrCurrentRow(){
+  return mrData.borings[mrActiveBoring]?.rows[mrActiveDepth] || null;
+}
+function mrCurrentBoring(){
+  return mrData.borings[mrActiveBoring] || null;
+}
+function mrHeaderFromDOM(){
+  mrData.header.project=val("mr_project");
+  mrData.header.job=val("mr_job");
+  mrData.header.dateAssigned=val("mr_date_assigned");
+  mrData.header.engineer=val("mr_engineer");
+  mrData.header.technician=val("mr_technician");
+  mrData.header.reviewed=val("mr_reviewed");
+  mrData.header.dateTested=val("mr_date_tested");
+  mrData.header.dateDelivered=val("mr_date_delivered");
+  mrData.header.priority=val("mr_priority");
+  mrData.header.projectNotes=val("mr_project_notes");
+  mrSave(); renderMainReportTable();
+}
+function mrLoadHeaderToDOM(){
+  const h=mrData.header;
+  const map={
+    mr_project:h.project,mr_job:h.job,mr_date_assigned:h.dateAssigned,
+    mr_engineer:h.engineer,mr_technician:h.technician,mr_reviewed:h.reviewed,
+    mr_date_tested:h.dateTested,mr_date_delivered:h.dateDelivered,
+    mr_priority:h.priority,mr_project_notes:h.projectNotes
+  };
+  Object.entries(map).forEach(([id,v])=>{const el=document.getElementById(id);if(el)el.value=v||""});
+  const nb=document.getElementById("mr_num_borings");if(nb)nb.value=mrData.borings.length;
+}
+function addBoring(){
+  const suggested="B-"+(mrData.borings.length+1);
+  const name=prompt("Boring number",suggested);
+  if(name===null)return;
+  mrData.borings.push(mrMakeBoring(name.trim()||suggested));
+  mrActiveBoring=mrData.borings.length-1;mrActiveDepth=0;
+  mrSave();mrRenderAll();
+}
+function removeActiveBoring(){
+  if(mrData.borings.length<=1){alert("Keep at least one boring.");return}
+  if(!confirm("Remove this boring and all five depth rows?"))return;
+  mrData.borings.splice(mrActiveBoring,1);
+  mrActiveBoring=Math.max(0,mrActiveBoring-1);mrActiveDepth=0;
+  mrSave();mrRenderAll();
+}
+function mrSetBoring(i){mrActiveBoring=i;mrActiveDepth=0;mrRenderAll()}
+function mrSetDepth(i){mrActiveDepth=i;mrRenderAll()}
+function mrRenderTabs(){
+  const b=document.getElementById("mrBoringTabs");
+  const d=document.getElementById("mrDepthTabs");
+  if(!b||!d)return;
+  b.innerHTML=mrData.borings.map((x,i)=>`<button class="${i===mrActiveBoring?'active':''}" onclick="mrSetBoring(${i})">${x.name||('Boring '+(i+1))}</button>`).join("");
+  d.innerHTML=mrCurrentBoring().rows.map((x,i)=>`<button class="${i===mrActiveDepth?'active':''}" onclick="mrSetDepth(${i})">${x.depth} ft</button>`).join("");
+  const nb=document.getElementById("mr_num_borings");if(nb)nb.value=mrData.borings.length;
+}
+function mrUpdateBoringName(v){
+  mrCurrentBoring().name=v;mrSave();mrRenderTabs();renderMainReportTable();
+}
+function mrUpdateRow(k,v){
+  const r=mrCurrentRow(); if(!r)return;
+  r[k]=v;mrSave();renderMainReportTable();
+}
+function mrToggleTest(k,checked){
+  const r=mrCurrentRow();r.requested[k]=checked;mrSave();
+  const cell=document.getElementById("mrreq_"+k);if(cell)cell.classList.toggle("requested",checked);
+  const rc=document.getElementById("mrres_"+k);if(rc)rc.classList.toggle("requested",checked);
+  renderMainReportTable();
+}
+function mrUpdateResult(k,v){
+  const r=mrCurrentRow();r.results[k]=v;mrSave();renderMainReportTable();
+}
+function mrSelectColor(i){
+  const r=mrCurrentRow();r.color=MR_COLORS[i].name;mrAutoDescription();mrSave();mrRenderRowEditor();renderMainReportTable();
+}
+function mrToggleObs(k,checked){
+  const r=mrCurrentRow();r.obs[k]=checked;mrAutoDescription();mrSave();mrRenderRowEditor();renderMainReportTable();
+}
+function mrAutoDescription(){
+  const r=mrCurrentRow();
+  const c=MR_COLORS.find(x=>x.name===r.color);
+  const parts=[];
+  if(c)parts.push(c.abbr);
+  if(r.obs.Fe)parts.push("Fe");
+  if(r.obs.Ca)parts.push("Ca");
+  if(r.obs.Root)parts.push("Root");
+  if(r.obs.Gravel)parts.push("Grav");
+  if(parts.length)r.description=parts.join(" - ");
+}
+function mrImportMoisture(){
+  const r=mrCurrentRow();
+  const wc=val("mwc");
+  if(!wc){alert("Calculate Moisture first.");return}
+  r.results.moisture=wc;r.requested.moisture=true;mrSave();mrRenderRowEditor();renderMainReportTable();
+}
+function mrImportAtterberg(){
+  const r=mrCurrentRow();
+  const c=sampleCalc(data.samples[activeSample]);
+  if(c.finalLL==null){alert("Calculate an Atterberg sample first.");return}
+  r.results.ll=String(c.finalLL);
+  if(c.finalPL!=null)r.results.pl=String(c.finalPL);
+  if(c.pi!=null)r.results.pi=String(c.pi);
+  r.requested.ll=true;r.requested.pl=true;r.requested.pi=true;
+  mrSave();mrRenderRowEditor();renderMainReportTable();
+}
+function mrLookupPen(){
+  const r=mrCurrentRow(), target=n(r.penDepth);
+  if(target==null)return null;
+  const rows=mrData.lookup.map(x=>({depth:n(x.depth),hand:x.hand,torvane:x.torvane})).filter(x=>x.depth!=null);
+  if(!rows.length)return null;
+  rows.sort((a,b)=>Math.abs(a.depth-target)-Math.abs(b.depth-target));
+  return rows[0];
+}
+function mrApplyPenLookup(){
+  const r=mrCurrentRow(), x=mrLookupPen();
+  if(!x){alert("Enter your wall lookup chart values first.");return}
+  r.results.handPen=x.hand||"";
+  r.results.torvane=x.torvane||"";
+  r.requested.handPen=true;r.requested.torvane=true;
+  mrSave();mrRenderRowEditor();renderMainReportTable();
+}
+function mrUpdateLookup(i,k,v){
+  mrData.lookup[i][k]=v;mrSave();
+}
+function mrRenderLookup(){
+  const el=document.getElementById("penLookupEditor");if(!el)return;
+  let s=`<div class="lookup-grid">
+    <div class="lookup-head">Penetration Depth (in)</div>
+    <div class="lookup-head">Hand Penetrometer (tsf)</div>
+    <div class="lookup-head">Torvane (tsf)</div>`;
+  mrData.lookup.forEach((x,i)=>{
+    s+=`<input inputmode="decimal" value="${x.depth}" oninput="mrUpdateLookup(${i},'depth',this.value)" placeholder="e.g. 0.25">
+        <input inputmode="decimal" value="${x.hand}" oninput="mrUpdateLookup(${i},'hand',this.value)" placeholder="wall value">
+        <input inputmode="decimal" value="${x.torvane}" oninput="mrUpdateLookup(${i},'torvane',this.value)" placeholder="wall value">`;
+  });
+  s+=`</div>`;
+  el.innerHTML=s;
+}
+function mrRenderRowEditor(){
+  const el=document.getElementById("mrRowEditor");if(!el)return;
+  const b=mrCurrentBoring(),r=mrCurrentRow();
+  const pen=mrLookupPen();
+  let tests=MR_TESTS.map(t=>`
+    <label id="mrreq_${t.key}" class="test-request ${r.requested[t.key]?'requested':''}">
+      <input type="checkbox" ${r.requested[t.key]?'checked':''} onchange="mrToggleTest('${t.key}',this.checked)">
+      <span><b>${t.label}</b><small>${t.unit}</small></span>
+    </label>`).join("");
+  let results=MR_TESTS.map(t=>`
+    <div id="mrres_${t.key}" class="result-cell ${r.requested[t.key]?'requested':''}">
+      <label>${t.label} (${t.unit})</label>
+      <input inputmode="decimal" value="${r.results[t.key]||''}" oninput="mrUpdateResult('${t.key}',this.value)" placeholder="${r.requested[t.key]?'Enter result':'Optional'}">
+    </div>`).join("");
+  let colors=MR_COLORS.map((c,i)=>`
+    <div class="color-choice ${r.color===c.name?'selected':''}" onclick="mrSelectColor(${i})">
+      <div class="swatch" style="background:${c.hex}"></div>
+      <b>${c.name}</b><small>${c.abbr}</small>
+    </div>`).join("");
+  el.innerHTML=`
+    <div class="report-section-title"><span>${b.name} • ${r.depth} ft</span><span class="report-subtitle">Engineer request + technician results</span></div>
+    <div class="fields">
+      <div class="f3"><label>Boring No.</label><input value="${b.name}" oninput="mrUpdateBoringName(this.value)"></div>
+      <div class="f3"><label>Depth (ft)</label><input value="${r.depth}" oninput="mrUpdateRow('depth',this.value)"></div>
+      <div class="f3"><label>Sample No.</label><input value="${r.sampleNo}" oninput="mrUpdateRow('sampleNo',this.value)"></div>
+      <div class="f3"><label>Target for calculators</label><input readonly value="${b.name} / ${r.depth} ft"></div>
+    </div>
+
+    <hr>
+    <div class="report-section-title"><span>Requested Tests</span><span class="report-subtitle">Engineer checks only what is required</span></div>
+    <div class="test-request-grid">${tests}</div>
+
+    <hr>
+    <div class="report-section-title"><span>Lab Results</span><span class="report-subtitle">Requested fields are highlighted</span></div>
+    <div class="import-bar">
+      <button class="btn light" onclick="mrImportMoisture()">Import Moisture % from Calculator</button>
+      <button class="btn light" onclick="mrImportAtterberg()">Import LL / PL / PI from Atterberg</button>
+    </div>
+    <div class="lab-result-grid">${results}</div>
+
+    <hr>
+    <div class="report-section-title"><span>Soil Color</span><span class="report-subtitle">Quick screen reference — confirm against the laboratory/Munsell chart when required</span></div>
+    <div class="color-grid">${colors}</div>
+
+    <hr>
+    <div class="report-section-title"><span>Material Observations</span><span class="report-subtitle">Check observed materials</span></div>
+    <div class="obs-grid">
+      ${["Fe","Ca","Root","Gravel"].map(k=>`<label class="obs-item"><input type="checkbox" ${r.obs[k]?'checked':''} onchange="mrToggleObs('${k}',this.checked)"> ${k}</label>`).join("")}
+    </div>
+
+    <hr>
+    <div class="report-section-title"><span>Manual Penetrometer</span><span class="report-subtitle">Uses your editable wall lookup chart</span></div>
+    <div class="pen-card">
+      <div class="fields">
+        <div class="f4"><label>Penetration Depth (in)</label><input inputmode="decimal" value="${r.penDepth}" oninput="mrUpdateRow('penDepth',this.value)" placeholder="Enter measured depth"></div>
+        <div class="f4"><label>Nearest Wall-Chart Hand Penetrometer</label><input readonly value="${pen?pen.hand:''}"></div>
+        <div class="f4"><label>Nearest Wall-Chart Torvane</label><input readonly value="${pen?pen.torvane:''}"></div>
+      </div>
+      <div class="actions"><button class="btn good" onclick="mrApplyPenLookup()">Apply Lookup Values to Report</button></div>
+    </div>
+
+    <hr>
+    <div class="fields">
+      <div class="f12"><label>Soil Description</label><input value="${r.description}" oninput="mrUpdateRow('description',this.value)" placeholder="Example: DK Gray - Red Bn - Grav"></div>
+      <div class="f12"><label>Row Remarks</label><textarea rows="3" oninput="mrUpdateRow('remarks',this.value)" placeholder="Additional notes">${r.remarks||''}</textarea></div>
+    </div>`;
+}
+function mrCell(row,key){
+  const v=row.results[key];
+  if(v!==undefined && String(v).trim()!=="")return String(v);
+  return row.requested[key]?'<span class="mr-request-mark">✓</span>':"";
+}
+function renderMainReportTable(){
+  const el=document.getElementById("mainReportPrint");if(!el)return;
+  const h=mrData.header;
+  let body="";
+  mrData.borings.forEach(b=>{
+    b.rows.forEach((r,idx)=>{
+      body+=`<tr>
+        ${idx===0?`<td rowspan="${b.rows.length}" class="boring">${b.name}</td>`:""}
+        <td>${r.depth}</td>
+        <td>${mrCell(r,"moisture")}</td>
+        <td>${mrCell(r,"ll")}</td>
+        <td>${mrCell(r,"pl")}</td>
+        <td>${mrCell(r,"pi")}</td>
+        <td>${mrCell(r,"passing200")}</td>
+        <td>${mrCell(r,"suction")}</td>
+        <td>${mrCell(r,"dryUnit")}</td>
+        <td>${mrCell(r,"handPen")}</td>
+        <td>${mrCell(r,"torvane")}</td>
+        <td>${mrCell(r,"uc")}</td>
+        <td class="desc">${r.description||""}${r.remarks?`<br><small>${r.remarks}</small>`:""}</td>
+      </tr>`;
+    });
+  });
+  el.innerHTML=`<table class="mr-table">
+    <tr><th colspan="13" class="mr-report-title">MAIN SOIL LAB REQUEST / RESULTS SHEET</th></tr>
+    <tr class="mr-header">
+      <td colspan="4"><b>Project:</b> ${h.project||""}<br><b>Job No.:</b> ${h.job||""}<br><b>Engineer:</b> ${h.engineer||""}</td>
+      <td colspan="4"><b>Date Assigned:</b> ${h.dateAssigned||""}<br><b>Date Tested:</b> ${h.dateTested||""}<br><b>Date Delivered:</b> ${h.dateDelivered||""}</td>
+      <td colspan="5"><b>Technician:</b> ${h.technician||""}<br><b>Reviewed By:</b> ${h.reviewed||""}<br><b>Priority:</b> ${h.priority||""}</td>
+    </tr>
+    <tr class="mr-header"><td colspan="13"><b>Project Notes / Recommendations:</b> ${h.projectNotes||""}</td></tr>
+    <tr>
+      <th>Boring No.</th><th>Depth (ft)</th><th>Natural Moisture Content %</th>
+      <th>LL</th><th>PL</th><th>PI</th><th>% Passing No. 200</th><th>Suction (pF)</th>
+      <th>Dry Unit Weight (pcf)</th><th>Hand Penetrometer (tsf)</th><th>Torvane (tsf)</th>
+      <th>Unconfined Compression (tsf)</th><th>Soil Description / Remarks</th>
+    </tr>${body}</table>`;
+}
+function mrRenderAll(){
+  mrLoadHeaderToDOM();mrRenderTabs();mrRenderRowEditor();mrRenderLookup();renderMainReportTable();
+}
+function loadMainReportDemo(){
+  mrData.borings=[mrMakeBoring("B-19"),mrMakeBoring("B-22"),mrMakeBoring("B-23")];
+  mrData.borings[0].rows[3].requested.moisture=true;
+  mrData.borings[0].rows[3].results.moisture="37";
+  mrData.borings[0].rows[4].requested.handPen=true;mrData.borings[0].rows[4].requested.torvane=true;
+  mrData.borings[0].rows[4].results.handPen=".23";mrData.borings[0].rows[4].results.torvane=".25";
+  mrData.borings[0].rows[4].color="Dark Gray";mrData.borings[0].rows[4].obs.Fe=true;mrData.borings[0].rows[4].obs.Gravel=true;mrAutoDemoDesc(0,4);
+
+  mrData.borings[1].rows[2].requested.moisture=true;mrData.borings[1].rows[2].results.moisture="25";
+  mrData.borings[1].rows[3].results.handPen=".15";mrData.borings[1].rows[3].results.torvane=".25";
+  mrData.borings[1].rows[3].color="Dark Gray";mrAutoDemoDesc(1,3);
+
+  mrData.borings[2].rows[3].requested.moisture=true;mrData.borings[2].rows[3].results.moisture="36";
+  mrData.borings[2].rows[3].results.handPen=".46";mrData.borings[2].rows[3].results.torvane=".50";
+  mrData.borings[2].rows[3].color="Dark Gray";mrAutoDemoDesc(2,3);
+
+  mrActiveBoring=0;mrActiveDepth=0;mrSave();mrRenderAll();
+}
+function mrAutoDemoDesc(bi,ri){
+  const r=mrData.borings[bi].rows[ri];
+  const c=MR_COLORS.find(x=>x.name===r.color);const p=[];
+  if(c)p.push(c.abbr);if(r.obs.Fe)p.push("Fe");if(r.obs.Ca)p.push("Ca");if(r.obs.Root)p.push("Root");if(r.obs.Gravel)p.push("Grav");
+  r.description=p.join(" - ");
+}
+
 function renderAll(){renderTabs();renderEditor();renderWorksheet()}
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
   document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
@@ -773,6 +1232,14 @@ document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
 ["eq_hand_roller","eq_mech_rolling","eq_manual","eq_mechanical","eq_metal","eq_plastic"]
 .forEach(id=>document.getElementById(id).addEventListener("change",()=>{saveHeaderSettings();renderWorksheet()}));
 load();loadHeaderSettings();renderAll();
+mrLoad();mrLoadHeaderToDOM();mrRenderAll();
+["mr_project","mr_job","mr_date_assigned","mr_engineer","mr_technician","mr_reviewed","mr_date_tested","mr_date_delivered","mr_priority","mr_project_notes"]
+.forEach(id=>{
+  const el=document.getElementById(id);
+  if(!el)return;
+  const ev=el.tagName==="SELECT"?"change":"input";
+  el.addEventListener(ev,mrHeaderFromDOM);
+});
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}))}
 </script>
 </body></html>
