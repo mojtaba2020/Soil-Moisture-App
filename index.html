@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>GET Soil Lab Suite v18</title>
+<title>GET Soil Lab Suite v19</title>
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="./icon-180.png?v=14">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -427,9 +427,10 @@ body.home-mode{
 }
 body.home-mode .app{
   width:100%;
-  max-width:920px;
-  padding:0 0 54px;
+  max-width:941px;
+  padding:0;
 }
+body.home-mode #home{min-height:100svh;}
 body.home-mode .app > .hero,
 body.home-mode .app > .tabs{
   display:none!important;
@@ -441,8 +442,9 @@ body.home-mode #home{
   width:100%;
   margin:0 auto;
   position:relative;
-  background:#f7fbff;
+  background:#ffffff;
   overflow:hidden;
+  min-height:100svh;
   box-shadow:0 18px 50px rgba(11,54,89,.08);
 }
 .v18-home-art{
@@ -524,7 +526,8 @@ button,input,select,textarea,a,.color-choice,.sample-tab,.test-request,.obs-item
 }
 
 @media(max-width:520px){
-  body.home-mode .app{padding-bottom:34px}
+  body.home-mode .app{padding-bottom:0}
+  .v18-home-art{width:100vw;max-width:100%;height:auto;display:block}
   .v18-hotspot{border-radius:16px}
   .v18-hotspot.card{border-radius:22px}
 }
@@ -552,7 +555,7 @@ button,input,select,textarea,a,.color-choice,.sample-tab,.test-request,.obs-item
           <div class="main">GET Soil Lab Suite</div>
         </div>
       </div>
-      <div class="header-version">v18</div>
+      <div class="header-version">v19</div>
     </div>
     <div class="designer-strip">
       <span class="credit-dot"></span>
@@ -570,7 +573,7 @@ button,input,select,textarea,a,.color-choice,.sample-tab,.test-request,.obs-item
 
   <section class="panel active" id="home">
     <div class="v18-home" aria-label="GET Soil Lab Suite home">
-      <img class="v18-home-art" src="./home-v18.jpg" alt="GET Soil Lab Suite dashboard">
+      <img class="v18-home-art" src="./home-v19.png" alt="GET Soil Lab Suite dashboard">
 
       <button class="v18-hotspot nav-home" type="button"
               aria-label="Home" data-panel-target="home"></button>
