@@ -6,6 +6,9 @@
 <title>GET Soil Lab Suite</title>
 <link rel="manifest" href="./manifest.webmanifest">
 <meta name="theme-color" content="#0f172a">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <style>
 :root{
   --bg:#f4f7fb;--card:#fff;--ink:#0f172a;--muted:#64748b;--line:#cbd5e1;
@@ -198,7 +201,7 @@ hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
           <div class="sub">Main Lab Report • Moisture Content • Atterberg Limits</div>
         </div>
       </div>
-      <div class="designer">Designed by Mojtaba Shabanpour</div>
+      <div class="designer">Designed by Mojtaba Shabanpour&nbsp;&nbsp;•&nbsp;&nbsp;v13</div>
     </div>
     <p>A polished mobile laboratory workflow for engineer requests, sample tracking, moisture content testing, and Atterberg limits reporting.</p>
   </div>
@@ -234,7 +237,7 @@ hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
 
       <div class="slide-grid">
         <button class="exp-card" onclick="goPanel('mainreport',this,event)">
-          <img src="./assets/main-report.jpg" alt="Main lab request sheet">
+          <img src="./main-report.jpg" alt="Main lab request sheet">
           <div class="overlay">
             <span class="pill">Workflow 01</span>
             <div class="dynamic-title">Main Lab Request Sheet</div>
@@ -244,7 +247,7 @@ hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
         </button>
 
         <button class="exp-card" onclick="goPanel('moisture',this,event)">
-          <img src="./assets/moisture.jpg" alt="Moisture content test sheet">
+          <img src="./moisture.jpg" alt="Moisture content test sheet">
           <div class="overlay">
             <span class="pill">Workflow 02</span>
             <div class="dynamic-title">Moisture Content Testing</div>
@@ -254,7 +257,7 @@ hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
         </button>
 
         <button class="exp-card" onclick="goPanel('atterberg',this,event)">
-          <img src="./assets/atterberg.png" alt="Atterberg limits worksheet">
+          <img src="./atterberg.png" alt="Atterberg limits worksheet">
           <div class="overlay">
             <span class="pill">Workflow 03</span>
             <div class="dynamic-title">Atterberg Limits Testing</div>
@@ -1135,8 +1138,7 @@ function renderMoistureWorksheet(){
     </tr>
     ${rowsHtml}
     <tr>
-      <td colspan="6" class="l" style="vertical-align:top;height:92px"><b>REMARKS</b><br>${(h.remarks||'').replace(/
-/g,'<br>')}</td>
+      <td colspan="6" class="l" style="vertical-align:top;height:92px"><b>REMARKS</b><br>${(h.remarks||'').split('\n').join('<br>')}</td>
       <td colspan="5" style="padding:0;vertical-align:top">
         <table class="bottom-table" style="width:100%;border-collapse:collapse;height:100%">
           <tr><td class="l"><b>Tested By</b></td><td>${h.testedBy||''}</td></tr>
