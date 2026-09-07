@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>GET Soil Lab Suite v19</title>
+<title>GET Soil Lab Suite v20</title>
 <link rel="manifest" href="./manifest.webmanifest">
-<link rel="apple-touch-icon" sizes="180x180" href="./icon-180.png?v=14">
+<link rel="apple-touch-icon" sizes="180x180" href="./icon-180.png?v=20">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="GET Soil Lab">
@@ -535,6 +535,23 @@ button,input,select,textarea,a,.color-choice,.sample-tab,.test-request,.obs-item
   .v18-home{display:none!important}
 }
 
+
+/* ===== v20 Automatic Cross-Module Sync ===== */
+.autosync-strip{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  margin:0 0 12px;padding:10px 12px;border-radius:13px;
+  border:1px solid #cbdceb;background:#f7fbff;color:#334155;
+  font-size:12px;font-weight:750;
+}
+.autosync-strip .sync-dot{width:8px;height:8px;border-radius:50%;background:#94a3b8;box-shadow:0 0 0 4px #94a3b81f}
+.autosync-strip.ok{background:#edf9f2;border-color:#b7dec5;color:#166534}
+.autosync-strip.ok .sync-dot{background:#22c55e;box-shadow:0 0 0 4px #22c55e1f}
+.autosync-strip.wait{background:#fffaf0;border-color:#ead7a2;color:#785f18}
+.autosync-strip.wait .sync-dot{background:#eab308;box-shadow:0 0 0 4px #eab3081f}
+.autosync-strip.nomatch{background:#fff4f4;border-color:#efc6c6;color:#9f1239}
+.autosync-strip.nomatch .sync-dot{background:#ef4444;box-shadow:0 0 0 4px #ef44441f}
+.autosync-strip b{font-weight:950}
+
 </style>
 </head>
 <body>
@@ -555,7 +572,7 @@ button,input,select,textarea,a,.color-choice,.sample-tab,.test-request,.obs-item
           <div class="main">GET Soil Lab Suite</div>
         </div>
       </div>
-      <div class="header-version">v19</div>
+      <div class="header-version">v20</div>
     </div>
     <div class="designer-strip">
       <span class="credit-dot"></span>
@@ -916,7 +933,9 @@ function setActive(i){activeSample=i;renderAll()}
 function renderEditor(){
   const s=data.samples[activeSample];
   const c=sampleCalc(s);
+  const syncInfo=getAtterbergSyncInfo(s);
   let html=`<span class="badge">Sample ${activeSample+1}</span>
+  <div id="atterbergAutoSync" class="autosync-strip ${syncInfo.cls}"><span class="sync-dot"></span><span>${syncInfo.text}</span></div>
   <div class="fields">
     <div class="f3"><label>Boring No.</label><input id="e_boring" value="${s.boring}" oninput="upd('boring',this.value)"></div>
     <div class="f3"><label>Sample No.</label><input id="e_sample" value="${s.sample}" oninput="upd('sample',this.value)"></div>
@@ -1041,6 +1060,8 @@ function upd(k,v){
   save();
   if(k==='boring') renderTabs();
   refreshComputedOnly();
+  autoSyncAtterbergSample(data.samples[activeSample]);
+  paintSyncStatus('atterbergAutoSync',getAtterbergSyncInfo(data.samples[activeSample]));
 }
 function updLL(j,k,v){
   data.samples[activeSample].ll[j][k]=v;
@@ -1051,6 +1072,8 @@ function updLL(j,k,v){
   }
   save();
   refreshComputedOnly();
+  autoSyncAtterbergSample(data.samples[activeSample]);
+  paintSyncStatus('atterbergAutoSync',getAtterbergSyncInfo(data.samples[activeSample]));
 }
 function syncPLTrialInputs(j,exceptKey=""){
   const t=data.samples[activeSample].pl[j];
@@ -1081,18 +1104,20 @@ function updPL(j,k,v){
 
   save();
   refreshComputedOnly();
+  autoSyncAtterbergSample(s);
+  paintSyncStatus('atterbergAutoSync',getAtterbergSyncInfo(s));
 }
 function suggestPL(){
   const s=data.samples[activeSample], c=sampleCalc(s);
   if(c.finalLL==null){alert("Enter LL data first.");return}
   const pl=maybeLookupPL(c.finalLL);
   if(pl==null){alert("This LL is not in the confirmed lookup values yet. Enter the PL from the lab wall table.");return}
-  s.labPL=pl;if(s.autoReverse)buildReversePL(s);save();renderAll();
+  s.labPL=pl;if(s.autoReverse)buildReversePL(s);save();autoSyncAtterbergSample(s);renderAll();
 }
 function autoPL(){
   const s=data.samples[activeSample];
   if(!s.labPL){alert("Enter Lab PL first, or use the confirmed LL→PL lookup button.");return}
-  buildReversePL(s);save();renderAll();
+  buildReversePL(s);save();autoSyncAtterbergSample(s);renderAll();
 }
 
 function loadDemoSheet(){
@@ -1400,8 +1425,10 @@ function renderMoistureTabs(){
 function renderMoistureEditor(){
   const el=document.getElementById('moistureRowEditor'); if(!el) return;
   const r=mCurrentRow(), x=mCalcRow(r);
+  const syncInfo=getMoistureSyncInfo(r);
   el.innerHTML=`
     <div class="report-section-title"><span>Moisture Row ${mActiveRow+1}</span><span class="report-subtitle">One worksheet row per sample / tare number</span></div>
+    <div id="moistureAutoSync" class="autosync-strip ${syncInfo.cls}"><span class="sync-dot"></span><span>${syncInfo.text}</span></div>
     <div class="fields">
       <div class="f3"><label>Boring No.</label><input id="mo_boring" value="${r.boring}" oninput="mUpd('boring',this.value)"></div>
       <div class="f3"><label>Sample No.</label><input id="mo_sample" value="${r.sample}" oninput="mUpd('sample',this.value)"></div>
@@ -1416,7 +1443,7 @@ function renderMoistureEditor(){
       <div class="f4"><label>Water Content (%)</label><input id="mo_wc" readonly value="${r1(x.wc)}"></div>
     </div>
     <div class="actions">
-      <button class="btn light" onclick="mrImportMoisture()">Import Active Moisture % to Main Report</button>
+      <button class="btn light" onclick="mrImportMoisture()">Sync Moisture by Boring + Depth</button>
     </div>`;
 }
 function mRefreshComputedOnly(){
@@ -1430,6 +1457,8 @@ function mUpd(k,v){
   const r=mCurrentRow(); if(!r) return; r[k]=v;
   if(k==='boring' || k==='penetration' || k==='tareNo') renderMoistureTabs();
   mSave(); mRefreshComputedOnly();
+  autoSyncMoistureRow(r);
+  paintSyncStatus('moistureAutoSync',getMoistureSyncInfo(r));
 }
 function renderMoistureWorksheet(){
   const el=document.getElementById('moistureWorksheet'); if(!el) return;
@@ -1578,6 +1607,120 @@ let mrData={
 };
 let mrActiveBoring=0,mrActiveDepth=0;
 
+
+/* =========================================================
+   v20 AUTO SYNC ENGINE — Boring No. + Depth
+   ========================================================= */
+function syncKeyBoring(v){
+  return String(v??"").trim().toUpperCase().replace(/[^A-Z0-9]/g,"");
+}
+function syncKeyDepth(v){
+  let s=String(v??"").trim().toLowerCase();
+  s=s.replace(/feet|foot|ft\.?/g,"")
+     .replace(/[–—−]/g,"-")
+     .replace(/\bto\b/g,"-");
+  const nums=s.match(/\d+(?:\.\d+)?/g);
+  if(nums && nums.length>=2){
+    const clean=x=>String(parseFloat(x));
+    return clean(nums[0])+"-"+clean(nums[1]);
+  }
+  if(nums && nums.length===1)return String(parseFloat(nums[0]));
+  return s.replace(/\s+/g,"").replace(/[^0-9.\-]/g,"");
+}
+function findMainReportMatch(boring,depth){
+  const bk=syncKeyBoring(boring), dk=syncKeyDepth(depth);
+  if(!bk || !dk || !mrData || !Array.isArray(mrData.borings))return null;
+  for(let bi=0;bi<mrData.borings.length;bi++){
+    const b=mrData.borings[bi];
+    if(syncKeyBoring(b.name)!==bk)continue;
+    for(let ri=0;ri<(b.rows||[]).length;ri++){
+      const row=b.rows[ri];
+      if(syncKeyDepth(row.depth)===dk){
+        return {boring:b,row,bi,ri,label:`${b.name} / ${row.depth} ft`};
+      }
+    }
+  }
+  return null;
+}
+function syncStatusInfo(boring,depth,hasValue,type){
+  if(!String(boring??"").trim() || !String(depth??"").trim()){
+    return {cls:"wait",text:`Auto Sync: enter Boring No. + Depth to link this ${type} record to Main Report.`};
+  }
+  const match=findMainReportMatch(boring,depth);
+  if(!match){
+    return {cls:"nomatch",text:`Auto Sync: no Main Report match for ${boring} / ${depth} ft.`};
+  }
+  if(!hasValue){
+    return {cls:"wait",text:`Auto Sync matched ${match.label}. Enter test values and the result will transfer automatically.`};
+  }
+  return {cls:"ok",text:`Auto Sync ✓ ${match.label} — results are linked automatically.`};
+}
+function getMoistureSyncInfo(r){
+  const x=r?mCalcRow(r):null;
+  return syncStatusInfo(r?.boring,r?.penetration,x?.wc!=null,"Moisture");
+}
+function getAtterbergSyncInfo(s){
+  const c=s?sampleCalc(s):null;
+  const has=!!c && (c.finalLL!=null || c.finalPL!=null || c.pi!=null);
+  return syncStatusInfo(s?.boring,s?.depth,has,"Atterberg");
+}
+function paintSyncStatus(id,info){
+  const el=document.getElementById(id); if(!el || !info)return;
+  el.className=`autosync-strip ${info.cls}`;
+  el.innerHTML=`<span class="sync-dot"></span><span>${info.text}</span>`;
+}
+function autoSyncMoistureRow(r,{overwrite=true,render=true}={}){
+  if(!r)return {ok:false,reason:"no-source"};
+  const x=mCalcRow(r), match=findMainReportMatch(r.boring,r.penetration);
+  if(!match)return {ok:false,reason:"no-match"};
+  if(x.wc==null)return {ok:false,reason:"no-value",match};
+  const current=String(match.row.results.moisture??"").trim();
+  if(overwrite || !current){
+    match.row.results.moisture=r1(x.wc);
+    match.row.requested.moisture=true;
+    if(r.sample && !match.row.sampleNo)match.row.sampleNo=r.sample;
+    mrSave();
+    if(render)renderMainReportTable();
+  }
+  return {ok:true,match,value:r1(x.wc)};
+}
+function autoSyncAtterbergSample(s,{overwrite=true,render=true}={}){
+  if(!s)return {ok:false,reason:"no-source"};
+  const c=sampleCalc(s), match=findMainReportMatch(s.boring,s.depth);
+  if(!match)return {ok:false,reason:"no-match"};
+  let changed=false;
+  function put(key,value){
+    if(value==null)return;
+    const current=String(match.row.results[key]??"").trim();
+    if(overwrite || !current){
+      match.row.results[key]=String(value);
+      match.row.requested[key]=true;
+      changed=true;
+    }
+  }
+  put("ll",c.finalLL);
+  put("pl",c.finalPL);
+  put("pi",c.pi);
+  if(s.sample && !match.row.sampleNo){match.row.sampleNo=s.sample;changed=true}
+  if(changed){
+    mrSave();
+    if(render)renderMainReportTable();
+  }
+  return {ok:(c.finalLL!=null||c.finalPL!=null||c.pi!=null),match,calc:c};
+}
+function syncExistingSourcesToMainReport({overwrite=false,render=true}={}){
+  let count=0;
+  if(typeof mData!=="undefined" && Array.isArray(mData.rows)){
+    mData.rows.forEach(r=>{if(autoSyncMoistureRow(r,{overwrite,render:false}).ok)count++});
+  }
+  if(typeof data!=="undefined" && Array.isArray(data.samples)){
+    data.samples.forEach(s=>{if(autoSyncAtterbergSample(s,{overwrite,render:false}).ok)count++});
+  }
+  mrSave();
+  if(render)renderMainReportTable();
+  return count;
+}
+
 function mrSave(){localStorage.setItem("soilLabMainReportV10",JSON.stringify(mrData))}
 function mrLoad(){
   try{
@@ -1644,11 +1787,13 @@ function mrRenderTabs(){
   const nb=document.getElementById("mr_num_borings");if(nb)nb.value=mrData.borings.length;
 }
 function mrUpdateBoringName(v){
-  mrCurrentBoring().name=v;mrSave();mrRenderTabs();renderMainReportTable();
+  mrCurrentBoring().name=v;mrSave();syncExistingSourcesToMainReport({overwrite:false,render:false});mrRenderTabs();renderMainReportTable();
 }
 function mrUpdateRow(k,v){
   const r=mrCurrentRow(); if(!r)return;
-  r[k]=v;mrSave();renderMainReportTable();
+  r[k]=v;mrSave();
+  if(k==='depth')syncExistingSourcesToMainReport({overwrite:false,render:false});
+  renderMainReportTable();
 }
 function mrToggleTest(k,checked){
   const r=mrCurrentRow();r.requested[k]=checked;mrSave();
@@ -1677,21 +1822,18 @@ function mrAutoDescription(){
   if(parts.length)r.description=parts.join(" - ");
 }
 function mrImportMoisture(){
-  const r=mrCurrentRow();
   const src=mCurrentRow();
-  const x=src?mCalcRow(src):null;
-  if(!x || x.wc==null){alert('Calculate the active moisture row first.');return}
-  r.results.moisture=r1(x.wc);r.requested.moisture=true;mrSave();mrRenderRowEditor();renderMainReportTable();
+  const result=autoSyncMoistureRow(src);
+  if(result.ok){paintSyncStatus('moistureAutoSync',getMoistureSyncInfo(src));return}
+  if(result.reason==='no-match')alert('No Main Report row matches this Boring No. + Depth.');
+  else alert('Complete the active Moisture row first.');
 }
 function mrImportAtterberg(){
-  const r=mrCurrentRow();
-  const c=sampleCalc(data.samples[activeSample]);
-  if(c.finalLL==null){alert("Calculate an Atterberg sample first.");return}
-  r.results.ll=String(c.finalLL);
-  if(c.finalPL!=null)r.results.pl=String(c.finalPL);
-  if(c.pi!=null)r.results.pi=String(c.pi);
-  r.requested.ll=true;r.requested.pl=true;r.requested.pi=true;
-  mrSave();mrRenderRowEditor();renderMainReportTable();
+  const src=data.samples[activeSample];
+  const result=autoSyncAtterbergSample(src);
+  if(result.ok){paintSyncStatus('atterbergAutoSync',getAtterbergSyncInfo(src));return}
+  if(result.reason==='no-match')alert('No Main Report row matches this Boring No. + Depth.');
+  else alert('Complete the active Atterberg sample first.');
 }
 function mrLookupPen(){
   const r=mrCurrentRow(), target=n(r.penDepth);
@@ -1760,9 +1902,10 @@ function mrRenderRowEditor(){
 
     <hr>
     <div class="report-section-title"><span>Lab Results</span><span class="report-subtitle">Requested fields are highlighted</span></div>
+    <div class="autosync-strip ok"><span class="sync-dot"></span><span><b>Auto Sync is ON.</b> Moisture and Atterberg results are matched by <b>Boring No. + Depth</b>.</span></div>
     <div class="import-bar">
-      <button class="btn light" onclick="mrImportMoisture()">Import Moisture % from Calculator</button>
-      <button class="btn light" onclick="mrImportAtterberg()">Import LL / PL / PI from Atterberg</button>
+      <button class="btn light" onclick="mrImportMoisture()">Sync Active Moisture by Boring + Depth</button>
+      <button class="btn light" onclick="mrImportAtterberg()">Sync Active Atterberg by Boring + Depth</button>
     </div>
     <div class="lab-result-grid">${results}</div>
 
@@ -2122,8 +2265,9 @@ window.addEventListener("load",()=>{
   if(!el)return;
   el.addEventListener('input',mHeaderFromDOM);
 });
-load();loadHeaderSettings();mLoad();renderAll();
-mrLoad();mrLoadHeaderToDOM();mrRenderAll();
+load();loadHeaderSettings();mLoad();mrLoad();
+syncExistingSourcesToMainReport({overwrite:false,render:false});
+renderAll();mrLoadHeaderToDOM();mrRenderAll();
 ["mr_project","mr_job","mr_date_assigned","mr_engineer","mr_technician","mr_reviewed","mr_date_tested","mr_date_delivered","mr_priority","mr_project_notes"]
 .forEach(id=>{
   const el=document.getElementById(id);

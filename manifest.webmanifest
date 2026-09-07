@@ -2,12 +2,12 @@
   "id": "./",
   "name": "GET Soil Lab Suite",
   "short_name": "GET Soil Lab",
-  "start_url": "./?v=19",
+  "start_url": "./?v=20",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f6fbff",
   "theme_color": "#ffffff",
-  "description": "GET Soil Lab Suite v19 \u2014 Main Lab Request, Moisture Content, and Atterberg Limits.",
+  "description": "GET Soil Lab Suite v20 \u2014 automatic Boring + Depth synchronization across Main Report, Moisture Content, and Atterberg Limits.",
   "icons": [
     {
       "src": "icon-192.png",

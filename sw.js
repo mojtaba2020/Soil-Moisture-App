@@ -1,4 +1,4 @@
-const CACHE="get-soil-lab-v19-20260907";
+const CACHE="get-soil-lab-v20-20260907";
 const ASSETS=[
   "./",
   "./index.html",
