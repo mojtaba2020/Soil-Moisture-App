@@ -1,8 +1,9 @@
-const CACHE="get-soil-lab-v13-20260907";
+const CACHE="get-soil-lab-v14-20260907";
 const ASSETS=[
   "./",
   "./index.html",
   "./manifest.webmanifest",
+  "./icon-180.png",
   "./icon-192.png",
   "./icon-512.png",
   "./main-report.jpg",
@@ -26,7 +27,6 @@ self.addEventListener("activate", event => {
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
 
-  // HTML/navigation: always network first so new versions show immediately.
   if (event.request.mode === "navigate") {
     event.respondWith(
       fetch(event.request, {cache:"no-store"})

@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>GET Soil Lab Suite</title>
 <link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="./icon-180.png?v=14">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GET Soil Lab">
 <meta name="theme-color" content="#0f172a">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
@@ -180,6 +184,144 @@ hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
 @keyframes titleShimmer{0%{background-position:0% center}100%{background-position:200% center}}@keyframes ripple{0%{opacity:.65;box-shadow:0 0 0 0 #fff7}100%{opacity:0;box-shadow:0 0 0 220px #fff0}}@keyframes titlePulse{0%{transform:scale(1);text-shadow:0 0 0 #fff0}50%{transform:scale(1.03);text-shadow:0 0 16px #fff8}100%{transform:scale(1);text-shadow:0 0 0 #fff0}}
 @media(max-width:850px){.welcome-title{font-size:28px}.exp-card .dynamic-title{font-size:26px}.info-slab{grid-template-columns:1fr}.tabs{grid-template-columns:repeat(2,1fr)!important}.brand-lines .main{font-size:25px}.designer{width:100%;justify-content:center}}
 @media print{#home,.designer,.exp-card,.welcome-cta{display:none!important}}
+
+/* ===== v14 Professional Header Refresh ===== */
+.hero{
+  padding:14px 15px 13px;
+  border-radius:20px;
+  background:
+    radial-gradient(circle at 100% 0%,rgba(86,180,228,.20),transparent 34%),
+    linear-gradient(135deg,#071b34 0%,#0a3659 58%,#0b5b86 100%);
+  box-shadow:0 12px 28px rgba(7,27,52,.18);
+}
+.hero:before{display:none}
+.hero-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:nowrap;
+}
+.brand-lockup{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+.brand-mark{
+  flex:0 0 50px;
+  width:50px;
+  height:50px;
+  border-radius:14px;
+  background:#eef8ff;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.9),0 6px 16px rgba(0,16,34,.22);
+}
+.brand-mark svg{width:36px;height:36px}
+.brand-lines{min-width:0}
+.brand-lines .super{
+  margin:0 0 2px;
+  font-size:9.5px;
+  line-height:1.15;
+  font-weight:850;
+  letter-spacing:.14em;
+  color:#9fc9e2;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.brand-lines .main{
+  font-size:22px;
+  line-height:1.08;
+  font-weight:950;
+  letter-spacing:-.02em;
+  color:#fff;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.brand-lines .sub{display:none}
+.hero > p{display:none}
+
+.header-version{
+  flex:0 0 auto;
+  min-width:38px;
+  height:30px;
+  display:grid;
+  place-items:center;
+  padding:0 9px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.20);
+  background:rgba(255,255,255,.10);
+  color:#d7ecf8;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.04em;
+}
+.designer-strip{
+  margin-top:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  min-height:34px;
+  padding:7px 12px;
+  border-radius:11px;
+  background:#f5fbff;
+  border:1px solid #cae5f4;
+  color:#63788b;
+  box-shadow:0 4px 12px rgba(1,32,57,.08);
+  font-size:11px;
+  font-weight:750;
+  letter-spacing:.01em;
+}
+.designer-strip .designer-name{
+  color:#0b5b86;
+  font-size:13px;
+  font-weight:950;
+}
+.designer-strip .credit-dot{
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#20a4d8;
+  box-shadow:0 0 0 4px rgba(32,164,216,.12);
+}
+.tabs{
+  margin-top:10px;
+  gap:8px;
+}
+.tab{
+  min-height:46px;
+  padding:11px 8px;
+  border-radius:14px;
+  font-size:14px;
+  box-shadow:inset 0 0 0 1px rgba(203,216,229,.65);
+}
+.tab.active{
+  box-shadow:0 7px 16px rgba(11,91,134,.18);
+}
+@media(max-width:520px){
+  .app{padding-left:10px;padding-right:10px}
+  .hero{padding:12px}
+  .brand-mark{flex-basis:45px;width:45px;height:45px;border-radius:13px}
+  .brand-mark svg{width:32px;height:32px}
+  .brand-lines .super{font-size:8.2px;letter-spacing:.10em}
+  .brand-lines .main{font-size:19px}
+  .header-version{min-width:34px;height:28px;font-size:10px;padding:0 7px}
+  .designer-strip{margin-top:9px;min-height:31px;padding:6px 8px;font-size:10px}
+  .designer-strip .designer-name{font-size:12px}
+  .tabs{grid-template-columns:repeat(4,1fr)!important}
+  .tab{font-size:12px;padding:10px 4px;border-radius:12px}
+}
+@media(max-width:390px){
+  .brand-lines .main{font-size:17px}
+  .brand-lines .super{max-width:185px}
+  .tab{font-size:11px}
+}
+@media print{
+  .designer-strip,.header-version{display:none!important}
+}
+
 </style>
 </head>
 <body>
@@ -196,14 +338,17 @@ hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
           </svg>
         </div>
         <div class="brand-lines">
-          <div class="super">Geotech Engineering Testing</div>
+          <div class="super">GEOTECH ENGINEERING TESTING</div>
           <div class="main">GET Soil Lab Suite</div>
-          <div class="sub">Main Lab Report • Moisture Content • Atterberg Limits</div>
         </div>
       </div>
-      <div class="designer">Designed by Mojtaba Shabanpour&nbsp;&nbsp;•&nbsp;&nbsp;v13</div>
+      <div class="header-version">v14</div>
     </div>
-    <p>A polished mobile laboratory workflow for engineer requests, sample tracking, moisture content testing, and Atterberg limits reporting.</p>
+    <div class="designer-strip">
+      <span class="credit-dot"></span>
+      <span>Application designed by</span>
+      <span class="designer-name">Mojtaba Shabanpour</span>
+    </div>
   </div>
 
   <div class="tabs">
