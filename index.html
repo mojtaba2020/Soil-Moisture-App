@@ -358,6 +358,66 @@ hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
   to{opacity:0;box-shadow:0 0 0 95px rgba(11,91,134,0)}
 }
 
+
+/* ===== v16 Home + Audio polish ===== */
+#welcomeAudioStatus{display:none}
+.welcome-card{
+  padding:18px 20px;
+  border-radius:24px;
+  background:
+    radial-gradient(circle at 88% 20%,rgba(86,180,228,.12),transparent 30%),
+    linear-gradient(180deg,#ffffff 0%,#f8fbff 100%);
+}
+.welcome-title{
+  margin:10px 0 8px;
+  font-size:30px;
+  letter-spacing:-.025em;
+}
+.welcome-copy{
+  max-width:860px;
+  font-size:14px;
+  line-height:1.55;
+}
+.slide-grid{gap:16px}
+.exp-card{
+  min-height:285px;
+  border-radius:28px;
+  box-shadow:0 18px 36px rgba(15,23,42,.18);
+}
+.exp-card .overlay{
+  min-height:285px;
+  padding:24px;
+}
+.exp-card .dynamic-title{
+  max-width:720px;
+  font-size:34px;
+}
+.exp-card p{
+  max-width:680px;
+  font-size:15px;
+}
+.exp-card .arrow{
+  margin-top:16px;
+  background:rgba(255,255,255,.18);
+}
+.exp-card.speaking .dynamic-title{
+  animation:titleVoicePulse .8s ease-in-out;
+}
+@keyframes titleVoicePulse{
+  0%{transform:scale(1);filter:drop-shadow(0 0 0 rgba(255,255,255,0))}
+  45%{transform:scale(1.025);filter:drop-shadow(0 0 10px rgba(255,255,255,.50))}
+  100%{transform:scale(1);filter:drop-shadow(0 0 0 rgba(255,255,255,0))}
+}
+@media(max-width:520px){
+  .welcome-card{padding:16px}
+  .welcome-title{font-size:27px}
+  .welcome-copy{font-size:13.5px}
+  .exp-card{min-height:310px;border-radius:24px}
+  .exp-card .overlay{min-height:310px;padding:20px}
+  .exp-card .dynamic-title{font-size:30px}
+  .exp-card p{font-size:14px;line-height:1.45}
+}
+
 </style>
 </head>
 <body>
@@ -378,7 +438,7 @@ hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
           <div class="main">GET Soil Lab Suite</div>
         </div>
       </div>
-      <div class="header-version">v15</div>
+      <div class="header-version">v16</div>
     </div>
     <div class="designer-strip">
       <span class="credit-dot"></span>
@@ -402,22 +462,13 @@ hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
             <span class="welcome-eyebrow">Welcome</span>
             <h2 class="welcome-title">Welcome to the GET Soil Lab Suite</h2>
             <p class="welcome-copy">Use this app to receive the engineer’s requested tests, record sample details, calculate moisture content, complete Atterberg limits, and print clean professional worksheets in one place.</p>
-            <div class="welcome-cta">
-              <button type="button" class="quick-chip" onclick="goPanel('mainreport',this,event)">Engineer Request Tracking</button>
-              <button type="button" class="quick-chip" onclick="goPanel('moisture',this,event)">Moisture Worksheet Output</button>
-              <button type="button" class="quick-chip" onclick="goPanel('atterberg',this,event)">Atterberg Limits Worksheet</button>
-            </div>
+            
           </div>
         </div>
-        <div class="info-slab">
-          <div class="info-box"><b>Company Branding</b><span>Branded as a Geotech Engineering Testing workflow with a dedicated GET identity and welcome experience.</span></div>
-          <div class="info-box"><b>Interactive Start Screen</b><span>Tap any laboratory workflow below to jump in with visual feedback, a soft click chime, and wave animation.</span></div>
-          <div class="info-box"><b>Print-Ready Reports</b><span>Designed for clean PDF output so your field-request and lab-result sheets stay professional and readable.</span></div>
         </div>
-      </div>
 
       <div class="slide-grid">
-        <button class="exp-card" onclick="goPanel('mainreport',this,event)">
+        <button class="exp-card" data-speech="Main Lab Request Sheet" onclick="goPanel('mainreport',this,event)">
           <img src="./main-report.jpg" alt="Main lab request sheet">
           <div class="overlay">
             <span class="pill">Workflow 01</span>
@@ -427,7 +478,7 @@ hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
           </div>
         </button>
 
-        <button class="exp-card" onclick="goPanel('moisture',this,event)">
+        <button class="exp-card" data-speech="Moisture Content Testing" onclick="goPanel('moisture',this,event)">
           <img src="./moisture.jpg" alt="Moisture content test sheet">
           <div class="overlay">
             <span class="pill">Workflow 02</span>
@@ -437,7 +488,7 @@ hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
           </div>
         </button>
 
-        <button class="exp-card" onclick="goPanel('atterberg',this,event)">
+        <button class="exp-card" data-speech="Atterberg Limits Testing" onclick="goPanel('atterberg',this,event)">
           <img src="./atterberg.png" alt="Atterberg limits worksheet">
           <div class="overlay">
             <span class="pill">Workflow 03</span>
@@ -1715,32 +1766,156 @@ function renderAll(){renderTabs();renderEditor();renderWorksheet();renderMoistur
 function setActivePanel(panel){
   document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.panel===panel));
   document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",x.id===panel));
-  if(panel!=="home"){ setTimeout(()=>{ const tgt=document.getElementById(panel); if(tgt) tgt.scrollIntoView({behavior:"smooth",block:"start"}); }, 60); }
+  if(panel!=="home"){
+    setTimeout(()=>{
+      const tgt=document.getElementById(panel);
+      if(tgt)tgt.scrollIntoView({behavior:"smooth",block:"start"});
+    },60);
+  }
 }
-function playUiClick(){
+
+let uiAudioContext=null;
+let welcomeAnnounced=false;
+let speechVoice=null;
+
+function getUiAudioContext(){
   try{
-    const C=window.AudioContext||window.webkitAudioContext; if(!C)return;
-    const ctx=new C(); const now=ctx.currentTime;
-    const o1=ctx.createOscillator(), o2=ctx.createOscillator(), g=ctx.createGain();
-    o1.type='sine'; o2.type='triangle';
-    o1.frequency.setValueAtTime(660,now); o1.frequency.exponentialRampToValueAtTime(880,now+0.12);
-    o2.frequency.setValueAtTime(440,now); o2.frequency.exponentialRampToValueAtTime(660,now+0.18);
-    g.gain.setValueAtTime(0.0001,now); g.gain.exponentialRampToValueAtTime(0.09,now+0.02); g.gain.exponentialRampToValueAtTime(0.0001,now+0.34);
-    o1.connect(g); o2.connect(g); g.connect(ctx.destination); o1.start(now); o2.start(now); o1.stop(now+0.36); o2.stop(now+0.36);
+    const C=window.AudioContext||window.webkitAudioContext;
+    if(!C)return null;
+    if(!uiAudioContext)uiAudioContext=new C();
+    if(uiAudioContext.state==="suspended")uiAudioContext.resume().catch(()=>{});
+    return uiAudioContext;
+  }catch(e){return null}
+}
+
+function playUiClick(){
+  const ctx=getUiAudioContext();
+  if(!ctx)return;
+  try{
+    const now=ctx.currentTime;
+    const master=ctx.createGain();
+    const o1=ctx.createOscillator();
+    const o2=ctx.createOscillator();
+
+    o1.type="sine";
+    o2.type="sine";
+
+    o1.frequency.setValueAtTime(520,now);
+    o1.frequency.exponentialRampToValueAtTime(690,now+0.10);
+    o2.frequency.setValueAtTime(780,now);
+    o2.frequency.exponentialRampToValueAtTime(880,now+0.08);
+
+    master.gain.setValueAtTime(0.0001,now);
+    master.gain.exponentialRampToValueAtTime(0.055,now+0.012);
+    master.gain.exponentialRampToValueAtTime(0.0001,now+0.22);
+
+    o1.connect(master);
+    o2.connect(master);
+    master.connect(ctx.destination);
+
+    o1.start(now);
+    o2.start(now+0.012);
+    o1.stop(now+0.23);
+    o2.stop(now+0.20);
   }catch(e){}
 }
+
+function chooseSpeechVoice(){
+  if(!("speechSynthesis" in window))return null;
+  const voices=window.speechSynthesis.getVoices()||[];
+  speechVoice=
+    voices.find(v=>/Samantha/i.test(v.name)) ||
+    voices.find(v=>/Ava/i.test(v.name)) ||
+    voices.find(v=>/Allison/i.test(v.name)) ||
+    voices.find(v=>v.lang==="en-US") ||
+    voices.find(v=>/^en/i.test(v.lang)) ||
+    null;
+  return speechVoice;
+}
+
+function speakProfessional(text,onEnd){
+  if(!("speechSynthesis" in window))return false;
+  try{
+    chooseSpeechVoice();
+    window.speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    if(speechVoice)u.voice=speechVoice;
+    u.lang="en-US";
+    u.rate=0.91;
+    u.pitch=1.02;
+    u.volume=0.92;
+    if(onEnd)u.onend=onEnd;
+    window.speechSynthesis.speak(u);
+    return true;
+  }catch(e){
+    return false;
+  }
+}
+
+function announceWelcome(){
+  if(welcomeAnnounced)return;
+  welcomeAnnounced=true;
+  speakProfessional("Welcome to the G E T Soil Lab Suite.");
+}
+
 function triggerWave(el,evt){
-  if(!el) return;
+  if(!el)return;
   const rect=el.getBoundingClientRect();
   const x=evt?evt.clientX-rect.left:rect.width/2;
   const y=evt?evt.clientY-rect.top:rect.height/2;
-  el.style.setProperty('--x',x+'px');
-  el.style.setProperty('--y',y+'px');
-  el.classList.remove('wave'); void el.offsetWidth; el.classList.add('wave');
-  const title=el.querySelector('.dynamic-title'); if(title){ title.classList.remove('title-wave'); void title.offsetWidth; title.classList.add('title-wave'); }
+  el.style.setProperty("--x",x+"px");
+  el.style.setProperty("--y",y+"px");
+  el.classList.remove("wave");
+  void el.offsetWidth;
+  el.classList.add("wave");
+  const title=el.querySelector(".dynamic-title");
+  if(title){
+    title.classList.remove("title-wave");
+    void title.offsetWidth;
+    title.classList.add("title-wave");
+  }
 }
-function goPanel(panel,el=null,evt=null){ playUiClick(); triggerWave(el,evt); setActivePanel(panel); }
+
+function announceWorkflow(el,panel){
+  let text=el?.dataset?.speech||"";
+  if(!text){
+    if(panel==="mainreport")text="Main Lab Request Sheet";
+    if(panel==="moisture")text="Moisture Content Testing";
+    if(panel==="atterberg")text="Atterberg Limits Testing";
+  }
+  if(!text)return;
+  if(el){
+    el.classList.add("speaking");
+    setTimeout(()=>el.classList.remove("speaking"),850);
+  }
+  speakProfessional(text);
+}
+
+function goPanel(panel,el=null,evt=null){
+  playUiClick();
+  triggerWave(el,evt);
+  announceWorkflow(el,panel);
+  setActivePanel(panel);
+}
+
 document.querySelectorAll(".tab").forEach(b=>b.onclick=(e)=>goPanel(b.dataset.panel,b,e));
+
+if("speechSynthesis" in window){
+  chooseSpeechVoice();
+  window.speechSynthesis.onvoiceschanged=chooseSpeechVoice;
+}
+
+/* Best effort welcome on app launch. iOS may require the first user interaction. */
+window.addEventListener("load",()=>{
+  setTimeout(()=>announceWelcome(),650);
+});
+
+/* iPhone/Safari fallback: unlock audio on the first touch/click.
+   If autoplay speech was blocked, the welcome is delivered on that first interaction. */
+document.addEventListener("pointerdown",()=>{
+  getUiAudioContext();
+  if(!welcomeAnnounced)announceWelcome();
+},{once:true});
 ["date","tech","project","scale","job","remarks","form_no","rev_no","footer_ref","bottom_pl","bottom_ll","apparatus_no","tool_name"]
 .forEach(id=>document.getElementById(id).addEventListener("input",()=>{saveHeaderSettings();renderWorksheet()}));
 ["eq_hand_roller","eq_mech_rolling","eq_manual","eq_mechanical","eq_metal","eq_plastic"]
