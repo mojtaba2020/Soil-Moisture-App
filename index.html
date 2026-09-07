@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>GET Soil Lab Suite v20</title>
+<title>GET Soil Lab Suite v21</title>
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="./icon-180.png?v=20">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -552,6 +552,27 @@ button,input,select,textarea,a,.color-choice,.sample-tab,.test-request,.obs-item
 .autosync-strip.nomatch .sync-dot{background:#ef4444;box-shadow:0 0 0 4px #ef44441f}
 .autosync-strip b{font-weight:950}
 
+
+/* =========================================================
+   v21 LAB MANAGER / DATABASE / QA / FINAL REPORT
+   ========================================================= */
+.tabs{grid-template-columns:repeat(5,1fr)!important}
+.manager-ui{display:grid;gap:14px}
+.manager-topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;background:linear-gradient(135deg,#071b34,#0b5b86 72%,#1682bd);color:#fff;border-radius:22px;padding:18px;box-shadow:0 14px 34px rgba(7,27,52,.16)}
+.manager-topbar h2{margin:5px 0 7px;font-size:27px;letter-spacing:-.02em}.manager-eyebrow{font-size:11px;font-weight:900;letter-spacing:.16em;color:#bce5f8}.manager-subline{display:flex;gap:7px;flex-wrap:wrap;align-items:center;color:#d6edf7;font-size:12px;font-weight:750}.manager-actions-top{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.status-pill{display:inline-flex;align-items:center;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:900;border:1px solid transparent}.status-pill.ok{background:#e9fff1;color:#166534;border-color:#bde7cb}.status-pill.warn{background:#fff7db;color:#7c5c0e;border-color:#ead693}.status-pill.bad{background:#fff0f0;color:#a61b1b;border-color:#efc1c1}.status-pill.neutral{background:#ffffff18;color:#eaf8ff;border-color:#ffffff22}
+.manager-stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.manager-stat{background:#fff;border:1px solid #d7e6f2;border-radius:18px;padding:14px;box-shadow:0 6px 18px rgba(15,23,42,.045)}.manager-stat .k{font-size:11px;color:#64748b;font-weight:850;text-transform:uppercase;letter-spacing:.06em}.manager-stat .v{font-size:28px;font-weight:950;color:#0b5b86;margin-top:4px}.manager-stat .s{font-size:11px;color:#64748b;margin-top:4px}
+.manager-grid{display:grid;gap:12px}.manager-grid.two{grid-template-columns:1fr 1fr}.manager-card{background:#fff;border:1px solid #d8e6f1;border-radius:20px;padding:15px;box-shadow:0 6px 18px rgba(15,23,42,.04)}.manager-card-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;font-size:17px;font-weight:950;color:#16324f}.manager-card-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#64748b;font-weight:850}.manager-search-row,.manager-action-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}.manager-search-row input{flex:1;min-width:180px}.manager-action-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.manager-note{margin-top:10px;padding:10px 12px;border-radius:13px;background:#f5f9fc;border:1px solid #dce9f2;color:#526577;font-size:12px;line-height:1.45}
+.project-list{display:grid;gap:8px;max-height:430px;overflow:auto}.project-item{border:1px solid #dce7f0;border-radius:15px;padding:11px;background:#fbfdff}.project-item.active{border-color:#63a9d5;background:#eef8ff}.project-item-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.project-title{font-weight:950;color:#15324f}.project-meta{font-size:11px;color:#64748b;margin-top:3px}.project-item-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.mini-btn{border:1px solid #cadbe8;border-radius:10px;background:#fff;color:#173653;padding:7px 9px;font-size:11px;font-weight:850}.mini-btn.danger{color:#a61b1b;border-color:#efcaca;background:#fff8f8}
+.validation-list{display:grid;gap:7px;max-height:390px;overflow:auto;margin-top:10px}.validation-item{display:flex;gap:8px;align-items:flex-start;border-radius:12px;padding:9px 10px;border:1px solid #dbe7ef;background:#fbfdff;font-size:12px}.validation-item.error{background:#fff5f5;border-color:#efc5c5;color:#8f1d1d}.validation-item.warning{background:#fffaf0;border-color:#ead9a7;color:#6e5919}.validation-item.ok{background:#f0fbf4;border-color:#c4e5cf;color:#166534}.validation-icon{font-weight:950;min-width:18px}.qa-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.qa-box{border-radius:12px;padding:9px;text-align:center;border:1px solid #dce7ef;background:#f8fbfd}.qa-box b{display:block;font-size:20px}.qa-box small{color:#64748b}
+.settings-grid{display:grid;gap:8px}.setting-row{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid #dbe6ef;border-radius:14px;padding:11px;background:#fbfdff}.setting-row span{display:block}.setting-row small{display:block;color:#64748b;font-weight:600;margin-top:3px}.setting-row input[type=checkbox]{width:auto;transform:scale(1.25)}.volume-row input[type=range]{max-width:180px}.audit-list{display:grid;gap:7px;max-height:300px;overflow:auto}.audit-item{border-left:3px solid #4aa7d8;background:#f8fbfd;border-radius:9px;padding:8px 10px}.audit-item b{display:block;font-size:12px;color:#173653}.audit-item small{display:block;color:#64748b;margin-top:2px;line-height:1.35}
+.sample-status{display:inline-flex;border-radius:999px;padding:4px 7px;font-size:9px;font-weight:900;background:#eef3f7;color:#475569}.sample-status.In-Progress{background:#fff7d9;color:#7c5c0e}.sample-status.Tested{background:#eaf7ff;color:#075985}.sample-status.Reviewed{background:#efeaff;color:#5b21b6}.sample-status.Complete{background:#eafbf0;color:#166534}
+body.project-locked #mainreport .input-only,body.project-locked #moisture .input-only,body.project-locked #atterberg .input-only{pointer-events:none;opacity:.68;filter:saturate(.75)}
+body.project-locked #mainreport .report-output-card,body.project-locked #moisture .report-output-card,body.project-locked #atterberg .card:not(.input-only){opacity:1}
+.final-report-area{display:none;background:#fff;color:#111}.final-sheet{font-family:Arial,sans-serif;background:#fff;padding:18px}.final-head{display:grid;grid-template-columns:1.2fr 2fr 1.2fr;gap:14px;align-items:center;border-bottom:3px solid #0b5b86;padding-bottom:10px}.final-brand{font-size:28px;font-weight:950;color:#0b5b86}.final-brand small{display:block;font-size:11px;color:#64748b;letter-spacing:.08em}.final-title{text-align:center;font-size:22px;font-weight:950}.final-id{text-align:right;font-size:11px;line-height:1.5}.final-info{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:12px 0}.final-info div{border:1px solid #cbd5e1;border-radius:8px;padding:7px;font-size:10px}.final-info b{display:block;color:#475569;font-size:9px;text-transform:uppercase}.final-table{width:100%;border-collapse:collapse;font-size:8.5px}.final-table th,.final-table td{border:1px solid #475569;padding:4px;text-align:center}.final-table th{background:#eaf3f8}.final-table .l{text-align:left}.final-signatures{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:14px}.sig-box{border-top:1px solid #111;padding-top:5px;font-size:10px}.final-footer{display:flex;justify-content:space-between;border-top:1px solid #94a3b8;margin-top:12px;padding-top:6px;font-size:8px;color:#64748b}.page-number:after{content:"Page " counter(page)}
+@media(max-width:850px){.tabs{grid-template-columns:repeat(5,minmax(88px,1fr))!important;overflow:auto}.manager-grid.two{grid-template-columns:1fr}.manager-stat-grid{grid-template-columns:1fr 1fr}.manager-topbar{flex-direction:column}.manager-actions-top{justify-content:flex-start}.manager-action-grid{grid-template-columns:1fr}.final-info{grid-template-columns:1fr 1fr}}
+@media print{body.print-final{background:#fff!important}body.print-final .app>.hero,body.print-final .tabs,body.print-final .panel{display:none!important}body.print-final #manager{display:block!important}body.print-final #manager .manager-ui{display:none!important}body.print-final #finalReportArea{display:block!important}body.print-final .final-sheet{padding:0!important}body.print-final .final-report-area{display:block!important}}
+
 </style>
 </head>
 <body>
@@ -572,7 +593,7 @@ button,input,select,textarea,a,.color-choice,.sample-tab,.test-request,.obs-item
           <div class="main">GET Soil Lab Suite</div>
         </div>
       </div>
-      <div class="header-version">v20</div>
+      <div class="header-version">v21</div>
     </div>
     <div class="designer-strip">
       <span class="credit-dot"></span>
@@ -586,6 +607,7 @@ button,input,select,textarea,a,.color-choice,.sample-tab,.test-request,.obs-item
     <button class="tab" data-panel="mainreport">Main Report</button>
     <button class="tab" data-panel="moisture">Moisture</button>
     <button class="tab" data-panel="atterberg">Atterberg</button>
+    <button class="tab" data-panel="manager">Manager</button>
   </div>
 
   <section class="panel active" id="home">
@@ -790,6 +812,99 @@ button,input,select,textarea,a,.color-choice,.sample-tab,.test-request,.obs-item
       <div class="ws-wrap"><div id="moistureWorksheet"></div></div>
     </div>
   </section>
+
+  <section class="panel" id="manager">
+    <div class="manager-ui">
+      <div class="manager-topbar">
+        <div>
+          <div class="manager-eyebrow">GET SOIL LAB MANAGER • v21</div>
+          <h2>Laboratory Project Control Center</h2>
+          <div class="manager-subline"><span id="mgrProjectIdentity">Current project</span> <span id="mgrAutoSave" class="status-pill neutral">Autosave ready</span> <span id="mgrOnline" class="status-pill neutral">Checking connection…</span></div>
+        </div>
+        <div class="manager-actions-top">
+          <button class="btn good" onclick="managerNewProject()">+ New Project</button>
+          <button class="btn" onclick="managerSaveNow(true)">Save Now</button>
+          <button class="btn light" onclick="setActivePanel('home')">Home</button>
+        </div>
+      </div>
+
+      <div class="manager-stat-grid" id="managerStats"></div>
+
+      <div class="manager-grid two">
+        <div class="manager-card">
+          <div class="manager-card-title"><span>Project Database & History</span><span class="manager-card-kicker">IndexedDB • Offline</span></div>
+          <div class="manager-search-row">
+            <input id="mgrSearch" placeholder="Search project, job no., boring…" oninput="renderProjectLibrary()">
+            <button class="btn light" onclick="renderProjectLibrary()">Search</button>
+          </div>
+          <div id="mgrProjectList" class="project-list"></div>
+        </div>
+
+        <div class="manager-card">
+          <div class="manager-card-title"><span>QA / Validation</span><span id="mgrQACount" class="manager-card-kicker">0 issues</span></div>
+          <div class="manager-action-row">
+            <button class="btn good" onclick="renderValidation()">Run Validation</button>
+            <button class="btn light" onclick="syncExistingSourcesToMainReport({overwrite:false,render:true});managerAudit('Auto Sync','Re-ran Moisture + Atterberg link check');renderValidation()">Re-run Auto Sync</button>
+          </div>
+          <div id="mgrValidationSummary"></div>
+          <div id="mgrValidationList" class="validation-list"></div>
+        </div>
+      </div>
+
+      <div class="manager-grid two">
+        <div class="manager-card">
+          <div class="manager-card-title"><span>Status, Review & Final Approval</span><span id="mgrLockState" class="manager-card-kicker">Editable</span></div>
+          <div class="fields">
+            <div class="f4"><label>Project Status</label>
+              <select id="mgrStatus" onchange="managerSetStatus(this.value)">
+                <option>Pending</option><option>In Progress</option><option>Tested</option><option>Reviewed</option><option>Complete</option>
+              </select>
+            </div>
+            <div class="f4"><label>Technician Signature / Name</label><input id="mgrTechSign" oninput="managerSignatureChanged()" placeholder="Technician name"></div>
+            <div class="f4"><label>Reviewer Signature / Name</label><input id="mgrReviewerSign" oninput="managerSignatureChanged()" placeholder="Reviewer name"></div>
+          </div>
+          <div class="manager-action-row">
+            <button class="btn good" onclick="managerFinalize()">Finalize & Lock Report</button>
+            <button class="btn dark" onclick="managerUnlock()">Unlock for Revision</button>
+            <button class="btn light" onclick="printFinalReport()">Print Final Report / PDF</button>
+          </div>
+          <div id="mgrFinalizeNote" class="manager-note"></div>
+        </div>
+
+        <div class="manager-card">
+          <div class="manager-card-title"><span>Export, Import & Backup</span><span class="manager-card-kicker">Portable records</span></div>
+          <div class="manager-action-grid">
+            <button class="btn" onclick="exportCurrentProjectJSON()">Current Project JSON</button>
+            <button class="btn" onclick="exportCurrentCSV()">Results CSV / Excel</button>
+            <button class="btn" onclick="exportAllProjectsJSON()">Full Database Backup</button>
+            <button class="btn light" onclick="document.getElementById('mgrImportFile').click()">Import Backup</button>
+          </div>
+          <input id="mgrImportFile" class="hidden" type="file" accept="application/json,.json" onchange="managerImportBackup(this.files[0])">
+          <div class="manager-note">JSON backup preserves projects, samples, signatures, audit trail, statuses, and calculations. CSV opens cleanly in Excel.</div>
+        </div>
+      </div>
+
+      <div class="manager-grid two">
+        <div class="manager-card">
+          <div class="manager-card-title"><span>Sound & App Settings</span><span class="manager-card-kicker">Saved on device</span></div>
+          <div class="settings-grid">
+            <label class="setting-row"><span><b>Welcome / Voice</b><small>Female voice for welcome and module names</small></span><input type="checkbox" id="mgrVoice" onchange="saveManagerSettings()"></label>
+            <label class="setting-row"><span><b>Click Chime</b><small>Soft doorbell sound on controls</small></span><input type="checkbox" id="mgrClickSound" onchange="saveManagerSettings()"></label>
+            <label class="setting-row volume-row"><span><b>Volume</b><small>Voice + click level</small></span><input type="range" id="mgrVolume" min="0" max="1" step="0.05" onchange="saveManagerSettings()" oninput="document.getElementById('mgrVolumeValue').textContent=Math.round(this.value*100)+'%'"> <b id="mgrVolumeValue">80%</b></label>
+          </div>
+          <div class="manager-action-row"><button class="btn light" onclick="playSoftDoorbell();speakV18('Welcome to the G E T Soil Lab Suite.')">Test Sound</button></div>
+        </div>
+
+        <div class="manager-card">
+          <div class="manager-card-title"><span>Audit Trail</span><span class="manager-card-kicker">Who • What • When</span></div>
+          <div id="mgrAudit" class="audit-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="finalReportArea" class="final-report-area"></div>
+  </section>
+
 </div>
 
 <script>
@@ -1960,23 +2075,24 @@ function renderMainReportTable(){
         <td>${mrCell(r,"handPen")}</td>
         <td>${mrCell(r,"torvane")}</td>
         <td>${mrCell(r,"uc")}</td>
+        <td><span class="sample-status ${managerSampleStatus(r).replace(/\s/g,'-')}">${managerSampleStatus(r)}</span></td>
         <td class="desc">${r.description||""}${r.remarks?`<br><small>${r.remarks}</small>`:""}</td>
       </tr>`;
     });
   });
   el.innerHTML=`<table class="mr-table">
-    <tr><th colspan="13" class="mr-report-title">MAIN SOIL LAB REQUEST / RESULTS SHEET</th></tr>
+    <tr><th colspan="14" class="mr-report-title">MAIN SOIL LAB REQUEST / RESULTS SHEET</th></tr>
     <tr class="mr-header">
       <td colspan="4"><b>Project:</b> ${h.project||""}<br><b>Job No.:</b> ${h.job||""}<br><b>Engineer:</b> ${h.engineer||""}</td>
       <td colspan="4"><b>Date Assigned:</b> ${h.dateAssigned||""}<br><b>Date Tested:</b> ${h.dateTested||""}<br><b>Date Delivered:</b> ${h.dateDelivered||""}</td>
-      <td colspan="5"><b>Technician:</b> ${h.technician||""}<br><b>Reviewed By:</b> ${h.reviewed||""}<br><b>Priority:</b> ${h.priority||""}</td>
+      <td colspan="6"><b>Technician:</b> ${h.technician||""}<br><b>Reviewed By:</b> ${h.reviewed||""}<br><b>Priority:</b> ${h.priority||""}</td>
     </tr>
-    <tr class="mr-header"><td colspan="13"><b>Project Notes / Recommendations:</b> ${h.projectNotes||""}</td></tr>
+    <tr class="mr-header"><td colspan="14"><b>Project Notes / Recommendations:</b> ${h.projectNotes||""}</td></tr>
     <tr>
       <th>Boring No.</th><th>Depth (ft)</th><th>Natural Moisture Content %</th>
       <th>LL</th><th>PL</th><th>PI</th><th>% Passing No. 200</th><th>Suction (pF)</th>
       <th>Dry Unit Weight (pcf)</th><th>Hand Penetrometer (tsf)</th><th>Torvane (tsf)</th>
-      <th>Unconfined Compression (tsf)</th><th>Soil Description / Remarks</th>
+      <th>Unconfined Compression (tsf)</th><th>Status</th><th>Soil Description / Remarks</th>
     </tr>${body}</table>`;
 }
 function mrRenderAll(){
@@ -2007,6 +2123,178 @@ function mrAutoDemoDesc(bi,ri){
   r.description=p.join(" - ");
 }
 
+
+/* =========================================================
+   v21 LAB MANAGER ENGINE
+   1) Project DB  2) Autosave  3) Export/Import  4) QA
+   5) Status  6) Audit  7) Signatures/Lock  8) Search
+   9) Dashboard 10) Sound Settings 11) Offline 12) Final Report
+   ========================================================= */
+const LAB_DB_NAME="GETSoilLabSuiteV21";
+const LAB_DB_VERSION=1;
+let labDB=null;
+let managerReady=false;
+let managerRestoring=false;
+let managerAutoSaveTimer=null;
+let managerEditAuditTimer=null;
+let managerLastEditSource="Workspace";
+let managerCurrent={
+  id:localStorage.getItem("getLabCurrentProjectIdV21")||"",
+  name:"",
+  job:"",
+  status:"In Progress",
+  locked:false,
+  createdAt:"",
+  updatedAt:"",
+  finalizedAt:"",
+  signatures:{technician:"",reviewer:""},
+  audit:[]
+};
+let managerSettings=(()=>{
+  try{return Object.assign({voice:true,clickSound:true,volume:.8},JSON.parse(localStorage.getItem("getLabSettingsV21")||"{}"))}catch(e){return {voice:true,clickSound:true,volume:.8}}
+})();
+
+function managerNow(){return new Date().toISOString()}
+function managerId(){return "GET-"+new Date().toISOString().replace(/[-:TZ.]/g,"").slice(0,14)+"-"+Math.random().toString(36).slice(2,6).toUpperCase()}
+function managerClone(v){return JSON.parse(JSON.stringify(v))}
+function managerEsc(v){return String(v??"").replace(/[&<>\"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'\"':"&quot;","'":"&#39;"}[m]))}
+function managerDateText(v){if(!v)return "";try{return new Date(v).toLocaleString()}catch(e){return v}}
+function managerTodayISO(){return new Date().toISOString().slice(0,10)}
+function managerDownload(name,content,type){const blob=content instanceof Blob?content:new Blob([content],{type:type||"application/octet-stream"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},600)}
+
+function openLabDB(){
+  return new Promise((resolve,reject)=>{
+    const req=indexedDB.open(LAB_DB_NAME,LAB_DB_VERSION);
+    req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains("projects"))db.createObjectStore("projects",{keyPath:"id"})};
+    req.onsuccess=()=>{labDB=req.result;resolve(labDB)};
+    req.onerror=()=>reject(req.error);
+  });
+}
+function dbStore(mode="readonly"){return labDB.transaction("projects",mode).objectStore("projects")}
+function dbPutProject(rec){return new Promise((res,rej)=>{const q=dbStore("readwrite").put(rec);q.onsuccess=()=>res(rec);q.onerror=()=>rej(q.error)})}
+function dbGetProject(id){return new Promise((res,rej)=>{const q=dbStore().get(id);q.onsuccess=()=>res(q.result||null);q.onerror=()=>rej(q.error)})}
+function dbAllProjects(){return new Promise((res,rej)=>{const q=dbStore().getAll();q.onsuccess=()=>res(q.result||[]);q.onerror=()=>rej(q.error)})}
+function dbDeleteProject(id){return new Promise((res,rej)=>{const q=dbStore("readwrite").delete(id);q.onsuccess=()=>res();q.onerror=()=>rej(q.error)})}
+
+function managerHeaderSnapshot(){try{return currentHeaderSettings()}catch(e){return {}}}
+function managerCaptureSnapshot(){return {mrData:managerClone(mrData),mData:managerClone(mData),atterbergData:managerClone(data),header:managerHeaderSnapshot()}}
+function managerRecord(){
+  const name=(mrData?.header?.project||managerCurrent.name||"Untitled Project").trim();
+  const job=(mrData?.header?.job||managerCurrent.job||"").trim();
+  managerCurrent.name=name||"Untitled Project";managerCurrent.job=job;
+  return Object.assign({},managerClone(managerCurrent),{snapshot:managerCaptureSnapshot(),appVersion:"v21"});
+}
+function managerAudit(action,details=""){
+  if(!managerCurrent.audit)managerCurrent.audit=[];
+  managerCurrent.audit.push({ts:managerNow(),action,details:String(details||"")});
+  if(managerCurrent.audit.length>500)managerCurrent.audit=managerCurrent.audit.slice(-500);
+  if(managerReady)renderAudit();
+}
+function managerMarkDirty(source="Workspace"){
+  if(!managerReady||managerRestoring||managerCurrent.locked)return;
+  managerCurrent.updatedAt=managerNow();managerLastEditSource=source;
+  const el=document.getElementById("mgrAutoSave");if(el){el.textContent="Saving…";el.className="status-pill warn"}
+  clearTimeout(managerAutoSaveTimer);managerAutoSaveTimer=setTimeout(()=>managerSaveNow(false),850);
+  clearTimeout(managerEditAuditTimer);managerEditAuditTimer=setTimeout(()=>{managerAudit("Edited",managerLastEditSource);managerSaveNow(false)},2800);
+}
+async function managerSaveNow(manual=false){
+  if(!managerReady||managerRestoring)return;
+  managerCurrent.updatedAt=managerNow();
+  if(manual)managerAudit("Saved","Manual project save");
+  await dbPutProject(managerRecord());
+  localStorage.setItem("getLabCurrentProjectIdV21",managerCurrent.id);
+  const el=document.getElementById("mgrAutoSave");if(el){el.textContent="Saved "+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});el.className="status-pill ok"}
+  renderManagerHeader();renderManagerStats();renderProjectLibrary();renderAudit();renderFinalReport();
+}
+
+function managerResetWorkspace(){
+  const oldLookup=managerClone(mrData?.lookup||Array.from({length:8},()=>({depth:"",hand:"",torvane:""})));
+  data={samples:Array.from({length:NUM_SAMPLES},(_,i)=>blankSample(i))};activeSample=0;
+  mData={header:{oven:"",llid:"",date:"",project:"",scale:"",job:"",testedBy:"",computedBy:"",checkedBy:"",remarks:"",formNo:"111",rev:"12-04",footerRef:"excel/data/forms/mstrcont.ltdb"},rows:Array.from({length:M_DEFAULT_ROWS},(_,i)=>blankMoistureRow(i))};mActiveRow=0;
+  mrData={header:{project:"",job:"",dateAssigned:"",engineer:"",technician:"",reviewed:"",dateTested:"",dateDelivered:"",priority:"",projectNotes:""},borings:[mrMakeBoring("B-1")],lookup:oldLookup};mrActiveBoring=0;mrActiveDepth=0;
+  localStorage.setItem("soilLabV8",JSON.stringify(data));localStorage.setItem("soilLabMoistureV11",JSON.stringify(mData));localStorage.setItem("soilLabMainReportV10",JSON.stringify(mrData));
+  const clearIds=["date","tech","project","scale","job","remarks","bottom_pl","bottom_ll","apparatus_no"];
+  clearIds.forEach(id=>{const el=document.getElementById(id);if(el)el.value=""});
+  saveHeaderSettings();renderAll();mrRenderAll();
+}
+async function managerNewProject(){
+  if(managerReady)await managerSaveNow(false);
+  const name=prompt("Project name","New Project");if(name===null)return;
+  const job=prompt("Job number","");if(job===null)return;
+  managerRestoring=true;managerResetWorkspace();managerRestoring=false;
+  managerCurrent={id:managerId(),name:name.trim()||"New Project",job:job.trim(),status:"Pending",locked:false,createdAt:managerNow(),updatedAt:managerNow(),finalizedAt:"",signatures:{technician:"",reviewer:""},audit:[]};
+  mrData.header.project=managerCurrent.name;mrData.header.job=managerCurrent.job;mrSave();managerAudit("Project Created",`${managerCurrent.name}${managerCurrent.job?' • '+managerCurrent.job:''}`);await managerSaveNow(false);renderManagerAll();setActivePanel("mainreport");
+}
+async function managerLoadProject(id){
+  const rec=await dbGetProject(id);if(!rec)return alert("Project not found.");
+  if(managerReady)await managerSaveNow(false);
+  managerRestoring=true;
+  managerCurrent={id:rec.id,name:rec.name||"",job:rec.job||"",status:rec.status||"In Progress",locked:!!rec.locked,createdAt:rec.createdAt||managerNow(),updatedAt:rec.updatedAt||managerNow(),finalizedAt:rec.finalizedAt||"",signatures:rec.signatures||{technician:"",reviewer:""},audit:rec.audit||[]};
+  const s=rec.snapshot||{};if(s.mrData)mrData=managerClone(s.mrData);if(s.mData)mData=managerClone(s.mData);if(s.atterbergData)data=managerClone(s.atterbergData);
+  if(s.header)localStorage.setItem("soilLabV9Header",JSON.stringify(s.header));
+  localStorage.setItem("soilLabV8",JSON.stringify(data));localStorage.setItem("soilLabMoistureV11",JSON.stringify(mData));localStorage.setItem("soilLabMainReportV10",JSON.stringify(mrData));localStorage.setItem("getLabCurrentProjectIdV21",rec.id);
+  activeSample=0;mActiveRow=0;mrActiveBoring=0;mrActiveDepth=0;loadHeaderSettings();renderAll();mrRenderAll();managerRestoring=false;managerAudit("Project Opened",rec.name||rec.id);await managerSaveNow(false);applyProjectLock();renderManagerAll();setActivePanel("manager");
+}
+async function managerDeleteProject(id){if(id===managerCurrent.id)return alert("The current project cannot be deleted. Load another project first.");if(!confirm("Delete this project from the local database?"))return;await dbDeleteProject(id);renderProjectLibrary();renderManagerStats()}
+
+function managerRequestedCounts(row){let req=0,done=0;MR_TESTS.forEach(t=>{if(row.requested?.[t.key]){req++;if(String(row.results?.[t.key]??"").trim()!=="")done++}});return {req,done}}
+function managerSampleStatus(row){const c=managerRequestedCounts(row);if(managerCurrent.status==="Complete")return "Complete";if(managerCurrent.status==="Reviewed"&&c.req&&c.done===c.req)return "Reviewed";if(c.req===0)return "Pending";if(c.done===0)return "Pending";if(c.done<c.req)return "In Progress";return "Tested"}
+function managerSampleStatusClass(s){return String(s).replace(/\s+/g,"-")}
+
+function managerValidate(){
+  const issues=[];const add=(severity,source,message)=>issues.push({severity,source,message});
+  if(!String(mrData.header.project||"").trim())add("warning","Project","Project name is blank.");
+  if(!String(mrData.header.job||"").trim())add("warning","Project","Job number is blank.");
+  (mrData.borings||[]).forEach(b=>{
+    if(!String(b.name||"").trim())add("error","Main Report","A boring number is blank.");
+    (b.rows||[]).forEach(r=>{
+      if(!String(r.depth||"").trim())add("error",b.name||"Boring","Depth is blank.");
+      MR_TESTS.forEach(t=>{if(r.requested?.[t.key]&&String(r.results?.[t.key]??"").trim()==="")add("warning",`${b.name} / ${r.depth}`,`${t.label} was requested but has no result.`)});
+      const ll=n(r.results?.ll),pl=n(r.results?.pl),pi=n(r.results?.pi);if(ll!=null&&pl!=null&&pi!=null&&Math.abs((ll-pl)-pi)>.6)add("error",`${b.name} / ${r.depth}`,`PI (${pi}) does not match LL − PL (${r1(ll-pl)}).`);if(ll!=null&&pl!=null&&ll<pl)add("error",`${b.name} / ${r.depth}`,"LL is lower than PL.");
+    });
+  });
+  (mData.rows||[]).forEach((r,i)=>{const wet=n(r.wet),dry=n(r.dry),tare=n(r.tare);const active=wet!=null||dry!=null||String(r.boring||"").trim()||String(r.penetration||"").trim();if(!active)return;if(!String(r.boring||"").trim())add("error",`Moisture row ${i+1}`,"Boring No. is missing.");if(!String(r.penetration||"").trim())add("error",`Moisture row ${i+1}`,"Depth is missing.");if(wet!=null&&dry!=null&&wet<dry)add("error",`Moisture row ${i+1}`,"Wet Soil + Tare is less than Dry Soil + Tare.");if(dry!=null&&tare!=null&&dry<tare)add("error",`Moisture row ${i+1}`,"Dry Soil + Tare is less than Tare.");});
+  (data.samples||[]).forEach((s,i)=>{const has=(s.ll||[]).some(t=>n(t.wet)!=null||n(t.dry)!=null||n(t.blows)!=null)||String(s.labPL||"").trim();if(!has)return;if(!String(s.boring||"").trim())add("error",`Atterberg sample ${i+1}`,"Boring No. is missing.");if(!String(s.depth||"").trim())add("error",`Atterberg sample ${i+1}`,"Depth is missing.");(s.ll||[]).forEach((t,j)=>{const wet=n(t.wet),dry=n(t.dry),tare=n(t.tare),blows=n(t.blows);if(wet!=null&&dry!=null&&wet<dry)add("error",`Atterberg ${i+1}.${j+1}`,"Wet Soil + Tare is less than Dry Soil + Tare.");if(dry!=null&&tare!=null&&dry<tare)add("error",`Atterberg ${i+1}.${j+1}`,"Dry Soil + Tare is less than Tare.");if(blows!=null&&(blows<20||blows>30))add("warning",`Atterberg ${i+1}.${j+1}`,`Blows = ${blows}; verify against your lab one-point procedure.`)});});
+  return issues;
+}
+function renderValidation(){const issues=managerValidate();const e=issues.filter(x=>x.severity==="error").length,w=issues.filter(x=>x.severity==="warning").length;const count=document.getElementById("mgrQACount");if(count)count.textContent=`${issues.length} issue${issues.length===1?'':'s'}`;const s=document.getElementById("mgrValidationSummary");if(s)s.innerHTML=`<div class="qa-summary"><div class="qa-box"><b>${e}</b><small>Errors</small></div><div class="qa-box"><b>${w}</b><small>Warnings</small></div><div class="qa-box"><b>${issues.length?0:1}</b><small>Ready</small></div></div>`;const el=document.getElementById("mgrValidationList");if(el)el.innerHTML=issues.length?issues.map(x=>`<div class="validation-item ${x.severity}"><span class="validation-icon">${x.severity==='error'?'✕':'!'}</span><div><b>${managerEsc(x.source)}</b><br>${managerEsc(x.message)}</div></div>`).join(""):`<div class="validation-item ok"><span class="validation-icon">✓</span><div><b>QA passed</b><br>No validation issues were found.</div></div>`;return issues}
+
+function managerSetStatus(v){if(managerCurrent.locked)return alert("Unlock the project before changing status.");const old=managerCurrent.status;managerCurrent.status=v;managerAudit("Status Changed",`${old} → ${v}`);managerSaveNow(false);renderManagerHeader();renderMainReportTable();renderFinalReport()}
+function managerSignatureChanged(){if(managerCurrent.locked)return;managerCurrent.signatures.technician=val("mgrTechSign");managerCurrent.signatures.reviewer=val("mgrReviewerSign");managerMarkDirty("Signatures")}
+async function managerFinalize(){const issues=renderValidation();const errors=issues.filter(x=>x.severity==="error");if(errors.length)return alert(`Cannot finalize: ${errors.length} QA error(s) must be fixed first.`);const tech=val("mgrTechSign").trim(),rev=val("mgrReviewerSign").trim();if(!tech||!rev)return alert("Technician and Reviewer names are required before final approval.");managerCurrent.signatures={technician:tech,reviewer:rev};managerCurrent.status="Complete";managerCurrent.locked=true;managerCurrent.finalizedAt=managerNow();managerAudit("Finalized & Locked",`Technician: ${tech}; Reviewer: ${rev}`);await managerSaveNow(false);applyProjectLock();renderManagerAll();alert("Final report is complete and locked.")}
+async function managerUnlock(){if(!managerCurrent.locked)return alert("This project is already editable.");if(!confirm("Unlock this finalized report for revision? This action will be recorded in the audit trail."))return;managerCurrent.locked=false;managerCurrent.status="Reviewed";managerAudit("Unlocked for Revision","Final approval lock was removed.");await managerSaveNow(false);applyProjectLock();renderManagerAll()}
+function applyProjectLock(){document.body.classList.toggle("project-locked",!!managerCurrent.locked);const el=document.getElementById("mgrLockState");if(el)el.textContent=managerCurrent.locked?"FINAL • LOCKED":"Editable"}
+
+function managerSettingsToDOM(){const v=document.getElementById("mgrVoice"),c=document.getElementById("mgrClickSound"),vol=document.getElementById("mgrVolume"),out=document.getElementById("mgrVolumeValue");if(v)v.checked=!!managerSettings.voice;if(c)c.checked=!!managerSettings.clickSound;if(vol)vol.value=managerSettings.volume;if(out)out.textContent=Math.round(managerSettings.volume*100)+"%"}
+function saveManagerSettings(){managerSettings.voice=!!document.getElementById("mgrVoice")?.checked;managerSettings.clickSound=!!document.getElementById("mgrClickSound")?.checked;managerSettings.volume=Math.max(0,Math.min(1,Number(document.getElementById("mgrVolume")?.value??.8)));localStorage.setItem("getLabSettingsV21",JSON.stringify(managerSettings));managerAudit("Settings Changed",`Voice ${managerSettings.voice?'On':'Off'}, Click ${managerSettings.clickSound?'On':'Off'}, Volume ${Math.round(managerSettings.volume*100)}%`);managerSaveNow(false)}
+function updateOnlineStatus(){const el=document.getElementById("mgrOnline");if(!el)return;const online=navigator.onLine;el.textContent=online?"Online • local-first":"Offline • data safe on device";el.className="status-pill "+(online?"ok":"warn")}
+
+function renderManagerHeader(){const id=document.getElementById("mgrProjectIdentity");if(id)id.textContent=`${managerCurrent.name||'Untitled Project'}${managerCurrent.job?' • Job '+managerCurrent.job:''} • ${managerCurrent.id}`;const st=document.getElementById("mgrStatus");if(st)st.value=managerCurrent.status||"In Progress";const t=document.getElementById("mgrTechSign");if(t)t.value=managerCurrent.signatures?.technician||mrData.header.technician||"";const r=document.getElementById("mgrReviewerSign");if(r)r.value=managerCurrent.signatures?.reviewer||mrData.header.reviewed||"";const note=document.getElementById("mgrFinalizeNote");if(note)note.innerHTML=managerCurrent.locked?`<b>Finalized:</b> ${managerDateText(managerCurrent.finalizedAt)}. Editing is locked; unlock actions are audited.`:`Run QA, enter technician/reviewer names, then finalize when the report is ready.`;applyProjectLock();updateOnlineStatus()}
+async function renderManagerStats(){if(!labDB)return;const all=await dbAllProjects();let active=0,pending=0,review=0,doneToday=0;all.forEach(rec=>{if(rec.status!=="Complete")active++;if(rec.status==="Tested")review++;if(rec.finalizedAt?.slice(0,10)===managerTodayISO())doneToday++;const bs=rec.snapshot?.mrData?.borings||[];bs.forEach(b=>(b.rows||[]).forEach(r=>{const c=managerRequestedCounts(r);if(c.req&&c.done<c.req)pending++}))});const el=document.getElementById("managerStats");if(el)el.innerHTML=`<div class="manager-stat"><div class="k">Active Projects</div><div class="v">${active}</div><div class="s">Not yet complete</div></div><div class="manager-stat"><div class="k">Pending Samples</div><div class="v">${pending}</div><div class="s">Requested results outstanding</div></div><div class="manager-stat"><div class="k">Completed Today</div><div class="v">${doneToday}</div><div class="s">Finalized reports</div></div><div class="manager-stat"><div class="k">Awaiting Review</div><div class="v">${review}</div><div class="s">Status = Tested</div></div>`}
+async function renderProjectLibrary(){if(!labDB)return;const q=String(document.getElementById("mgrSearch")?.value||"").trim().toLowerCase();let all=await dbAllProjects();all.sort((a,b)=>String(b.updatedAt||"").localeCompare(String(a.updatedAt||"")));if(q)all=all.filter(rec=>{const hay=[rec.name,rec.job,rec.id,...((rec.snapshot?.mrData?.borings||[]).map(b=>b.name))].join(" ").toLowerCase();return hay.includes(q)});const el=document.getElementById("mgrProjectList");if(!el)return;el.innerHTML=all.length?all.map(rec=>`<div class="project-item ${rec.id===managerCurrent.id?'active':''}"><div class="project-item-head"><div><div class="project-title">${managerEsc(rec.name||'Untitled Project')}</div><div class="project-meta">${managerEsc(rec.job?'Job '+rec.job:'No job number')} • ${managerEsc(rec.status||'In Progress')} • ${managerDateText(rec.updatedAt)}</div></div><span class="status-pill ${rec.locked?'ok':'neutral'}">${rec.locked?'LOCKED':'EDIT'}</span></div><div class="project-item-actions"><button class="mini-btn" onclick="managerLoadProject('${managerEsc(rec.id)}')">Open</button>${rec.id!==managerCurrent.id?`<button class="mini-btn danger" onclick="managerDeleteProject('${managerEsc(rec.id)}')">Delete</button>`:''}</div></div>`).join(""):`<div class="manager-note">No projects found.</div>`}
+function renderAudit(){const el=document.getElementById("mgrAudit");if(!el)return;const arr=(managerCurrent.audit||[]).slice().reverse().slice(0,80);el.innerHTML=arr.length?arr.map(a=>`<div class="audit-item"><b>${managerEsc(a.action)}</b><small>${managerDateText(a.ts)}${a.details?' • '+managerEsc(a.details):''}</small></div>`).join(""):`<div class="manager-note">No audit events yet.</div>`}
+function renderManagerAll(){renderManagerHeader();managerSettingsToDOM();renderValidation();renderAudit();renderFinalReport();renderManagerStats();renderProjectLibrary()}
+
+function managerCSVCell(v){const s=String(v??"").replace(/"/g,'""');return `"${s}"`}
+function exportCurrentCSV(){const rows=[["Project","Job","Boring","Depth","Sample","Moisture %","LL","PL","PI","Passing No.200","Suction","Dry Unit Weight","Hand Pen","Torvane","UC","Status","Description","Remarks"]];(mrData.borings||[]).forEach(b=>(b.rows||[]).forEach(r=>rows.push([mrData.header.project,mrData.header.job,b.name,r.depth,r.sampleNo,r.results.moisture,r.results.ll,r.results.pl,r.results.pi,r.results.passing200,r.results.suction,r.results.dryUnit,r.results.handPen,r.results.torvane,r.results.uc,managerSampleStatus(r),r.description,r.remarks])));managerAudit("Exported","Current project CSV");managerSaveNow(false);managerDownload(`${(managerCurrent.job||managerCurrent.name||'GET_Project').replace(/[^A-Za-z0-9_-]+/g,'_')}_results.csv`,rows.map(r=>r.map(managerCSVCell).join(",")).join("\n"),"text/csv;charset=utf-8")}
+function exportCurrentProjectJSON(){managerAudit("Exported","Current project JSON");managerSaveNow(false);managerDownload(`${(managerCurrent.job||managerCurrent.name||'GET_Project').replace(/[^A-Za-z0-9_-]+/g,'_')}.json`,JSON.stringify({app:"GET Soil Lab Suite",version:"v21",project:managerRecord()},null,2),"application/json")}
+async function exportAllProjectsJSON(){await managerSaveNow(false);const projects=await dbAllProjects();managerAudit("Backup Exported",`${projects.length} project(s)`);await managerSaveNow(false);managerDownload(`GET_Soil_Lab_Backup_${managerTodayISO()}.json`,JSON.stringify({app:"GET Soil Lab Suite",version:"v21",exportedAt:managerNow(),settings:managerSettings,projects},null,2),"application/json")}
+async function managerImportBackup(file){if(!file)return;try{const txt=await file.text();const obj=JSON.parse(txt);const projects=obj.projects||[obj.project].filter(Boolean);if(!projects.length)throw new Error("No project records found");for(const rec of projects){if(!rec.id)rec.id=managerId();await dbPutProject(rec)}if(obj.settings){managerSettings=Object.assign(managerSettings,obj.settings);localStorage.setItem("getLabSettingsV21",JSON.stringify(managerSettings))}managerAudit("Backup Imported",`${projects.length} project(s)`);await managerSaveNow(false);renderManagerAll();alert(`${projects.length} project(s) imported successfully.`)}catch(e){alert("Import failed: "+e.message)}finally{document.getElementById("mgrImportFile").value=""}}
+
+function renderFinalReport(){const el=document.getElementById("finalReportArea");if(!el)return;const h=mrData.header;let rows="";(mrData.borings||[]).forEach(b=>(b.rows||[]).forEach(r=>{rows+=`<tr><td>${managerEsc(b.name)}</td><td>${managerEsc(r.depth)}</td><td>${managerEsc(r.sampleNo)}</td><td>${managerEsc(r.results.moisture)}</td><td>${managerEsc(r.results.ll)}</td><td>${managerEsc(r.results.pl)}</td><td>${managerEsc(r.results.pi)}</td><td>${managerEsc(r.results.passing200)}</td><td>${managerEsc(r.results.suction)}</td><td>${managerEsc(r.results.dryUnit)}</td><td>${managerEsc(r.results.handPen)}</td><td>${managerEsc(r.results.torvane)}</td><td>${managerEsc(r.results.uc)}</td><td>${managerEsc(managerSampleStatus(r))}</td><td class="l">${managerEsc(r.description||r.remarks||"")}</td></tr>`}));el.innerHTML=`<div class="final-sheet"><div class="final-head"><div class="final-brand">GET<small>GEOTECH ENGINEERING TESTING</small></div><div class="final-title">SOIL LABORATORY FINAL REPORT</div><div class="final-id"><b>Report ID:</b> ${managerEsc(managerCurrent.id)}<br><b>App:</b> GET Soil Lab Suite v21<br><b>Status:</b> ${managerEsc(managerCurrent.status)}</div></div><div class="final-info"><div><b>Project</b>${managerEsc(h.project)}</div><div><b>Job No.</b>${managerEsc(h.job)}</div><div><b>Engineer</b>${managerEsc(h.engineer)}</div><div><b>Date Assigned</b>${managerEsc(h.dateAssigned)}</div><div><b>Technician</b>${managerEsc(h.technician||managerCurrent.signatures?.technician)}</div><div><b>Reviewer</b>${managerEsc(h.reviewed||managerCurrent.signatures?.reviewer)}</div><div><b>Date Tested</b>${managerEsc(h.dateTested)}</div><div><b>Date Delivered</b>${managerEsc(h.dateDelivered)}</div></div><table class="final-table"><tr><th>Boring</th><th>Depth</th><th>Sample</th><th>Moisture %</th><th>LL</th><th>PL</th><th>PI</th><th>#200 %</th><th>Suction</th><th>Dry UW</th><th>Hand Pen</th><th>Torvane</th><th>UC</th><th>Status</th><th>Description / Remarks</th></tr>${rows}</table><div class="manager-note"><b>Project Notes / Recommendations:</b> ${managerEsc(h.projectNotes||"")}</div><div class="final-signatures"><div class="sig-box"><b>Technician:</b> ${managerEsc(managerCurrent.signatures?.technician||h.technician||"")}</div><div class="sig-box"><b>Reviewer:</b> ${managerEsc(managerCurrent.signatures?.reviewer||h.reviewed||"")}</div><div class="sig-box"><b>Finalized:</b> ${managerEsc(managerDateText(managerCurrent.finalizedAt)||"Draft")}</div></div><div class="final-footer"><span>GET Soil Lab Suite v21 • Local-first laboratory workflow</span><span class="page-number"></span><span>${managerEsc(managerCurrent.id)}</span></div></div>`}
+function printFinalReport(){renderFinalReport();managerAudit("Printed / PDF","Final report print view");managerSaveNow(false);document.body.classList.add("print-final");setActivePanel("manager");setTimeout(()=>window.print(),120)}
+window.addEventListener("afterprint",()=>document.body.classList.remove("print-final"));
+
+async function managerInit(){try{await openLabDB();let rec=null;if(managerCurrent.id)rec=await dbGetProject(managerCurrent.id);if(rec){managerCurrent={id:rec.id,name:rec.name||"",job:rec.job||"",status:rec.status||"In Progress",locked:!!rec.locked,createdAt:rec.createdAt||managerNow(),updatedAt:rec.updatedAt||managerNow(),finalizedAt:rec.finalizedAt||"",signatures:rec.signatures||{technician:"",reviewer:""},audit:rec.audit||[]}}else{managerCurrent={id:managerId(),name:mrData.header.project||"Current Project",job:mrData.header.job||"",status:"In Progress",locked:false,createdAt:managerNow(),updatedAt:managerNow(),finalizedAt:"",signatures:{technician:mrData.header.technician||"",reviewer:mrData.header.reviewed||""},audit:[]};managerAudit("Database Initialized","Existing workspace migrated into project database")};managerReady=true;localStorage.setItem("getLabCurrentProjectIdV21",managerCurrent.id);await managerSaveNow(false);renderManagerAll();applyProjectLock()}catch(e){console.error("Manager init",e);const el=document.getElementById("mgrAutoSave");if(el){el.textContent="Database unavailable";el.className="status-pill bad"}}}
+window.addEventListener("online",updateOnlineStatus);window.addEventListener("offline",updateOnlineStatus);
+
+/* Wrap the existing save functions so all edits gain autosave + draft recovery. */
+const _mrSaveV21=mrSave;mrSave=function(){_mrSaveV21();managerMarkDirty("Main Report")};
+const _mSaveV21=mSave;mSave=function(){_mSaveV21();managerMarkDirty("Moisture")};
+const _attSaveV21=save;save=function(){_attSaveV21();managerMarkDirty("Atterberg")};
+const _hdrSaveV21=saveHeaderSettings;saveHeaderSettings=function(){_hdrSaveV21();managerMarkDirty("Atterberg Header")};
+
+
 function renderAll(){renderTabs();renderEditor();renderWorksheet();renderMoistureAll()}
 
 /* ===========================
@@ -2014,6 +2302,7 @@ function renderAll(){renderTabs();renderEditor();renderWorksheet();renderMoistur
    =========================== */
 function setActivePanel(panel){
   const isHome=(panel==="home");
+  if(panel==="manager" && managerReady)renderManagerAll();
   document.body.classList.toggle("home-mode",isHome);
 
   document.querySelectorAll(".tab").forEach(x=>{
@@ -2084,13 +2373,15 @@ function v18BellTone(ctx,start,freq,duration,gainValue){
 }
 
 function playSoftDoorbell(){
+  if(typeof managerSettings!=="undefined" && !managerSettings.clickSound)return;
   const ctx=getV18AudioContext();
   if(!ctx)return;
   try{
     const now=ctx.currentTime+.006;
     /* A quiet two-note glass/doorbell chime: "ding ... dong". */
-    v18BellTone(ctx,now,783.99,.26,.036);
-    v18BellTone(ctx,now+.145,587.33,.34,.031);
+    const vol=(typeof managerSettings!=="undefined"?managerSettings.volume:1);
+    v18BellTone(ctx,now,783.99,.26,.036*vol);
+    v18BellTone(ctx,now+.145,587.33,.34,.031*vol);
   }catch(e){}
 }
 
@@ -2122,6 +2413,7 @@ function chooseV18FemaleVoice(){
 }
 
 function speakV18(text,{onStart=null,onEnd=null,rate=.92,pitch=1.12,volume=.92}={}){
+  if(typeof managerSettings!=="undefined" && !managerSettings.voice)return false;
   if(!("speechSynthesis" in window))return false;
   try{
     chooseV18FemaleVoice();
@@ -2132,7 +2424,7 @@ function speakV18(text,{onStart=null,onEnd=null,rate=.92,pitch=1.12,volume=.92}=
     u.lang="en-US";
     u.rate=rate;
     u.pitch=pitch;
-    u.volume=volume;
+    u.volume=volume*(typeof managerSettings!=="undefined"?managerSettings.volume:1);
     if(onStart)u.onstart=onStart;
     if(onEnd)u.onend=onEnd;
 
@@ -2268,6 +2560,7 @@ window.addEventListener("load",()=>{
 load();loadHeaderSettings();mLoad();mrLoad();
 syncExistingSourcesToMainReport({overwrite:false,render:false});
 renderAll();mrLoadHeaderToDOM();mrRenderAll();
+managerInit();
 ["mr_project","mr_job","mr_date_assigned","mr_engineer","mr_technician","mr_reviewed","mr_date_tested","mr_date_delivered","mr_priority","mr_project_notes"]
 .forEach(id=>{
   const el=document.getElementById(id);
