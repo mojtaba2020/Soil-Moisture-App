@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Soil Lab Calculator v8</title>
+<title>Soil Lab Calculator v9</title>
 <link rel="manifest" href="./manifest.webmanifest">
 <meta name="theme-color" content="#0f172a">
 <style>
@@ -45,35 +45,47 @@ input[readonly]{background:#f8fafc;font-weight:800} textarea{min-height:72px}
 .hidden{display:none!important}.mini{font-size:13px;color:#64748b}
 hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
 @media(max-width:850px){.f,.f3,.f4{grid-column:span 12}.trial-grid{grid-template-columns:1fr}.summary{grid-template-columns:1fr}.samples{grid-template-columns:repeat(5, minmax(70px,1fr));overflow:auto}.hero h1{font-size:27px}}
-@page{size:Letter landscape;margin:0.18in}
+@page{size:Letter landscape;margin:0.16in}
 @media print{
   html,body{background:#fff!important;margin:0!important;padding:0!important}
   .hero,.tabs,.input-only,.actions,.samples,.hide-print{display:none!important}
   .app{max-width:none!important;width:100%!important;margin:0!important;padding:0!important}
   .card{border:0!important;box-shadow:none!important;padding:0!important;margin:0!important}
   .card>.badge,.card>p{display:none!important}
-  .ws-wrap{overflow:visible!important;border:0!important;border-radius:0!important;zoom:.78}
-  .ws{
-    min-width:0!important;width:100%!important;font-size:7.2px!important;
-    line-height:1.02!important;page-break-inside:avoid!important;break-inside:avoid-page!important
+  .ws-wrap{
+    overflow:visible!important;border:0!important;border-radius:0!important;
+    width:100%!important;zoom:.86
   }
-  .ws th,.ws td{padding:1.5px 2px!important}
-  .ws .title{font-size:11px!important;padding:4px!important}
-  .ws .section{font-size:8.5px!important;padding:3px!important}
-  .ws .remark-cell{height:50px!important;white-space:pre-wrap!important;vertical-align:top!important}
-  .ws .footer-cell{height:40px!important}
+  .ws{
+    min-width:0!important;width:100%!important;
+    font-size:8.15px!important;line-height:1.10!important;
+    page-break-inside:avoid!important;break-inside:avoid-page!important
+  }
+  .ws th,.ws td{padding:2.7px 3px!important}
+  .ws .title{font-size:12.5px!important;padding:5px!important}
+  .ws .section{font-size:9.3px!important;padding:4px!important}
+  .ws .remark-cell{height:62px!important;white-space:pre-wrap!important;vertical-align:top!important}
+  .ws .bottom-label{font-size:8px!important}
+  .ws .footer-row td{padding-top:4px!important;padding-bottom:4px!important}
 }
 
 .pl-primary{background:#eefbf6!important;border-color:#9fd7bb!important}
 .rangehint{font-size:12px;color:#0f766e;font-weight:750;margin-top:4px}
 
+
+.bottom-settings{margin-top:12px}
+.checkgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.checkitem{display:flex;align-items:center;gap:8px;border:1px solid #dbe3ed;border-radius:12px;padding:9px;background:#fbfdff}
+.checkitem input{width:auto;transform:scale(1.15)}
+.ws .bottom-table td,.ws .bottom-table th{padding:4px}
+@media(max-width:850px){.checkgrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="hero">
     <h1>Soil Lab Calculator</h1>
-    <p>Atterberg Limits + Moisture • Multi-sample worksheet • Lab reverse-engineering mode • v8</p>
+    <p>Atterberg Limits + Moisture • Multi-sample worksheet • Lab reverse-engineering mode • v9</p>
   </div>
 
   <div class="tabs">
@@ -90,8 +102,34 @@ hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
         <div class="f"><label>Project Name</label><input id="project"></div>
         <div class="f3"><label>Scale ID No.</label><input id="scale" value="012"></div>
         <div class="f3"><label>Job No.</label><input id="job" value="26-346"></div>
-        <div class="f"><label>Remarks</label><textarea id="remarks" rows="4" placeholder="Remarks / notes for the final worksheet"></textarea></div>
+        <div class="f"><label>Remarks</label><textarea id="remarks" rows="5" placeholder="Remarks / notes for the final worksheet"></textarea></div>
+
+        <div class="f3"><label>Soils Form No.</label><input id="form_no" value="107"></div>
+        <div class="f3"><label>Rev.</label><input id="rev_no" value="01-05"></div>
+        <div class="f"><label>Footer Reference / File Path</label><input id="footer_ref" value="excel/data/soilsforms/atterberg"></div>
       </div>
+
+      <div class="bottom-settings">
+        <span class="badge">Bottom Report / Equipment</span>
+        <div class="fields">
+          <div class="f3"><label>Plastic Limit</label><input id="bottom_pl" placeholder=""></div>
+          <div class="f3"><label>Liquid Limit</label><input id="bottom_ll" placeholder=""></div>
+          <div class="f3"><label>Apparatus No.</label><input id="apparatus_no" placeholder=""></div>
+          <div class="f3"><label>Tool</label><input id="tool_name" value="Casagrande / ASTM Grooving Tool"></div>
+          <div class="f12">
+            <label>Testing Equipment Used</label>
+            <div class="checkgrid">
+              <label class="checkitem"><input type="checkbox" id="eq_hand_roller"> Hand Roller</label>
+              <label class="checkitem"><input type="checkbox" id="eq_mech_rolling"> Mechanical Rolling Device</label>
+              <label class="checkitem"><input type="checkbox" id="eq_manual"> Manual</label>
+              <label class="checkitem"><input type="checkbox" id="eq_mechanical"> Mechanical</label>
+              <label class="checkitem"><input type="checkbox" id="eq_metal"> Metal</label>
+              <label class="checkitem"><input type="checkbox" id="eq_plastic"> Plastic</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="actions">
         <button class="btn good" onclick="loadDemoSheet()">Load B-19 + B-22 Demo</button>
         <button class="btn dark" onclick="clearSheet()">Clear Sheet</button>
@@ -173,7 +211,7 @@ function blankPL(no){
 }
 function blankSample(i){
   return {
-    boring:"",sample:"",depth:"",desc:"",uscs:"Nat. wt. (B)",
+    boring:"",sample:"",depth:"",desc:"",uscs:"",
     ll:[blankTrial(i*2+1),blankTrial(i*2+2)],
     pl:[blankPL(i*2+1),blankPL(i*2+2)],
     plMode:"lookup",
@@ -294,8 +332,9 @@ function renderEditor(){
     <div class="f3"><label>Sample No.</label><input id="e_sample" value="${s.sample}" oninput="upd('sample',this.value)"></div>
     <div class="f3"><label>Depth / Elevation (ft)</label><input id="e_depth" value="${s.depth}" oninput="upd('depth',this.value)"></div>
     <div class="f3"><label>USCS Check One</label><select onchange="data.samples[activeSample].uscs=this.value;save();renderAll()">
-      <option ${s.uscs==='Nat. wt. (B)'?'selected':''}>Nat. wt. (B)</option>
-      <option ${s.uscs==='Air-Dried (A)'?'selected':''}>Air-Dried (A)</option>
+      <option value="" ${s.uscs===''?'selected':''}>None / Blank</option>
+      <option value="Nat. wt. (B)" ${s.uscs==='Nat. wt. (B)'?'selected':''}>Nat. wt. (B)</option>
+      <option value="Air-Dried (A)" ${s.uscs==='Air-Dried (A)'?'selected':''}>Air-Dried (A)</option>
     </select></div>
     <div class="f12"><label>Material Description</label><input value="${s.desc}" oninput="upd('desc',this.value)"></div>
   </div>
@@ -586,14 +625,44 @@ function renderWorksheet(){
     ${plRow("Water Content (%)","wc","r1")}
     <tr><td class="l"><b>Average Plastic Limit (PL)</b></td>${avgPL}</tr>
     <tr><td class="l"><b>Plasticity Index (PI)</b></td>${PI}</tr>
-    <tr><td class="l"><b>REMARKS</b></td><td colspan="10" class="remark-cell" style="height:82px;white-space:pre-wrap;vertical-align:top;text-align:left">${val("remarks")}</td></tr>
-    <tr><td colspan="6" class="l footer-cell" style="height:58px"><b>Tested By:</b> ${val("tech")}<br><br><b>Computed By:</b><br><br><b>Checked By:</b></td>
-        <td colspan="5"><b>TESTING EQUIPMENT USED</b><br>Hand Roller &nbsp; | &nbsp; Mechanical Rolling Device &nbsp; | &nbsp; Manual &nbsp; | &nbsp; Mechanical<br>Plastic Limit &nbsp; | &nbsp; Liquid Limit &nbsp; | &nbsp; Casagrande / ASTM Grooving Tool</td></tr>
-    <tr><td colspan="11" class="l">Soils Form No. 107 &nbsp;&nbsp;&nbsp; Rev. 01-05</td></tr>
+    <tr>
+      <td class="l" style="vertical-align:top"><b>REMARKS</b></td>
+      <td colspan="4" class="remark-cell" style="height:88px;white-space:pre-wrap;vertical-align:top;text-align:left">${val("remarks")}</td>
+
+      <td colspan="3" style="padding:0;vertical-align:top">
+        <table class="bottom-table" style="width:100%;border-collapse:collapse;height:100%">
+          <tr><td class="l bottom-label"><b>Plastic Limit</b></td><td>${val("bottom_pl")}</td></tr>
+          <tr><td class="l bottom-label"><b>Liquid Limit</b></td><td>${val("bottom_ll")}</td></tr>
+          <tr><td class="l bottom-label"><b>Apparatus No.</b></td><td>${val("apparatus_no")}</td></tr>
+          <tr><td class="l bottom-label"><b>Tool</b></td><td>${val("tool_name")}</td></tr>
+        </table>
+      </td>
+
+      <td colspan="3" style="padding:0;vertical-align:top">
+        <table class="bottom-table" style="width:100%;border-collapse:collapse;height:100%">
+          <tr><th colspan="2">TESTING EQUIPMENT USED</th></tr>
+          <tr><td class="l">Hand Roller</td><td>${checkedMark("eq_hand_roller")}</td></tr>
+          <tr><td class="l">Mechanical Rolling Device</td><td>${checkedMark("eq_mech_rolling")}</td></tr>
+          <tr><td class="l">Manual</td><td>${checkedMark("eq_manual")}</td></tr>
+          <tr><td class="l">Mechanical</td><td>${checkedMark("eq_mechanical")}</td></tr>
+          <tr><td class="l">Metal</td><td>${checkedMark("eq_metal")}</td></tr>
+          <tr><td class="l">Plastic</td><td>${checkedMark("eq_plastic")}</td></tr>
+        </table>
+      </td>
+    </tr>
+    <tr class="footer-row">
+      <td colspan="4" class="l">Soils Form No. ${val("form_no")}</td>
+      <td colspan="3" style="text-align:center">Rev. ${val("rev_no")}</td>
+      <td colspan="4" style="text-align:right">${val("footer_ref")}</td>
+    </tr>
   </table>`;
   document.getElementById("worksheet").innerHTML=html;
 }
 function val(id){return document.getElementById(id)?.value||""}
+function checkedMark(id){
+  const el=document.getElementById(id);
+  return el && el.checked ? "✓" : "";
+}
 
 function exportPNG(){
   // purpose-built canvas export; no external libraries needed
@@ -654,7 +723,7 @@ function exportPNG(){
   row("Plasticity Index (PI)",data.samples.flatMap(s=>{let c=sampleCalc(s);return [c.pi??"",c.pi??""]}),y,true);y+=rowH;
   row("REMARKS",[val("remarks"),"","","","","","","","",""],y);y+=rowH*2;
 
-  ctx.font="20px Arial";ctx.textAlign="left";ctx.fillText("Soils Form No. 107   •   Soil Lab Calculator v8",70,2315);
+  ctx.font="20px Arial";ctx.textAlign="left";ctx.fillText("Soils Form No. 107   •   Soil Lab Calculator v9",70,2315);
   const a=document.createElement("a");a.href=canvas.toDataURL("image/png");a.download=`Atterberg_${val("job")||"worksheet"}.png`;a.click();
 }
 
@@ -667,14 +736,43 @@ function calcMoisture(){
   document.getElementById("mwc").value=r1(wc);
 }
 
+
+function currentHeaderSettings(){
+  const ids=["date","tech","project","scale","job","remarks","form_no","rev_no","footer_ref","bottom_pl","bottom_ll","apparatus_no","tool_name"];
+  const obj={};
+  ids.forEach(id=>obj[id]=document.getElementById(id)?.value||"");
+  ["eq_hand_roller","eq_mech_rolling","eq_manual","eq_mechanical","eq_metal","eq_plastic"]
+    .forEach(id=>obj[id]=!!document.getElementById(id)?.checked);
+  return obj;
+}
+function saveHeaderSettings(){
+  localStorage.setItem("soilLabV9Header",JSON.stringify(currentHeaderSettings()));
+}
+function loadHeaderSettings(){
+  try{
+    const raw=localStorage.getItem("soilLabV9Header");
+    if(!raw)return;
+    const obj=JSON.parse(raw);
+    Object.entries(obj).forEach(([id,v])=>{
+      const el=document.getElementById(id);
+      if(!el)return;
+      if(el.type==="checkbox") el.checked=!!v;
+      else el.value=v;
+    });
+  }catch(e){}
+}
+
 function renderAll(){renderTabs();renderEditor();renderWorksheet()}
 document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
   document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
   document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
   b.classList.add("active");document.getElementById(b.dataset.panel).classList.add("active");
 });
-["date","tech","project","scale","job","remarks"].forEach(id=>document.getElementById(id).addEventListener("input",()=>{save();renderWorksheet()}));
-load();renderAll();
+["date","tech","project","scale","job","remarks","form_no","rev_no","footer_ref","bottom_pl","bottom_ll","apparatus_no","tool_name"]
+.forEach(id=>document.getElementById(id).addEventListener("input",()=>{saveHeaderSettings();renderWorksheet()}));
+["eq_hand_roller","eq_mech_rolling","eq_manual","eq_mechanical","eq_metal","eq_plastic"]
+.forEach(id=>document.getElementById(id).addEventListener("change",()=>{saveHeaderSettings();renderWorksheet()}));
+load();loadHeaderSettings();renderAll();
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}))}
 </script>
 </body></html>

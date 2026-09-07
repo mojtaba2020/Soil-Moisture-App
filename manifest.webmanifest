@@ -7,7 +7,7 @@
   "display": "standalone",
   "background_color": "#f4f7fb",
   "theme_color": "#0f172a",
-  "description": "Soil lab Moisture and Atterberg calculator with editable PL fields, reverse-engineering workflow, and one-page landscape worksheet printing.",
+  "description": "Soil lab Moisture and Atterberg calculator with editable USCS blank option, customizable form footer, photo-matched bottom report structure, and one-page print layout.",
   "icons": [
     {
       "src": "icon-192.png",
