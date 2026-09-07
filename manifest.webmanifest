@@ -1,13 +1,13 @@
 {
   "id": "./",
-  "name": "Soil Lab Calculator",
-  "short_name": "Soil Lab",
+  "name": "GET Soil Lab Suite",
+  "short_name": "GET Soil",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f4f7fb",
   "theme_color": "#0b2746",
-  "description": "Main soil lab request/results sheet plus Moisture Content and Atterberg Limits calculators for geotechnical laboratory workflow.",
+  "description": "Geotech Engineering Testing mobile suite for main lab request sheets, moisture content tests, and Atterberg limits workflows.",
   "icons": [
     {
       "src": "icon-192.png",

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Soil Lab Calculator v10</title>
+<title>GET Soil Lab Suite</title>
 <link rel="manifest" href="./manifest.webmanifest">
 <meta name="theme-color" content="#0f172a">
 <style>
@@ -150,22 +150,123 @@ hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
   #mainreport .desc{min-width:0!important}
 }
 
+
+.hero{padding:18px 18px 18px;background:linear-gradient(135deg,#071a35 0%,#0b4670 52%,#1677b8 100%);position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:-30% auto auto -10%;width:280px;height:280px;background:radial-gradient(circle,#ffffff22 0%,transparent 65%);pointer-events:none}
+.hero-top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;position:relative;z-index:1}
+.brand-lockup{display:flex;align-items:center;gap:14px}
+.brand-mark{width:62px;height:62px;border-radius:18px;background:linear-gradient(135deg,#e8f4ff,#b8dcff);display:grid;place-items:center;box-shadow:inset 0 1px 0 #fff,0 10px 24px #00142a33}
+.brand-mark svg{width:44px;height:44px}.brand-lines .super{font-size:12px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:#b7d6ee}
+.brand-lines .main{font-size:30px;font-weight:950;letter-spacing:.01em}.brand-lines .sub{font-size:13px;color:#d7e5f1;margin-top:3px}
+.designer{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;background:#ffffff16;border:1px solid #ffffff26;color:#e6f2fa;font-weight:800;backdrop-filter:blur(8px)}
+.hero h1{margin:0;font-size:30px}.hero p{margin:8px 0 0;color:#d7deeb;max-width:760px}
+.tabs{grid-template-columns:repeat(4,1fr)!important}
+.home-shell{display:grid;gap:14px}.welcome-card{background:linear-gradient(180deg,#ffffff 0%,#f8fbff 100%);border:1px solid #d8e5f2;border-radius:24px;padding:20px;box-shadow:0 18px 40px #0f172a0d}
+.welcome-header{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}.welcome-eyebrow{display:inline-block;padding:8px 12px;border-radius:999px;background:#eaf5ff;color:#0b5b86;font-size:12px;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
+.welcome-title{margin:12px 0 10px;font-size:32px;line-height:1.05;color:#102a43}.welcome-copy{margin:0;color:#526377;max-width:780px;font-size:15px;line-height:1.6}
+.welcome-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.quick-chip{border:1px solid #cfe0ef;background:#fff;border-radius:999px;padding:10px 14px;font-weight:850;color:#16324f}
+.slide-grid{display:grid;grid-template-columns:1fr;gap:14px}.exp-card{position:relative;border:0;padding:0;width:100%;min-height:215px;border-radius:26px;overflow:hidden;text-align:left;color:#fff;background:#0f172a;box-shadow:0 20px 38px #0f172a18;cursor:pointer;isolation:isolate}
+.exp-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.65) saturate(1.08);transform:scale(1.01);transition:transform .5s ease,filter .5s ease}
+.exp-card:hover img,.exp-card:active img{transform:scale(1.06);filter:brightness(.72) saturate(1.12)}
+.exp-card:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,#02132799 0%,#05244733 45%,#0ea5e955 100%);z-index:1}
+.exp-card .overlay{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;min-height:215px;padding:20px}.exp-card .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:#ffffff1c;border:1px solid #ffffff26;font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;backdrop-filter:blur(5px)}
+.exp-card .dynamic-title{margin:10px 0 6px;font-size:31px;line-height:1.02;font-weight:950;background:linear-gradient(90deg,#fff,#dff6ff,#fff);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:titleShimmer 3.8s linear infinite}
+.exp-card p{margin:0;max-width:640px;font-size:14px;line-height:1.5;color:#e8f4fb}.exp-card .arrow{margin-top:14px;display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;background:#ffffff18;border:1px solid #ffffff26;font-weight:850;font-size:13px}
+.exp-card.wave::after{content:"";position:absolute;left:var(--x,50%);top:var(--y,50%);width:18px;height:18px;border-radius:999px;background:#ffffff66;transform:translate(-50%,-50%);animation:ripple .85s ease-out forwards;pointer-events:none;z-index:3}.title-wave{animation:titlePulse .65s ease-out}
+.info-slab{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}.info-box{background:#fff;border:1px solid #d8e6f2;border-radius:18px;padding:14px}.info-box b{display:block;font-size:14px;color:#16324f;margin-bottom:6px}.info-box span{font-size:13px;color:#5b6b7b;line-height:1.5}
+@keyframes titleShimmer{0%{background-position:0% center}100%{background-position:200% center}}@keyframes ripple{0%{opacity:.65;box-shadow:0 0 0 0 #fff7}100%{opacity:0;box-shadow:0 0 0 220px #fff0}}@keyframes titlePulse{0%{transform:scale(1);text-shadow:0 0 0 #fff0}50%{transform:scale(1.03);text-shadow:0 0 16px #fff8}100%{transform:scale(1);text-shadow:0 0 0 #fff0}}
+@media(max-width:850px){.welcome-title{font-size:28px}.exp-card .dynamic-title{font-size:26px}.info-slab{grid-template-columns:1fr}.tabs{grid-template-columns:repeat(2,1fr)!important}.brand-lines .main{font-size:25px}.designer{width:100%;justify-content:center}}
+@media print{#home,.designer,.exp-card,.welcome-cta{display:none!important}}
 </style>
 </head>
 <body>
 <div class="app">
   <div class="hero">
-    <h1>Soil Lab Calculator</h1>
-    <p>Main Lab Report + Moisture + Atterberg Limits • Engineer request + lab entry • v10</p>
+    <div class="hero-top">
+      <div class="brand-lockup">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 8h16v4l-4 8v8l13 20c2.2 3.4-.2 8-4.3 8H19.3c-4.1 0-6.5-4.6-4.3-8l13-20v-8l-4-8V8Z" fill="#0b5b86"/>
+            <path d="M26 36c4 2 8 3 12 2 3-.8 5-2 8-4l3 4c-3 3-7 5-11 5-6 .2-10-2-14-4l2-3Z" fill="#7dd3fc"/>
+            <path d="M25 12h14" stroke="#e6f7ff" stroke-width="3" stroke-linecap="round"/>
+            <text x="32" y="54" text-anchor="middle" font-size="14" font-family="Arial, sans-serif" font-weight="900" fill="#e6f7ff">GET</text>
+          </svg>
+        </div>
+        <div class="brand-lines">
+          <div class="super">Geotech Engineering Testing</div>
+          <div class="main">GET Soil Lab Suite</div>
+          <div class="sub">Main Lab Report • Moisture Content • Atterberg Limits</div>
+        </div>
+      </div>
+      <div class="designer">Designed by Mojtaba Shabanpour</div>
+    </div>
+    <p>A polished mobile laboratory workflow for engineer requests, sample tracking, moisture content testing, and Atterberg limits reporting.</p>
   </div>
 
-  <div class="tabs" style="grid-template-columns:repeat(3,1fr)">
-    <button class="tab active" data-panel="mainreport">Main Report</button>
+  <div class="tabs">
+    <button class="tab active" data-panel="home">Home</button>
+    <button class="tab" data-panel="mainreport">Main Report</button>
     <button class="tab" data-panel="moisture">Moisture</button>
     <button class="tab" data-panel="atterberg">Atterberg</button>
   </div>
 
-  <section class="panel active" id="mainreport">
+  <section class="panel active" id="home">
+    <div class="home-shell">
+      <div class="welcome-card">
+        <div class="welcome-header">
+          <div>
+            <span class="welcome-eyebrow">Welcome</span>
+            <h2 class="welcome-title">Welcome to the GET Soil Lab Suite</h2>
+            <p class="welcome-copy">Use this app to receive the engineer’s requested tests, record sample details, calculate moisture content, complete Atterberg limits, and print clean professional worksheets in one place.</p>
+            <div class="welcome-cta">
+              <span class="quick-chip">Engineer Request Tracking</span>
+              <span class="quick-chip">Moisture Worksheet Output</span>
+              <span class="quick-chip">Atterberg Limits Worksheet</span>
+            </div>
+          </div>
+        </div>
+        <div class="info-slab">
+          <div class="info-box"><b>Company Branding</b><span>Branded as a Geotech Engineering Testing workflow with a dedicated GET identity and welcome experience.</span></div>
+          <div class="info-box"><b>Interactive Start Screen</b><span>Tap any laboratory workflow below to jump in with visual feedback, a soft click chime, and wave animation.</span></div>
+          <div class="info-box"><b>Print-Ready Reports</b><span>Designed for clean PDF output so your field-request and lab-result sheets stay professional and readable.</span></div>
+        </div>
+      </div>
+
+      <div class="slide-grid">
+        <button class="exp-card" onclick="goPanel('mainreport',this,event)">
+          <img src="./assets/main-report.jpg" alt="Main lab request sheet">
+          <div class="overlay">
+            <span class="pill">Workflow 01</span>
+            <div class="dynamic-title">Main Lab Request Sheet</div>
+            <p>Start from the engineer’s requested tests, boring depths, soil color, observations, penetrometer values, and field notes.</p>
+            <span class="arrow">Open Main Report →</span>
+          </div>
+        </button>
+
+        <button class="exp-card" onclick="goPanel('moisture',this,event)">
+          <img src="./assets/moisture.jpg" alt="Moisture content test sheet">
+          <div class="overlay">
+            <span class="pill">Workflow 02</span>
+            <div class="dynamic-title">Moisture Content Testing</div>
+            <p>Enter wet, dry, and tare values for multiple rows and instantly generate a printable moisture worksheet.</p>
+            <span class="arrow">Open Moisture Module →</span>
+          </div>
+        </button>
+
+        <button class="exp-card" onclick="goPanel('atterberg',this,event)">
+          <img src="./assets/atterberg.png" alt="Atterberg limits worksheet">
+          <div class="overlay">
+            <span class="pill">Workflow 03</span>
+            <div class="dynamic-title">Atterberg Limits Testing</div>
+            <p>Complete liquid limit and plastic limit trials, use your lab lookup logic, and export a finished Atterberg worksheet.</p>
+            <span class="arrow">Open Atterberg Module →</span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="mainreport">
     <div class="card input-only report-card">
       <span class="badge">Project Information</span>
       <div class="fields">
@@ -297,16 +398,42 @@ hr{border:0;border-top:1px solid #e2e8f0;margin:12px 0}
   </section>
 
   <section class="panel" id="moisture">
-    <div class="card">
-      <span class="badge">Moisture Content</span>
+    <div class="card input-only report-card">
+      <span class="badge">Moisture Content Tests — multi-sample worksheet</span>
       <div class="fields">
-        <div class="f"><label>Wet Soil + Tare (g)</label><input id="mwet" type="text" inputmode="decimal" oninput="calcMoisture()"></div>
-        <div class="f"><label>Dry Soil + Tare (g)</label><input id="mdry" type="text" inputmode="decimal" oninput="calcMoisture()"></div>
-        <div class="f"><label>Tare (g)</label><input id="mtare" type="text" inputmode="decimal" oninput="calcMoisture()"></div>
-        <div class="f"><label>Mass of Dry Soil (g)</label><input id="mdrysoil" readonly></div>
-        <div class="f"><label>Mass of Water (g)</label><input id="mwater" readonly></div>
-        <div class="f"><label>Water Content (%)</label><input id="mwc" readonly></div>
+        <div class="f3"><label>Oven ID No.</label><input id="moist_oven"></div>
+        <div class="f3"><label>LL ID No.</label><input id="moist_llid"></div>
+        <div class="f3"><label>Date</label><input id="moist_date" placeholder="MM-DD-YY"></div>
+        <div class="f3"><label>Project Name</label><input id="moist_project"></div>
+        <div class="f3"><label>Scale ID No.</label><input id="moist_scale"></div>
+        <div class="f3"><label>Job No.</label><input id="moist_job"></div>
+        <div class="f3"><label>Tested By</label><input id="moist_tested_by"></div>
+        <div class="f3"><label>Computed By</label><input id="moist_computed_by"></div>
+        <div class="f3"><label>Checked By</label><input id="moist_checked_by"></div>
+        <div class="f3"><label>Soils Form No.</label><input id="moist_form_no" value="111"></div>
+        <div class="f3"><label>Rev.</label><input id="moist_rev" value="12-04"></div>
+        <div class="f3"><label>Footer Reference</label><input id="moist_footer_ref" value="excel/data/forms/mstrcont.ltdb"></div>
+        <div class="f12"><label>Remarks</label><textarea id="moist_remarks" rows="3" placeholder="General remarks for the moisture worksheet"></textarea></div>
       </div>
+      <div class="actions">
+        <button class="btn good" onclick="mAddRow()">+ Add Moisture Row</button>
+        <button class="btn dark" onclick="mRemoveRow()">Remove Active Row</button>
+        <button class="btn light" onclick="loadMoistureDemo()">Load Moisture Demo</button>
+        <button class="btn" onclick="window.print()">Print / Save PDF</button>
+      </div>
+    </div>
+
+    <div class="card input-only report-card">
+      <span class="badge">Moisture Sample Rows</span>
+      <div id="moistureTabs" class="report-boring-tabs"></div>
+    </div>
+
+    <div class="card input-only report-card" id="moistureRowEditor"></div>
+
+    <div class="card report-output-card">
+      <span class="badge">Moisture Worksheet Output</span>
+      <p class="mini">This printable worksheet follows the same idea as your lab moisture sheet: multiple sample rows, one row per tare number, with computed dry-soil mass, water mass, and moisture content.</p>
+      <div class="ws-wrap"><div id="moistureWorksheet"></div></div>
     </div>
   </section>
 </div>
@@ -849,17 +976,196 @@ function exportPNG(){
   row("Plasticity Index (PI)",data.samples.flatMap(s=>{let c=sampleCalc(s);return [c.pi??"",c.pi??""]}),y,true);y+=rowH;
   row("REMARKS",[val("remarks"),"","","","","","","","",""],y);y+=rowH*2;
 
-  ctx.font="20px Arial";ctx.textAlign="left";ctx.fillText("Soils Form No. 107   •   Soil Lab Calculator v10",70,2315);
+  ctx.font="20px Arial";ctx.textAlign="left";ctx.fillText("Soils Form No. 107   •   GET Soil Lab Suite",70,2315);
   const a=document.createElement("a");a.href=canvas.toDataURL("image/png");a.download=`Atterberg_${val("job")||"worksheet"}.png`;a.click();
 }
 
-function calcMoisture(){
-  const wet=n(val("mwet")),dry=n(val("mdry")),tare=n(val("mtare"));
-  const ds=(dry!=null&&tare!=null)?dry-tare:null, w=(wet!=null&&dry!=null)?wet-dry:null;
-  const wc=(ds!=null&&ds>0&&w!=null)?w/ds*100:null;
-  document.getElementById("mdrysoil").value=r1(ds);
-  document.getElementById("mwater").value=r1(w);
-  document.getElementById("mwc").value=r1(wc);
+const M_DEFAULT_ROWS=12;
+let mActiveRow=0;
+function blankMoistureRow(i){
+  return {
+    boring:"",sample:"",penetration:"",desc:"",
+    tareNo:String(i+1),wet:"",dry:"",tare:"2"
+  };
+}
+let mData={
+  header:{
+    oven:"",llid:"",date:"",project:"",scale:"",job:"",
+    testedBy:"",computedBy:"",checkedBy:"",remarks:"",
+    formNo:"111",rev:"12-04",footerRef:"excel/data/forms/mstrcont.ltdb"
+  },
+  rows:Array.from({length:M_DEFAULT_ROWS},(_,i)=>blankMoistureRow(i))
+};
+function mCalcRow(r){
+  const wet=n(r.wet),dry=n(r.dry),tare=n(r.tare);
+  const drySoil=(dry!=null&&tare!=null)?dry-tare:null;
+  const water=(wet!=null&&dry!=null)?wet-dry:null;
+  const wc=(drySoil!=null&&drySoil>0&&water!=null)?water/drySoil*100:null;
+  return {drySoil,water,wc};
+}
+function mNormalize(){
+  if(!mData.header)mData.header={};
+  const d={oven:"",llid:"",date:"",project:"",scale:"",job:"",testedBy:"",computedBy:"",checkedBy:"",remarks:"",formNo:"111",rev:"12-04",footerRef:"excel/data/forms/mstrcont.ltdb"};
+  mData.header=Object.assign(d,mData.header||{});
+  if(!Array.isArray(mData.rows) || !mData.rows.length)mData.rows=Array.from({length:M_DEFAULT_ROWS},(_,i)=>blankMoistureRow(i));
+  mData.rows=mData.rows.map((r,i)=>Object.assign(blankMoistureRow(i),r||{}));
+  mData.rows.forEach((r,i)=>{ if(r.tareNo===undefined||r.tareNo===null||r.tareNo==='') r.tareNo=String(i+1); if(r.tare===undefined||r.tare==='') r.tare='2'; });
+  if(mActiveRow>=mData.rows.length)mActiveRow=Math.max(0,mData.rows.length-1);
+}
+function mSave(){ localStorage.setItem('soilLabMoistureV11',JSON.stringify(mData)); }
+function mLoad(){
+  try{
+    const raw=localStorage.getItem('soilLabMoistureV11');
+    if(raw){ const x=JSON.parse(raw); if(x)mData=x; }
+  }catch(e){}
+  mNormalize();
+}
+function mHeaderFromDOM(){
+  const map={
+    oven:'moist_oven',llid:'moist_llid',date:'moist_date',project:'moist_project',scale:'moist_scale',job:'moist_job',
+    testedBy:'moist_tested_by',computedBy:'moist_computed_by',checkedBy:'moist_checked_by',remarks:'moist_remarks',
+    formNo:'moist_form_no',rev:'moist_rev',footerRef:'moist_footer_ref'
+  };
+  Object.entries(map).forEach(([k,id])=>mData.header[k]=val(id));
+  mSave(); renderMoistureWorksheet();
+}
+function mLoadHeaderToDOM(){
+  const map={
+    moist_oven:'oven',moist_llid:'llid',moist_date:'date',moist_project:'project',moist_scale:'scale',moist_job:'job',
+    moist_tested_by:'testedBy',moist_computed_by:'computedBy',moist_checked_by:'checkedBy',moist_remarks:'remarks',
+    moist_form_no:'formNo',moist_rev:'rev',moist_footer_ref:'footerRef'
+  };
+  Object.entries(map).forEach(([id,k])=>{ const el=document.getElementById(id); if(el) el.value=mData.header[k]||''; });
+}
+function mRowLabel(r,i){
+  const p1=r.boring||('Row '+(i+1));
+  const p2=r.penetration?(' • '+r.penetration+' ft'):'';
+  return p1+p2;
+}
+function mSetRow(i){ mActiveRow=i; renderMoistureAll(); }
+function mCurrentRow(){ return mData.rows[mActiveRow] || null; }
+function mAddRow(){
+  mData.rows.push(blankMoistureRow(mData.rows.length));
+  mActiveRow=mData.rows.length-1;
+  mSave(); renderMoistureAll();
+}
+function mRemoveRow(){
+  if(mData.rows.length<=1){ alert('Keep at least one moisture row.'); return; }
+  if(!confirm('Remove the active moisture row?')) return;
+  mData.rows.splice(mActiveRow,1);
+  mActiveRow=Math.max(0,mActiveRow-1);
+  mSave(); renderMoistureAll();
+}
+function renderMoistureTabs(){
+  const el=document.getElementById('moistureTabs'); if(!el) return;
+  el.innerHTML=mData.rows.map((r,i)=>`<button class="${i===mActiveRow?'active':''}" onclick="mSetRow(${i})">${mRowLabel(r,i)}</button>`).join('');
+}
+function renderMoistureEditor(){
+  const el=document.getElementById('moistureRowEditor'); if(!el) return;
+  const r=mCurrentRow(), x=mCalcRow(r);
+  el.innerHTML=`
+    <div class="report-section-title"><span>Moisture Row ${mActiveRow+1}</span><span class="report-subtitle">One worksheet row per sample / tare number</span></div>
+    <div class="fields">
+      <div class="f3"><label>Boring No.</label><input id="mo_boring" value="${r.boring}" oninput="mUpd('boring',this.value)"></div>
+      <div class="f3"><label>Sample No.</label><input id="mo_sample" value="${r.sample}" oninput="mUpd('sample',this.value)"></div>
+      <div class="f3"><label>Penetration / Depth (ft)</label><input id="mo_penetration" value="${r.penetration}" oninput="mUpd('penetration',this.value)"></div>
+      <div class="f3"><label>Tare No.</label><input id="mo_tareno" value="${r.tareNo}" oninput="mUpd('tareNo',this.value)"></div>
+      <div class="f12"><label>Description of Material</label><input id="mo_desc" value="${r.desc}" oninput="mUpd('desc',this.value)" placeholder="Optional material description"></div>
+      <div class="f4"><label>Wet Soil + Tare (g)</label><input id="mo_wet" type="text" inputmode="decimal" value="${r.wet}" oninput="mUpd('wet',this.value)"></div>
+      <div class="f4"><label>Dry Soil + Tare (g)</label><input id="mo_dry" type="text" inputmode="decimal" value="${r.dry}" oninput="mUpd('dry',this.value)"></div>
+      <div class="f4"><label>Tare (g)</label><input id="mo_tare" type="text" inputmode="decimal" value="${r.tare}" oninput="mUpd('tare',this.value)"></div>
+      <div class="f4"><label>Dry Soil (g)</label><input id="mo_drysoil" readonly value="${r1(x.drySoil)}"></div>
+      <div class="f4"><label>Weight of Water (g)</label><input id="mo_water" readonly value="${r1(x.water)}"></div>
+      <div class="f4"><label>Water Content (%)</label><input id="mo_wc" readonly value="${r1(x.wc)}"></div>
+    </div>
+    <div class="actions">
+      <button class="btn light" onclick="mrImportMoisture()">Import Active Moisture % to Main Report</button>
+    </div>`;
+}
+function mRefreshComputedOnly(){
+  const r=mCurrentRow(); if(!r) return; const x=mCalcRow(r);
+  setText('mo_drysoil',r1(x.drySoil));
+  setText('mo_water',r1(x.water));
+  setText('mo_wc',r1(x.wc));
+  renderMoistureWorksheet();
+}
+function mUpd(k,v){
+  const r=mCurrentRow(); if(!r) return; r[k]=v;
+  if(k==='boring' || k==='penetration' || k==='tareNo') renderMoistureTabs();
+  mSave(); mRefreshComputedOnly();
+}
+function renderMoistureWorksheet(){
+  const el=document.getElementById('moistureWorksheet'); if(!el) return;
+  const h=mData.header;
+  const rowsHtml=mData.rows.map((r,i)=>{
+    const x=mCalcRow(r);
+    return `<tr>
+      <td>${r.boring||''}</td>
+      <td>${r.sample||''}</td>
+      <td>${r.penetration||''}</td>
+      <td class="l">${r.desc||''}</td>
+      <td>${r.tareNo||i+1}</td>
+      <td>${r.wet||''}</td>
+      <td>${r.dry||''}</td>
+      <td>${r.tare||''}</td>
+      <td>${r1(x.drySoil)}</td>
+      <td>${r1(x.water)}</td>
+      <td>${r1(x.wc)}</td>
+    </tr>`;
+  }).join('');
+  el.innerHTML=`<table class="ws">
+    <tr><th colspan="11" class="title">MOISTURE CONTENT TESTS</th></tr>
+    <tr>
+      <td colspan="5" class="l"><b>Oven ID No.</b> ${h.oven||''} &nbsp;&nbsp; <b>LL ID No.</b> ${h.llid||''} &nbsp;&nbsp; <b>Date</b> ${h.date||''}<br><b>Project Name:</b> ${h.project||''}</td>
+      <td colspan="3" class="l"><b>Scale ID No.</b> ${h.scale||''}</td>
+      <td colspan="3" class="l"><b>Job No.</b> ${h.job||''}</td>
+    </tr>
+    <tr>
+      <th>Boring No.</th>
+      <th>Sample No.</th>
+      <th>Penetration (ft)</th>
+      <th>Description of Material</th>
+      <th>Tare No.</th>
+      <th>Wet Soil + Tare (g)</th>
+      <th>Dry Soil + Tare (g)</th>
+      <th>Tare (g)</th>
+      <th>Dry Soil (g)</th>
+      <th>Weight of Water (g)</th>
+      <th>w (%)</th>
+    </tr>
+    ${rowsHtml}
+    <tr>
+      <td colspan="6" class="l" style="vertical-align:top;height:92px"><b>REMARKS</b><br>${(h.remarks||'').replace(/
+/g,'<br>')}</td>
+      <td colspan="5" style="padding:0;vertical-align:top">
+        <table class="bottom-table" style="width:100%;border-collapse:collapse;height:100%">
+          <tr><td class="l"><b>Tested By</b></td><td>${h.testedBy||''}</td></tr>
+          <tr><td class="l"><b>Computed By</b></td><td>${h.computedBy||''}</td></tr>
+          <tr><td class="l"><b>Checked By</b></td><td>${h.checkedBy||''}</td></tr>
+        </table>
+      </td>
+    </tr>
+    <tr class="footer-row">
+      <td colspan="4" class="l">Soils Form No. ${h.formNo||''}</td>
+      <td colspan="3" style="text-align:center">Rev. ${h.rev||''}</td>
+      <td colspan="4" style="text-align:right">${h.footerRef||''}</td>
+    </tr>
+  </table>`;
+}
+function renderMoistureAll(){ mLoadHeaderToDOM(); renderMoistureTabs(); renderMoistureEditor(); renderMoistureWorksheet(); }
+function loadMoistureDemo(){
+  mData.header={
+    oven:'02-04',llid:'08',date:'9-4-26',project:'',scale:'012',job:'26-346',
+    testedBy:'',computedBy:'',checkedBy:'',remarks:'',formNo:'111',rev:'12-04',footerRef:'excel/data/forms/mstrcont.ltdb'
+  };
+  mData.rows=Array.from({length:12},(_,i)=>blankMoistureRow(i));
+  Object.assign(mData.rows[1],{boring:'B-22',penetration:'4-6',tareNo:'2',wet:'30.0',dry:'22.5',tare:'2'});
+  Object.assign(mData.rows[2],{boring:'B-22',penetration:'8-10',tareNo:'3',wet:'29.4',dry:'24.0',tare:'2'});
+  Object.assign(mData.rows[5],{boring:'B-24',penetration:'4-6',tareNo:'6',wet:'29.8',dry:'22.5',tare:'2'});
+  Object.assign(mData.rows[6],{boring:'B-24',penetration:'8-10',tareNo:'7',wet:'29.6',dry:'22.0',tare:'2'});
+  Object.assign(mData.rows[9],{boring:'B-26',penetration:'4-6',tareNo:'10',wet:'28.4',dry:'22.2',tare:'2'});
+  Object.assign(mData.rows[11],{boring:'B-26',penetration:'8-10',tareNo:'12',wet:'29.9',dry:'23.4',tare:'2'});
+  mActiveRow=1; mSave(); renderMoistureAll();
 }
 
 
@@ -1036,9 +1342,10 @@ function mrAutoDescription(){
 }
 function mrImportMoisture(){
   const r=mrCurrentRow();
-  const wc=val("mwc");
-  if(!wc){alert("Calculate Moisture first.");return}
-  r.results.moisture=wc;r.requested.moisture=true;mrSave();mrRenderRowEditor();renderMainReportTable();
+  const src=mCurrentRow();
+  const x=src?mCalcRow(src):null;
+  if(!x || x.wc==null){alert('Calculate the active moisture row first.');return}
+  r.results.moisture=r1(x.wc);r.requested.moisture=true;mrSave();mrRenderRowEditor();renderMainReportTable();
 }
 function mrImportAtterberg(){
   const r=mrCurrentRow();
@@ -1221,17 +1528,50 @@ function mrAutoDemoDesc(bi,ri){
   r.description=p.join(" - ");
 }
 
-function renderAll(){renderTabs();renderEditor();renderWorksheet()}
-document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
-  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-  document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
-  b.classList.add("active");document.getElementById(b.dataset.panel).classList.add("active");
-});
+function renderAll(){renderTabs();renderEditor();renderWorksheet();renderMoistureAll()}
+function setActivePanel(panel){
+  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.panel===panel));
+  document.querySelectorAll(".panel").forEach(x=>x.classList.toggle("active",x.id===panel));
+  if(panel!=="home"){ setTimeout(()=>{ const tgt=document.getElementById(panel); if(tgt) tgt.scrollIntoView({behavior:"smooth",block:"start"}); }, 60); }
+}
+function playUiClick(){
+  try{
+    const C=window.AudioContext||window.webkitAudioContext; if(!C)return;
+    const ctx=new C(); const now=ctx.currentTime;
+    const o1=ctx.createOscillator(), o2=ctx.createOscillator(), g=ctx.createGain();
+    o1.type='sine'; o2.type='triangle';
+    o1.frequency.setValueAtTime(660,now); o1.frequency.exponentialRampToValueAtTime(880,now+0.12);
+    o2.frequency.setValueAtTime(440,now); o2.frequency.exponentialRampToValueAtTime(660,now+0.18);
+    g.gain.setValueAtTime(0.0001,now); g.gain.exponentialRampToValueAtTime(0.09,now+0.02); g.gain.exponentialRampToValueAtTime(0.0001,now+0.34);
+    o1.connect(g); o2.connect(g); g.connect(ctx.destination); o1.start(now); o2.start(now); o1.stop(now+0.36); o2.stop(now+0.36);
+  }catch(e){}
+}
+function triggerWave(el,evt){
+  if(!el) return;
+  const rect=el.getBoundingClientRect();
+  const x=evt?evt.clientX-rect.left:rect.width/2;
+  const y=evt?evt.clientY-rect.top:rect.height/2;
+  el.style.setProperty('--x',x+'px');
+  el.style.setProperty('--y',y+'px');
+  el.classList.remove('wave'); void el.offsetWidth; el.classList.add('wave');
+  const title=el.querySelector('.dynamic-title'); if(title){ title.classList.remove('title-wave'); void title.offsetWidth; title.classList.add('title-wave'); }
+}
+function goPanel(panel,el=null,evt=null){ playUiClick(); triggerWave(el,evt); setActivePanel(panel); }
+document.querySelectorAll(".tab").forEach(b=>b.onclick=(e)=>goPanel(b.dataset.panel,b,e));
 ["date","tech","project","scale","job","remarks","form_no","rev_no","footer_ref","bottom_pl","bottom_ll","apparatus_no","tool_name"]
 .forEach(id=>document.getElementById(id).addEventListener("input",()=>{saveHeaderSettings();renderWorksheet()}));
 ["eq_hand_roller","eq_mech_rolling","eq_manual","eq_mechanical","eq_metal","eq_plastic"]
 .forEach(id=>document.getElementById(id).addEventListener("change",()=>{saveHeaderSettings();renderWorksheet()}));
-load();loadHeaderSettings();renderAll();
+[
+  "moist_oven","moist_llid","moist_date","moist_project","moist_scale","moist_job",
+  "moist_tested_by","moist_computed_by","moist_checked_by","moist_remarks",
+  "moist_form_no","moist_rev","moist_footer_ref"
+].forEach(id=>{
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.addEventListener('input',mHeaderFromDOM);
+});
+load();loadHeaderSettings();mLoad();renderAll();
 mrLoad();mrLoadHeaderToDOM();mrRenderAll();
 ["mr_project","mr_job","mr_date_assigned","mr_engineer","mr_technician","mr_reviewed","mr_date_tested","mr_date_delivered","mr_priority","mr_project_notes"]
 .forEach(id=>{
